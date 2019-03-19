@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="posModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="varchar" MaxLength="128" Nullable="false" />
+    <Property Name="firstName" Type="varchar" MaxLength="50" />
+    <Property Name="lastName" Type="varchar" MaxLength="50" />
+    <Property Name="email" Type="varchar" MaxLength="50" />
+    <Property Name="password" Type="varchar" MaxLength="128" />
+    <Property Name="address" Type="varchar" MaxLength="100" />
+    <Property Name="city" Type="varchar" MaxLength="50" />
+    <Property Name="state" Type="varchar" MaxLength="50" />
+    <Property Name="zipCode" Type="varchar" MaxLength="50" />
+    <Property Name="resetCode" Type="varchar" MaxLength="50" />
+    <Property Name="phone" Type="varchar" MaxLength="50" />
+    <Property Name="notification_playerId" Type="varchar" MaxLength="128" />
+  </EntityType>
+  <EntityType Name="FacebookUser">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustomerId" Type="varchar" MaxLength="128" />
+    <Property Name="FacebookToken" Type="varchar" MaxLength="255" />
+    <Property Name="DateTime" Type="datetime" />
+  </EntityType>
+  <EntityType Name="KoronaStores">
+    <Key>
+      <PropertyRef Name="Korona_StoreId" />
+    </Key>
+    <Property Name="sno" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Korona_StoreId" Type="varchar" MaxLength="128" Nullable="false" />
+    <Property Name="storeName" Type="varchar" MaxLength="100" />
+    <Property Name="Address" Type="varchar" MaxLength="200" />
+    <Property Name="City" Type="varchar" MaxLength="50" />
+    <Property Name="State" Type="varchar" MaxLength="50" />
+    <Property Name="ZipCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="phoneNumber" Type="nvarchar" MaxLength="200" />
+    <Property Name="email" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="LiveTracking">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OrderId" Type="varchar" MaxLength="50" />
+    <Property Name="RiderId" Type="varchar" MaxLength="128" />
+    <Property Name="CustomerId" Type="varchar" MaxLength="128" />
+    <Property Name="LatLng" Type="varchar" MaxLength="100" />
+    <Property Name="DateTime" Type="datetime" />
+    <Property Name="TrackingComplated" Type="bit" />
+  </EntityType>
+  <EntityType Name="OrderDetails">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OrderId" Type="varchar" MaxLength="128" />
+    <Property Name="ProductId" Type="varchar" MaxLength="128" />
+    <Property Name="Price" Type="float" />
+    <Property Name="Quantity" Type="int" />
+  </EntityType>
+  <EntityType Name="Orders">
+    <Key>
+      <PropertyRef Name="OrderId" />
+    </Key>
+    <Property Name="OrderId" Type="varchar" MaxLength="128" Nullable="false" />
+    <Property Name="UserId" Type="varchar" MaxLength="128" />
+    <Property Name="StoreId" Type="varchar" MaxLength="128" />
+    <Property Name="Total" Type="float" />
+    <Property Name="ShippingAddress" Type="varchar" MaxLength="500" />
+    <Property Name="City" Type="varchar" MaxLength="50" />
+    <Property Name="State" Type="varchar" MaxLength="50" />
+    <Property Name="Country" Type="varchar" MaxLength="50" />
+    <Property Name="Zipcode" Type="varchar" MaxLength="50" />
+    <Property Name="Phone" Type="varchar" MaxLength="50" />
+    <Property Name="OrderType" Type="varchar" MaxLength="50" />
+    <Property Name="deliveryDate" Type="datetime" />
+    <Property Name="CreatedDatetime" Type="datetime" />
+    <Property Name="Shipped" Type="bit" />
+    <Property Name="trackingNo" Type="varchar" MaxLength="128" />
+    <Property Name="status" Type="bit" />
+  </EntityType>
+  <EntityType Name="Products">
+    <Key>
+      <PropertyRef Name="Korona_ProductId" />
+    </Key>
+    <Property Name="Id" Type="varchar" MaxLength="128" />
+    <Property Name="Korona_ProductId" Type="varchar" MaxLength="128" Nullable="false" />
+    <Property Name="Korona_ProductNumber" Type="varchar" MaxLength="128" />
+    <Property Name="Name" Type="varchar" MaxLength="500" />
+    <Property Name="Image" Type="varchar" MaxLength="100" />
+    <Property Name="Description" Type="varchar" MaxLength="500" />
+    <Property Name="Stock" Type="int" />
+    <Property Name="Category" Type="varchar" MaxLength="200" />
+    <Property Name="BelongToStore" Type="bit" />
+    <Property Name="Price" Type="float" />
+    <Property Name="UpdatedTime" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Revisions">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="revisionNumber" Type="varchar" MaxLength="100" />
+    <Property Name="datetime" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Rider">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="varchar" MaxLength="128" Nullable="false" />
+    <Property Name="firstName" Type="varchar" MaxLength="50" />
+    <Property Name="lastName" Type="varchar" MaxLength="50" />
+    <Property Name="email" Type="varchar" MaxLength="50" />
+    <Property Name="password" Type="varchar" MaxLength="128" />
+    <Property Name="address" Type="varchar" MaxLength="100" />
+    <Property Name="city" Type="varchar" MaxLength="50" />
+    <Property Name="state" Type="varchar" MaxLength="50" />
+    <Property Name="zipCode" Type="varchar" MaxLength="50" />
+    <Property Name="resetCode" Type="varchar" MaxLength="50" />
+    <Property Name="phone" Type="varchar" MaxLength="50" />
+    <Property Name="notification_playerId" Type="varchar" MaxLength="128" />
+    <Property Name="Online" Type="bit" />
+    <Property Name="Deleted" Type="bit" />
+  </EntityType>
+  <EntityType Name="StoreProduct">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StoreId" Type="varchar" MaxLength="128" Nullable="false" />
+    <Property Name="Korona_ProductId" Type="varchar" MaxLength="128" Nullable="false" />
+    <Property Name="Korona_ProductNumber" Type="varchar" MaxLength="128" />
+    <Property Name="Name" Type="varchar" MaxLength="500" />
+    <Property Name="Description" Type="varchar" MaxLength="500" />
+    <Property Name="Category" Type="varchar" MaxLength="100" />
+    <Property Name="Price" Type="float" />
+    <Property Name="Stock" Type="int" />
+    <Property Name="ImageUrl" Type="varchar" MaxLength="128" />
+    <Property Name="CreatedDateTime" Type="datetime" />
+    <Property Name="UpdatedDateTime" Type="datetime" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'pos.dbo.Stores' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Stores">
+    <Key>
+      <PropertyRef Name="sno" />
+    </Key>
+    <Property Name="sno" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Korona_StoreId" Type="varchar" MaxLength="128" />
+    <Property Name="storeName" Type="varchar" MaxLength="100" />
+    <Property Name="Address" Type="varchar" MaxLength="200" />
+    <Property Name="City" Type="varchar" MaxLength="50" />
+    <Property Name="State" Type="varchar" MaxLength="50" />
+    <Property Name="ZipCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="phoneNumber" Type="nvarchar" MaxLength="200" />
+    <Property Name="email" Type="varchar" MaxLength="50" />
+    <Property Name="Lat" Type="varchar" MaxLength="100" />
+    <Property Name="Lng" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <Function Name="get_OrderDetailsForEmail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="orderid" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="get_OrdersListForIndex" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="report_customer_basic" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="report_sales_simple" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="days" Type="int" Mode="In" />
+  </Function>
+  <EntityContainer Name="posModelStoreContainer">
+    <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FacebookUser" EntityType="Self.FacebookUser" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="KoronaStores" EntityType="Self.KoronaStores" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LiveTracking" EntityType="Self.LiveTracking" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OrderDetails" EntityType="Self.OrderDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Revisions" EntityType="Self.Revisions" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Rider" EntityType="Self.Rider" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StoreProduct" EntityType="Self.StoreProduct" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Stores" EntityType="Self.Stores" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Stores].[sno] AS [sno], 
+    [Stores].[Korona_StoreId] AS [Korona_StoreId], 
+    [Stores].[storeName] AS [storeName], 
+    [Stores].[Address] AS [Address], 
+    [Stores].[City] AS [City], 
+    [Stores].[State] AS [State], 
+    [Stores].[ZipCode] AS [ZipCode], 
+    [Stores].[phoneNumber] AS [phoneNumber], 
+    [Stores].[email] AS [email], 
+    [Stores].[Lat] AS [Lat], 
+    [Stores].[Lng] AS [Lng]
+    FROM [dbo].[Stores] AS [Stores]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>

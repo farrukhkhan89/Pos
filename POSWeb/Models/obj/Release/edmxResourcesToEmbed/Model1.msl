@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="posModelStoreContainer" CdmEntityContainer="posEntities">
+    <EntitySetMapping Name="Customers">
+      <EntityTypeMapping TypeName="posModel.Customer">
+        <MappingFragment StoreEntitySet="Customer">
+          <ScalarProperty Name="notification_playerId" ColumnName="notification_playerId" />
+          <ScalarProperty Name="phone" ColumnName="phone" />
+          <ScalarProperty Name="resetCode" ColumnName="resetCode" />
+          <ScalarProperty Name="zipCode" ColumnName="zipCode" />
+          <ScalarProperty Name="state" ColumnName="state" />
+          <ScalarProperty Name="city" ColumnName="city" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="lastName" ColumnName="lastName" />
+          <ScalarProperty Name="firstName" ColumnName="firstName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FacebookUsers">
+      <EntityTypeMapping TypeName="posModel.FacebookUser">
+        <MappingFragment StoreEntitySet="FacebookUser">
+          <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+          <ScalarProperty Name="FacebookToken" ColumnName="FacebookToken" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Revisions">
+      <EntityTypeMapping TypeName="posModel.Revision">
+        <MappingFragment StoreEntitySet="Revisions">
+          <ScalarProperty Name="datetime" ColumnName="datetime" />
+          <ScalarProperty Name="revisionNumber" ColumnName="revisionNumber" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OrderDetails">
+      <EntityTypeMapping TypeName="posModel.OrderDetail">
+        <MappingFragment StoreEntitySet="OrderDetails">
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="KoronaStores">
+      <EntityTypeMapping TypeName="posModel.KoronaStore">
+        <MappingFragment StoreEntitySet="KoronaStores">
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="phoneNumber" ColumnName="phoneNumber" />
+          <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="storeName" ColumnName="storeName" />
+          <ScalarProperty Name="Korona_StoreId" ColumnName="Korona_StoreId" />
+          <ScalarProperty Name="sno" ColumnName="sno" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="get_OrderDetailsForEmail" FunctionName="posModel.Store.get_OrderDetailsForEmail">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="posModel.get_OrderDetailsForEmail_Result">
+          <ScalarProperty Name="orderid" ColumnName="orderid" />
+          <ScalarProperty Name="productid" ColumnName="productid" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+          <ScalarProperty Name="price" ColumnName="price" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="get_OrdersListForIndex" FunctionName="posModel.Store.get_OrdersListForIndex">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="posModel.get_OrdersListForIndex_Result">
+          <ScalarProperty Name="orderid" ColumnName="orderid" />
+          <ScalarProperty Name="korona_storeid" ColumnName="korona_storeid" />
+          <ScalarProperty Name="storename" ColumnName="storename" />
+          <ScalarProperty Name="total" ColumnName="total" />
+          <ScalarProperty Name="ordertype" ColumnName="ordertype" />
+          <ScalarProperty Name="createddatetime" ColumnName="createddatetime" />
+          <ScalarProperty Name="userid" ColumnName="userid" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+          <ScalarProperty Name="status" ColumnName="status" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="report_sales_simple" FunctionName="posModel.Store.report_sales_simple">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="posModel.report_sales_simple_Result">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="storename" ColumnName="storename" />
+          <ScalarProperty Name="total" ColumnName="total" />
+          <ScalarProperty Name="units" ColumnName="units" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="Products">
+      <EntityTypeMapping TypeName="posModel.Product">
+        <MappingFragment StoreEntitySet="Products">
+          <ScalarProperty Name="UpdatedTime" ColumnName="UpdatedTime" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="BelongToStore" ColumnName="BelongToStore" />
+          <ScalarProperty Name="Category" ColumnName="Category" />
+          <ScalarProperty Name="Stock" ColumnName="Stock" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Korona_ProductNumber" ColumnName="Korona_ProductNumber" />
+          <ScalarProperty Name="Korona_ProductId" ColumnName="Korona_ProductId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StoreProducts">
+      <EntityTypeMapping TypeName="posModel.StoreProduct">
+        <MappingFragment StoreEntitySet="StoreProduct">
+          <ScalarProperty Name="UpdatedDateTime" ColumnName="UpdatedDateTime" />
+          <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+          <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+          <ScalarProperty Name="Stock" ColumnName="Stock" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Category" ColumnName="Category" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Korona_ProductNumber" ColumnName="Korona_ProductNumber" />
+          <ScalarProperty Name="Korona_ProductId" ColumnName="Korona_ProductId" />
+          <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Orders">
+      <EntityTypeMapping TypeName="posModel.Order">
+        <MappingFragment StoreEntitySet="Orders">
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="trackingNo" ColumnName="trackingNo" />
+          <ScalarProperty Name="Shipped" ColumnName="Shipped" />
+          <ScalarProperty Name="CreatedDatetime" ColumnName="CreatedDatetime" />
+          <ScalarProperty Name="deliveryDate" ColumnName="deliveryDate" />
+          <ScalarProperty Name="OrderType" ColumnName="OrderType" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Zipcode" ColumnName="Zipcode" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
+          <ScalarProperty Name="Total" ColumnName="Total" />
+          <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Stores">
+      <EntityTypeMapping TypeName="posModel.Store">
+        <MappingFragment StoreEntitySet="Stores">
+          <ScalarProperty Name="Lng" ColumnName="Lng" />
+          <ScalarProperty Name="Lat" ColumnName="Lat" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="phoneNumber" ColumnName="phoneNumber" />
+          <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="storeName" ColumnName="storeName" />
+          <ScalarProperty Name="Korona_StoreId" ColumnName="Korona_StoreId" />
+          <ScalarProperty Name="sno" ColumnName="sno" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LiveTrackings">
+      <EntityTypeMapping TypeName="posModel.LiveTracking">
+        <MappingFragment StoreEntitySet="LiveTracking">
+          <ScalarProperty Name="TrackingComplated" ColumnName="TrackingComplated" />
+          <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+          <ScalarProperty Name="LatLng" ColumnName="LatLng" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="RiderId" ColumnName="RiderId" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Riders">
+      <EntityTypeMapping TypeName="posModel.Rider">
+        <MappingFragment StoreEntitySet="Rider">
+          <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+          <ScalarProperty Name="Online" ColumnName="Online" />
+          <ScalarProperty Name="notification_playerId" ColumnName="notification_playerId" />
+          <ScalarProperty Name="phone" ColumnName="phone" />
+          <ScalarProperty Name="resetCode" ColumnName="resetCode" />
+          <ScalarProperty Name="zipCode" ColumnName="zipCode" />
+          <ScalarProperty Name="state" ColumnName="state" />
+          <ScalarProperty Name="city" ColumnName="city" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="lastName" ColumnName="lastName" />
+          <ScalarProperty Name="firstName" ColumnName="firstName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

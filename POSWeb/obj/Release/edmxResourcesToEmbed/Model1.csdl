@@ -1,0 +1,411 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="posModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="posEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Customers" EntityType="posModel.Customer" />
+    <EntitySet Name="FacebookUsers" EntityType="posModel.FacebookUser" />
+    <EntitySet Name="Revisions" EntityType="posModel.Revision" />
+    <EntitySet Name="OrderDetails" EntityType="posModel.OrderDetail" />
+    <EntitySet Name="KoronaStores" EntityType="posModel.KoronaStore" />
+    <FunctionImport Name="get_OrderDetailsForEmail" ReturnType="Collection(posModel.get_OrderDetailsForEmail_Result)">
+      <Parameter Name="orderid" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="get_OrdersListForIndex" ReturnType="Collection(posModel.get_OrdersListForIndex_Result)" />
+    <FunctionImport Name="report_sales_simple" ReturnType="Collection(posModel.report_sales_simple_Result)">
+      <Parameter Name="days" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="Products" EntityType="posModel.Product" />
+    <EntitySet Name="StoreProducts" EntityType="posModel.StoreProduct" />
+    <EntitySet Name="LiveTrackings" EntityType="posModel.LiveTracking" />
+    <EntitySet Name="Riders" EntityType="posModel.Rider" />
+    <FunctionImport Name="report_customer_basic" ReturnType="Collection(posModel.report_customer_basic_Result)" />
+    <EntitySet Name="RiderOrders" EntityType="posModel.RiderOrder" />
+    <EntitySet Name="Orders" EntityType="posModel.Order" />
+    <FunctionImport Name="dbo_get_ProductsListForIndex" ReturnType="Collection(posModel.dbo_get_ProductsListForIndex_Result)" />
+    <EntitySet Name="Stores" EntityType="posModel.Store" />
+    <EntitySet Name="AspNetRoles" EntityType="posModel.AspNetRole" />
+    <EntitySet Name="AspNetUserClaims" EntityType="posModel.AspNetUserClaim" />
+    <EntitySet Name="AspNetUserLogins" EntityType="posModel.AspNetUserLogin" />
+    <EntitySet Name="AspNetUsers" EntityType="posModel.AspNetUser" />
+    <EntitySet Name="Logs" EntityType="posModel.Log" />
+    <EntitySet Name="Store_Product" EntityType="posModel.Store_Product" />
+    <EntitySet Name="sysdiagrams" EntityType="posModel.sysdiagram" />
+    <AssociationSet Name="FK__Store_Pro__Store__3C34F16F" Association="posModel.FK__Store_Pro__Store__3C34F16F">
+      <End Role="Store" EntitySet="Stores" />
+      <End Role="Store_Product" EntitySet="Store_Product" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="posModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="posModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserLogin" EntitySet="AspNetUserLogins" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Store_Pro__Produ__3D2915A8" Association="posModel.FK__Store_Pro__Produ__3D2915A8">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="Store_Product" EntitySet="Store_Product" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUserRoles" Association="posModel.AspNetUserRoles">
+      <End Role="AspNetRole" EntitySet="AspNetRoles" />
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="firstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="lastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="password" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="address" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="city" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="state" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="zipCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="resetCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="notification_playerId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="FacebookUser">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="FacebookToken" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="DateTime" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="Revision">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="revisionNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="datetime" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="OrderDetail">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OrderId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="ProductId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="Price" Type="Double" />
+    <Property Name="Quantity" Type="Int32" />
+  </EntityType>
+  <EntityType Name="KoronaStore">
+    <Key>
+      <PropertyRef Name="Korona_StoreId" />
+    </Key>
+    <Property Name="sno" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Korona_StoreId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="storeName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Address" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ZipCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="phoneNumber" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <ComplexType Name="get_OrderDetailsForEmail_Result">
+    <Property Type="String" Name="orderid" Nullable="false" MaxLength="128" />
+    <Property Type="String" Name="productid" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="name" Nullable="true" MaxLength="500" />
+    <Property Type="Int32" Name="quantity" Nullable="true" />
+    <Property Type="Double" Name="price" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="get_OrdersListForIndex_Result">
+    <Property Type="String" Name="orderid" Nullable="false" MaxLength="128" />
+    <Property Type="String" Name="korona_storeid" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="storename" Nullable="true" MaxLength="100" />
+    <Property Type="Double" Name="total" Nullable="true" />
+    <Property Type="String" Name="ordertype" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="createddatetime" Nullable="true" Precision="23" />
+    <Property Type="String" Name="userid" Nullable="false" MaxLength="128" />
+    <Property Type="String" Name="CustomerName" Nullable="true" MaxLength="101" />
+    <Property Type="Boolean" Name="status" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="report_sales_simple_Result">
+    <Property Type="String" Name="id" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="storename" Nullable="true" MaxLength="100" />
+    <Property Type="Double" Name="total" Nullable="true" />
+    <Property Type="Int32" Name="units" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="Korona_ProductId" />
+    </Key>
+    <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="Korona_ProductId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="Korona_ProductNumber" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Image" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Stock" Type="Int32" />
+    <Property Name="Category" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="BelongToStore" Type="Boolean" />
+    <Property Name="Price" Type="Double" />
+    <Property Name="UpdatedTime" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Store_Product" Relationship="posModel.FK__Store_Pro__Produ__3D2915A8" FromRole="Product" ToRole="Store_Product" />
+  </EntityType>
+  <EntityType Name="StoreProduct">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StoreId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="Korona_ProductId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="Korona_ProductNumber" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Category" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Price" Type="Double" />
+    <Property Name="Stock" Type="Int32" />
+    <Property Name="ImageUrl" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedDateTime" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedDateTime" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="LiveTracking">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OrderId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="RiderId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="CustomerId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="LatLng" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="DateTime" Type="DateTime" Precision="3" />
+    <Property Name="TrackingComplated" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="Rider">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="firstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="lastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="password" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="address" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="city" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="state" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="zipCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="resetCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="notification_playerId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="Online" Type="Boolean" />
+    <Property Name="Deleted" Type="Boolean" />
+    <Property Name="CurrentLat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CurrentLng" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <ComplexType Name="report_customer_basic_Result">
+    <Property Type="String" Name="id" Nullable="false" MaxLength="128" />
+    <Property Type="String" Name="name" Nullable="true" MaxLength="101" />
+    <Property Type="String" Name="phone" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="address" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="email" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="orders" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="RiderOrder">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RiderId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="CustomerId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="OrderId" Type="String" MaxLength="129" FixedLength="false" Unicode="false" />
+    <Property Name="AcceptedDateTime" Type="DateTime" Precision="3" />
+    <Property Name="PickedByRider" Type="Boolean" />
+    <Property Name="PickedByRiderDateTime" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="OrderId" />
+    </Key>
+    <Property Name="OrderId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="StoreId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="Total" Type="Double" />
+    <Property Name="ShippingAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Zipcode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="OrderType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="deliveryDate" Type="DateTime" Precision="3" />
+    <Property Name="CreatedDatetime" Type="DateTime" Precision="3" />
+    <Property Name="Shipped" Type="Boolean" />
+    <Property Name="trackingNo" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="status" Type="Boolean" />
+    <Property Name="Cancelled" Type="Boolean" />
+    <Property Name="CancelledDateTime" Type="DateTime" Precision="3" />
+    <Property Name="Completed" Type="Boolean" />
+    <Property Name="CompletedDateTime" Type="DateTime" Precision="3" />
+    <Property Name="AcceptedByRider" Type="Boolean" />
+    <Property Name="OrderLocation" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <ComplexType Name="dbo_get_ProductsListForIndex_Result">
+    <Property Type="String" Name="Korona_ProductId" Nullable="false" MaxLength="128" />
+    <Property Type="String" Name="Korona_ProductNumber" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Image" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+    <Property Type="Int32" Name="Stock" Nullable="true" />
+    <Property Type="String" Name="Category" Nullable="true" MaxLength="200" />
+    <Property Type="Boolean" Name="BelongToStore" Nullable="true" />
+    <Property Type="Double" Name="Price" Nullable="true" />
+    <Property Type="DateTime" Name="updatedtime" Nullable="true" Precision="23" />
+  </ComplexType>
+  <EntityType Name="Store">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="storeName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="City" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ZipCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="phoneNumber" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Lat" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Lng" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="imageUrl" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Store_Product" Relationship="posModel.FK__Store_Pro__Store__3C34F16F" FromRole="Store" ToRole="Store_Product" />
+  </EntityType>
+  <EntityType Name="AspNetRole">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUsers" Relationship="posModel.AspNetUserRoles" FromRole="AspNetRole" ToRole="AspNetUser" />
+  </EntityType>
+  <EntityType Name="AspNetUserClaim">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUser" Relationship="posModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaim" ToRole="AspNetUser" />
+  </EntityType>
+  <EntityType Name="AspNetUserLogin">
+    <Key>
+      <PropertyRef Name="LoginProvider" />
+      <PropertyRef Name="ProviderKey" />
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUser" Relationship="posModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogin" ToRole="AspNetUser" />
+  </EntityType>
+  <EntityType Name="AspNetUser">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+    <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+    <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUserClaims" Relationship="posModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserClaim" />
+    <NavigationProperty Name="AspNetUserLogins" Relationship="posModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
+    <NavigationProperty Name="AspNetRoles" Relationship="posModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
+  </EntityType>
+  <EntityType Name="Log">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Date" Type="DateTime" Precision="3" />
+    <Property Name="ExceptionMessage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Store_Product">
+    <Key>
+      <PropertyRef Name="Store_Product_Id" />
+    </Key>
+    <Property Name="Store_Product_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StoreId" Type="Int32" />
+    <Property Name="ProductId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Store" Relationship="posModel.FK__Store_Pro__Store__3C34F16F" FromRole="Store_Product" ToRole="Store" />
+    <NavigationProperty Name="Product" Relationship="posModel.FK__Store_Pro__Produ__3D2915A8" FromRole="Store_Product" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK__Store_Pro__Store__3C34F16F">
+    <End Type="posModel.Store" Role="Store" Multiplicity="0..1" />
+    <End Type="posModel.Store_Product" Role="Store_Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Store">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Store_Product">
+        <PropertyRef Name="StoreId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+    <End Type="posModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="posModel.AspNetUserClaim" Role="AspNetUserClaim" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserClaim">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+    <End Type="posModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="posModel.AspNetUserLogin" Role="AspNetUserLogin" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserLogin">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Store_Pro__Produ__3D2915A8">
+    <End Type="posModel.Product" Role="Product" Multiplicity="0..1" />
+    <End Type="posModel.Store_Product" Role="Store_Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Korona_ProductId" />
+      </Principal>
+      <Dependent Role="Store_Product">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUserRoles">
+    <End Type="posModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
+    <End Type="posModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+  </Association>
+</Schema>

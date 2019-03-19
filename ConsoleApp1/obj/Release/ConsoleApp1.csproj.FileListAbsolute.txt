@@ -1,0 +1,12 @@
+E:\FreeLance\Bravo\Files\POSWeb10-06-2018\POSWeb\ConsoleApp1\bin\Release\ConsoleApp1.exe.config
+E:\FreeLance\Bravo\Files\POSWeb10-06-2018\POSWeb\ConsoleApp1\bin\Release\ConsoleApp1.exe
+E:\FreeLance\Bravo\Files\POSWeb10-06-2018\POSWeb\ConsoleApp1\bin\Release\ConsoleApp1.pdb
+E:\FreeLance\Bravo\Files\POSWeb10-06-2018\POSWeb\ConsoleApp1\bin\Release\EntityFramework.dll
+E:\FreeLance\Bravo\Files\POSWeb10-06-2018\POSWeb\ConsoleApp1\bin\Release\EntityFramework.SqlServer.dll
+E:\FreeLance\Bravo\Files\POSWeb10-06-2018\POSWeb\ConsoleApp1\bin\Release\EntityFramework.xml
+E:\FreeLance\Bravo\Files\POSWeb10-06-2018\POSWeb\ConsoleApp1\bin\Release\EntityFramework.SqlServer.xml
+E:\FreeLance\Bravo\Files\POSWeb10-06-2018\POSWeb\ConsoleApp1\obj\Release\ConsoleApp1.csprojAssemblyReference.cache
+E:\FreeLance\Bravo\Files\POSWeb10-06-2018\POSWeb\ConsoleApp1\obj\Release\ConsoleApp1.csproj.CoreCompileInputs.cache
+E:\FreeLance\Bravo\Files\POSWeb10-06-2018\POSWeb\ConsoleApp1\obj\Release\ConsoleApp1.csproj.CopyComplete
+E:\FreeLance\Bravo\Files\POSWeb10-06-2018\POSWeb\ConsoleApp1\obj\Release\ConsoleApp1.exe
+E:\FreeLance\Bravo\Files\POSWeb10-06-2018\POSWeb\ConsoleApp1\obj\Release\ConsoleApp1.pdb

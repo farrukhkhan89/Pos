@@ -1,0 +1,114 @@
+﻿@model IEnumerable<POSWeb.report_sales_simple_Result>
+
+@{
+    ViewBag.Title = "Sales Report";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutTable.cshtml";
+}
+
+ 
+
+<div id="main-wrapper">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-white">
+                <div class="panel-heading clearfix">
+                    <h4 class="panel-title">Sales Report</h4>
+
+                    <div style="margin-bottom:1%;">
+                        Select Days
+                        <select id="ddl_days" onchange="loadSalesReportByParam()">
+                            <option value="-7">Last 7 Days</option>
+                            <option value="-30">30 Days</option>
+                            <option value="-60">60 Days</option>
+                            <option value="-90">90 Days</option>
+                            <option value="-1000">All</option>
+                        </select>
+                    </div>
+                </div>
+               
+                <div class="clearfix cl"></div>
+
+
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table id="report" class="display table" style="width: 100%; cellspacing: 0;">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.storename)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.total)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.units)
+                                    </th>
+                                    @*<th></th>*@
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.storename)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.total)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.units)
+                                        </td>
+                                        @*<td>
+                                                @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+                                                @Html.ActionLink("Details", "Details", new { id=item.id }) |
+                                                @Html.ActionLink("Delete", "Delete", new { id=item.id })
+                                            </td>*@
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    window.addEventListener("load", function () {
+        var valueToSelect = getParameterByName('days');
+        if (valueToSelect == '' || valueToSelect === undefined || !valueToSelect) {
+            var element = document.getElementById("ddl_days");
+            element.value = "-1000";
+        }
+        else {
+            var element = document.getElementById("ddl_days");
+            element.value = valueToSelect;
+        }
+
+    }, false);
+
+    function loadSalesReportByParam() {
+        var ele = document.getElementById("ddl_days");
+        var days = ele.options[ele.selectedIndex].value;
+        document.location.href = "/reports/salesreport?days=" + days;
+    }
+
+
+
+
+
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, '\\$&');
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+</script>
+

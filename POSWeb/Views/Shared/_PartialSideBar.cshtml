@@ -1,0 +1,66 @@
+﻿
+ <!-- Page Sidebar -->
+<div class="page-sidebar">
+    <a class="logo-box" href="index.html">
+        @*<span>Space</span>*@
+        <center> 
+        <img width="60%" src="~/Content/images/logo-red.png" />
+            </center>
+        @*<i class="icon-radio_button_unchecked" id="fixed-sidebar-toggle-button"></i>*@
+        <i class="icon-close" id="sidebar-toggle-button-close"></i>
+    </a>
+    <div class="page-sidebar-inner">
+        <div class="page-sidebar-menu">
+            <ul class="accordion-menu">
+                <li class="active-page">
+                    <a href="@Url.Action("Dashboard","Home")">
+                        <i class="menu-icon icon-home4"></i><span>Dashboard</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="@Url.Action("Index","Orders")">
+                        <i class="menu-icon icon-cart"></i><span>Orders</span>
+                    </a>
+
+                </li>
+                <li>
+                    <a href="@Url.Action("Index","Products")">
+                        <i class="menu-icon icon-cart"></i><span>Products</span>
+                    </a>
+
+                </li>
+                <li>
+                    <a href="javascript:void(0)">
+                        <i class="menu-icon icon-layers"></i><span>Reports</span><i class="accordion-icon fa fa-angle-left"></i>
+                    </a>
+                    <ul class="sub-menu">
+                        <li><a href="@Url.Action("SalesReport","Reports")">Sales Report</a></li>
+                        <li><a href="@Url.Action("CustomerReport","Reports")">Customer Report</a></li>
+
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="charts.html">
+                        <i class="menu-icon icon-show_chart"></i><span>Charts</span>
+                    </a>
+                </li>
+
+
+                <li class="menu-divider"></li>
+                @*<li>
+            <a href="index.html">
+                <i class="menu-icon icon-help_outline"></i><span>Documentation</span>
+            </a>
+        </li>
+        <li>
+            <a href="index.html">
+                <i class="menu-icon icon-public"></i><span>Changelog</span><span class="label label-danger">1.0</span>
+            </a>
+        </li>*@
+            </ul>
+        </div>
+    </div>
+</div><!-- /Page Sidebar -->
+<!-- Page Content -->

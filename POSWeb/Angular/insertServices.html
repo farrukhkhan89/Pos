@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html ng-app="myModule">
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+    <script src="scripts/angular.min.js"></script>
+    <script src="scripts/script.js"></script>
+ 
+    <link href="css.css" rel="stylesheet" />
+
+</head>
+<body ng-controller="myController">
+    <div id="loader" ng-show="loading"></div>
+
+    <div ng-hide="loading">
+
+        <div style="width:50%;float:left;">
+            <br /> <br />
+            <button ng-click="InsertAllProducts()">Insert Korona Products</button>
+            <br /> <br />
+            <button ng-click="InsertKoronaStores()">Insert Korona Store</button>
+            <br /> <br />
+            <button ng-click="InsertKoronaStoresProducts()">Insert Korona Store Products</button>
+        </div>
+
+        <div style="width:50%;float:right;">
+        <h3>Response</h3> 
+            <button ng-click="cleardiv('responseDiv')">Clear Response</button>
+            <br /><br />
+            <div id="responseDiv">
+                {{response}}
+            </div>
+        </div>
+    </div>
+   
+</body>
+</html>
