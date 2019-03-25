@@ -27,8 +27,8 @@ namespace POSWeb
         public string phone { get; set; }
         public string notification_playerId { get; set; }
         public Nullable<bool> Online { get; set; }
-        public Nullable<bool> Deleted { get; set; }
         public string CurrentLat { get; set; }
         public string CurrentLng { get; set; }
+        public Nullable<bool> Deleted { get; set; }
     }
 }

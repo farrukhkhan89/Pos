@@ -1,105 +1,141 @@
 ﻿@model POSWeb.Store
 
 @{
-    Layout = null;
+    //Layout = null;
+    Layout = "~/Views/Shared/_LayoutTable.cshtml";
 }
 
 <!DOCTYPE html>
 
 <html>
 <head>
+    <style>
+        .panel-heading {
+            border-bottom: 1px solid #e9e9e9;
+            font-weight: normal;
+            background: #f9f9f9;
+            display: table;
+            width: 100%;
+        }
+        .auto-resize-portrait {
+            height: 80px;
+            width: 50px;
+        }
+
+        .auto-resize-landscape {
+            height: 30px;
+            width: 80px;
+        }
+
+        .auto-resize-square {
+            height: 250px;
+            width: 250px;
+        }
+
+        .auto-resize-big {
+            width: 150px;
+            height: 150px;
+        }
+    </style>
     <meta name="viewport" content="width=device-width" />
     <title>Details</title>
 </head>
 <body>
+
+
+    <div class="col-md-12">
+
+        <div class="panel-heading">
+            @Html.DisplayFor(model => model.storeName)
+        </div>
+
+
+    </div>
+    <div class="display-field">
+     
+
+        <div class="auto-resize-square">
+            <img src="@Url.Content(@Model.imageUrl)" alt="@Model.imageUrl" style='height: 100%; width: 100%; object-fit: contain' />
+        </div>
+
+      
+    </div>
     <div>
-        <h4>Store</h4>
-        <hr />
+
+   
         <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.Korona_StoreId)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Korona_StoreId)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.storeName)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.storeName)
-            </dd>
-    
+
             <dt>
                 @Html.DisplayNameFor(model => model.Address)
             </dt>
-    
+
             <dd>
                 @Html.DisplayFor(model => model.Address)
             </dd>
-    
+
+
             <dt>
-                @Html.DisplayNameFor(model => model.City)
+                Store Name
             </dt>
-    
+
+            <dd>
+                @Html.DisplayFor(model => model.storeName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Address)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Address)
+            </dd>
+
+            <dt>
+                City
+            </dt>
+
             <dd>
                 @Html.DisplayFor(model => model.City)
             </dd>
-    
+
             <dt>
-                @Html.DisplayNameFor(model => model.State)
+                State
             </dt>
-    
+
             <dd>
                 @Html.DisplayFor(model => model.State)
             </dd>
-    
+
             <dt>
-                @Html.DisplayNameFor(model => model.ZipCode)
+                ZipCode
             </dt>
-    
+
             <dd>
                 @Html.DisplayFor(model => model.ZipCode)
             </dd>
-    
+
             <dt>
-                @Html.DisplayNameFor(model => model.phoneNumber)
+                Phone
             </dt>
-    
+
             <dd>
                 @Html.DisplayFor(model => model.phoneNumber)
             </dd>
-    
+
             <dt>
                 @Html.DisplayNameFor(model => model.email)
             </dt>
-    
+
             <dd>
                 @Html.DisplayFor(model => model.email)
             </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Lat)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Lat)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Lng)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Lng)
-            </dd>
-    
+
         </dl>
     </div>
+
+
     <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.sno }) |
+        @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
         @Html.ActionLink("Back to List", "Index")
     </p>
 </body>

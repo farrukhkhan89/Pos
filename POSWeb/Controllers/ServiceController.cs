@@ -29,7 +29,7 @@ namespace POSWeb.Controllers
     }
     public class ServiceController : ApiController
     {
-        posEntities db = new posEntities();
+        posEntities2 db = new posEntities2();
         public IHttpActionResult getAllStore()
         {
             var storeList = db.Stores.Select(item => new StoreViewModel
@@ -847,10 +847,11 @@ namespace POSWeb.Controllers
 
 
             var storeProds = (from t1 in db.Products
-                              join t2 in db.Store_Product on t1.Korona_ProductId equals t2.ProductId
+                              join t2 in db.Store_Product on t1.Id equals t2.ProductId
                               where t2.StoreId == storeId
                               select new
                               {
+                                  ProductId=t1.Id,
                                   Korona_ProductId = t1.Korona_ProductId,
                                   Name = t1.Name,
                                   Image = t1.Image,
@@ -921,52 +922,52 @@ namespace POSWeb.Controllers
 
 
         [System.Web.Http.HttpGet]
-        public IHttpActionResult productUpdatesFromKorona()
-        {
+        //public IHttpActionResult productUpdatesFromKorona()
+        //{
 
-            ProductUpdate pos = new ProductUpdate();
+        //    ProductUpdate pos = new ProductUpdate();
 
-            //var data = pos.getPosAllStores();
+        //    //var data = pos.getPosAllStores();
 
-            var t = Task.Run(() => pos.insertProducts());
-            t.Wait();
-            if (t.Result == "0" || t.Result.ToLower() == "notfound")
-            {
-                return Json(createJson("0", "Prdoucts"));
-            }
-            else
-            {
-                //return Json(createJson("1", "Prdoucts", JsonConvert.SerializeObject(t)));
-                return Json(createJson("1", "Prdoucts", t.Result.Replace(System.Environment.NewLine, string.Empty)));
-
-
-            }
-
-        }
+        //    var t = Task.Run(() => pos.insertProducts());
+        //    t.Wait();
+        //    if (t.Result == "0" || t.Result.ToLower() == "notfound")
+        //    {
+        //        return Json(createJson("0", "Prdoucts"));
+        //    }
+        //    else
+        //    {
+        //        //return Json(createJson("1", "Prdoucts", JsonConvert.SerializeObject(t)));
+        //        return Json(createJson("1", "Prdoucts", t.Result.Replace(System.Environment.NewLine, string.Empty)));
 
 
-        [System.Web.Http.HttpGet]
-        public IHttpActionResult InsertAllProducts()
-        {
-            ProductUpdate pos = new ProductUpdate();
-            //var data = pos.getPosAllStores();
-            var t = Task.Run(() => pos.deleteAndInsertAll());
-            t.Wait();
-            if (t.Result == "0" || t.Result.ToLower() == "notfound")
-            {
-                return Json(createJson("0", "Prdoucts"));
-            }
-            else
-            {
-                //return Json(createJson("1", "Prdoucts", JsonConvert.SerializeObject(t)));
-                return Json(createJson("1", "Prdoucts", t.Result.Replace(System.Environment.NewLine, string.Empty)));
+        //    }
+
+        //}
 
 
-            }
+        //[System.Web.Http.HttpGet]
+        //public IHttpActionResult InsertAllProducts()
+        //{
+        //    ProductUpdate pos = new ProductUpdate();
+        //    //var data = pos.getPosAllStores();
+        //    var t = Task.Run(() => pos.deleteAndInsertAll());
+        //    t.Wait();
+        //    if (t.Result == "0" || t.Result.ToLower() == "notfound")
+        //    {
+        //        return Json(createJson("0", "Prdoucts"));
+        //    }
+        //    else
+        //    {
+        //        //return Json(createJson("1", "Prdoucts", JsonConvert.SerializeObject(t)));
+        //        return Json(createJson("1", "Prdoucts", t.Result.Replace(System.Environment.NewLine, string.Empty)));
 
-        }
 
-        [System.Web.Http.HttpGet]
+        //    }
+
+        //}
+
+        [System.Web.Http.HttpPost]
         public IHttpActionResult InsertKoronaStores()
         {
             StoreUpdate pos = new StoreUpdate();
@@ -988,25 +989,25 @@ namespace POSWeb.Controllers
         }
 
         [System.Web.Http.HttpGet]
-        public IHttpActionResult InsertKoronaStoresProducts()
-        {
-            StoreProductUpdate pos = new StoreProductUpdate();
-            //var data = pos.getPosAllStores();
-            var t = Task.Run(() => pos.deleteAndInsertAll());
-            t.Wait();
-            if (t.Result == "0" || t.Result.ToLower() == "notfound")
-            {
-                return Json(createJson("0", "StoresProduct"));
-            }
-            else
-            {
-                //return Json(createJson("1", "Prdoucts", JsonConvert.SerializeObject(t)));
-                return Json(createJson("1", "StoresProduct", t.Result.Replace(System.Environment.NewLine, string.Empty)));
+        //public IHttpActionResult InsertKoronaStoresProducts()
+        //{
+        //    StoreProductUpdate pos = new StoreProductUpdate();
+        //    //var data = pos.getPosAllStores();
+        //    var t = Task.Run(() => pos.deleteAndInsertAll());
+        //    t.Wait();
+        //    if (t.Result == "0" || t.Result.ToLower() == "notfound")
+        //    {
+        //        return Json(createJson("0", "StoresProduct"));
+        //    }
+        //    else
+        //    {
+        //        //return Json(createJson("1", "Prdoucts", JsonConvert.SerializeObject(t)));
+        //        return Json(createJson("1", "StoresProduct", t.Result.Replace(System.Environment.NewLine, string.Empty)));
 
 
-            }
+        //    }
 
-        }
+        //}
 
 
         public IHttpActionResult placeOrder(dynamic orderObj, string ordertype)

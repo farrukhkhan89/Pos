@@ -6,12 +6,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+
 namespace POSWeb.Controllers
 {
     [CustomAuthorize]
     public class HomeController : Controller
     {
-        posEntities db = new posEntities();
+        posEntities2 db = new posEntities2();
         public ActionResult Index()
         {
             return View();

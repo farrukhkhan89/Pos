@@ -19,7 +19,7 @@ namespace POSWeb.Models
 {
     public class ProductUpdate
     {
-        posEntities db = new posEntities();
+        posEntities2 db = new posEntities2();
         //const string url = "https://128.koronacloud.com/api/v3/accounts/";
         //const string url = "https://www.koronacloud.com/web/api/v3/accounts/";
 
@@ -37,176 +37,176 @@ namespace POSWeb.Models
         string username = ConfigurationManager.AppSettings["LiveKoronaUserName"];
         string password = ConfigurationManager.AppSettings["LiveKoronaPassword"];
 
-        public async Task<string> insertProducts()
-        {
-            try
-            {
-                var client = new HttpClient();
-                //String username = "hasan";
+        //public async Task<string> insertProducts()
+        //{
+        //    try
+        //    {
+        //        var client = new HttpClient();
+        //        //String username = "hasan";
 
-                //String password = "hasan";
-                String encoded = System.Convert.ToBase64String(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(username + ":" + password));
+        //        //String password = "hasan";
+        //        String encoded = System.Convert.ToBase64String(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(username + ":" + password));
 
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", encoded);
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-
-                //var result = await client.GetAsync(url + accountId + "/products?page=" + page + "&size=" + size);
-                var result = await client.GetAsync(url + accountId + "/products");
-
-                var reply = await result.Content.ReadAsStringAsync();
+        //        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", encoded);
+        //        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
 
-                if (reply == "" || reply == null)
-                {
-                    return "0";
-                }
-                else
-                {
-                    if ((int)result.StatusCode == 200)
-                    {
-                        //dynamic data = JsonConvert.DeserializeObject(reply).ToString();
+        //        //var result = await client.GetAsync(url + accountId + "/products?page=" + page + "&size=" + size);
+        //        var result = await client.GetAsync(url + accountId + "/products");
 
-                        //if (data is ExpandoObject)
-                        //{
-                        //    //((IDictionary<string, object>)data).ContainsKey("results");
-                        //    var b = IsProperty(data,"results");
-
-                        //}
-
-                        //var list = data.results;
-                        dynamic data = JsonConvert.DeserializeObject(reply);
-
-                        //dynamic dJson = JArray.Parse(reply);
+        //        var reply = await result.Content.ReadAsStringAsync();
 
 
-                        var b = isObject(data, "results");
-                        if (b)
-                        {
-                            db.Configuration.AutoDetectChangesEnabled = false;
+        //        if (reply == "" || reply == null)
+        //        {
+        //            return "0";
+        //        }
+        //        else
+        //        {
+        //            if ((int)result.StatusCode == 200)
+        //            {
+        //                //dynamic data = JsonConvert.DeserializeObject(reply).ToString();
 
-                            var count = data.results.Count;
-                            List<Product> productListToBeUpdated = new List<Product>();
-                            List<Product> productListToBeInserted = new List<Product>();
+        //                //if (data is ExpandoObject)
+        //                //{
+        //                //    //((IDictionary<string, object>)data).ContainsKey("results");
+        //                //    var b = IsProperty(data,"results");
 
-                            var presentProductIds = db.Products.Select(x => x.Korona_ProductId).ToList();
+        //                //}
 
-                            var toUpdate = db.Products.AsQueryable().ToList();
+        //                //var list = data.results;
+        //                dynamic data = JsonConvert.DeserializeObject(reply);
 
-
-
-                            db.Configuration.AutoDetectChangesEnabled = false;
-                            foreach (var entity in toUpdate)
-                            {
-                                //Replace the old value with some random new value.
-                                //entity.Value = rnd.Next(1000);
-                            }
-
-                            foreach (var koronalist in data.results)
-                            {
-                                if (presentProductIds.Contains((string)koronalist.id))
-                                {
-                                    string koid = (string)koronalist.id;
-
-                                    //db.Products
-                                    // .Where(x => x.Korona_ProductId == koid)
-                                    //  .Update(x => new Product() {  Description = "testing" });
-
-                                    Product prod = toUpdate.Where(x => x.Korona_ProductId == koid).FirstOrDefault();
-                                    //update
-                                    //Product prod = new Product();
-                                    if (prod != null)
-                                    {
-                                        prod.Korona_ProductId = koronalist.id;
-                                        prod.Korona_ProductNumber = koronalist.number;
-                                        prod.Image = null;
-                                        prod.Name = koronalist.name;
-
-                                        //var a = isObject(data.results[0], "prices");
-                                        var priceObj = JsonConvert.DeserializeObject<dynamic>(koronalist.prices.ToString());
-                                        var value = priceObj[0].value;
-                                        prod.Price = Convert.ToDouble(value);
-                                        //prod.Description = data.results[0].descriptions.text; 
-                                        prod.Description = "testing 1";
-
-                                        prod.Id = "123";
-                                        prod.Image = "123";
-                                        prod.Stock = 123;
-                                        prod.BelongToStore = false;
-                                        productListToBeUpdated.Add(prod);
-                                    }
-                                    else
-                                    { }
-                                }
-                                else
-                                {
-                                    //insert
-                                    //Product prod = new Product();
-                                    //prod.Korona_ProductId = data.results[0].id;
-                                    //prod.Korona_ProductNumber = data.results[0].number;
-                                    //prod.Image = null;
-                                    //prod.Name = data.results[0].name;
-
-                                    ////var a = isObject(data.results[0], "prices");
-                                    //var priceObj = JsonConvert.DeserializeObject<dynamic>(data.results[0].prices.ToString());
-                                    //var value = priceObj[0].value;
-                                    //prod.Price = Convert.ToDouble(value);
-                                    ////prod.Description = data.results[0].descriptions.text; 
-                                    //prod.Description = null;
-
-                                    Product prod = new Product();
-                                    prod.Korona_ProductId = koronalist.id;
-                                    prod.Korona_ProductNumber = koronalist.number;
-                                    prod.Image = null;
-                                    prod.Name = koronalist.name;
-
-                                    //var a = isObject(data.results[0], "prices");
-                                    var priceObj = JsonConvert.DeserializeObject<dynamic>(koronalist.prices.ToString());
-                                    var value = priceObj[0].value;
-                                    prod.Price = Convert.ToDouble(value);
-                                    //prod.Description = data.results[0].descriptions.text; 
-                                    prod.Description = "!@#!@#!@#";
-
-                                    prod.Id = "123";
-                                    prod.Image = "123";
-                                    prod.Stock = 123;
-                                    prod.BelongToStore = false;
-
-                                    productListToBeInserted.Add(prod);
-                                }
-                            }
-                            //EFBatchOperation.For(db, db.Products).UpdateAll(productListToBeInserted,);
-
-                            //EFBatchOperation.For(db, db.Products).UpdateAll(productListToBeUpdated, x => x.ColumnsToUpdate(c => c.Korona_ProductId));
-                            //if(productListToBeInserted != null)
-                            //db.BulkInsert(productListToBeInserted);
-                            //if (productListToBeUpdated != null)
-                            //db.BulkUpdate(productListToBeUpdated);
-
-                            //db.BulkUpdate(productListToBeUpdated);
+        //                //dynamic dJson = JArray.Parse(reply);
 
 
-                            return JsonConvert.DeserializeObject(reply).ToString();
-                        }
+        //                var b = isObject(data, "results");
+        //                if (b)
+        //                {
+        //                    db.Configuration.AutoDetectChangesEnabled = false;
+
+        //                    var count = data.results.Count;
+        //                    List<Product> productListToBeUpdated = new List<Product>();
+        //                    List<Product> productListToBeInserted = new List<Product>();
+
+        //                    var presentProductIds = db.Products.Select(x => x.Korona_ProductId).ToList();
+
+        //                    var toUpdate = db.Products.AsQueryable().ToList();
 
 
-                        else
-                            return data;
 
-                    }
-                    else
-                    {
-                        return result.StatusCode.ToString();
-                    }
-                }
+        //                    db.Configuration.AutoDetectChangesEnabled = false;
+        //                    foreach (var entity in toUpdate)
+        //                    {
+        //                        //Replace the old value with some random new value.
+        //                        //entity.Value = rnd.Next(1000);
+        //                    }
 
-            }
-            catch (Exception ex)
-            {
-                var msg = ex.Message;
-                return msg;
-            }
-        }
+        //                    foreach (var koronalist in data.results)
+        //                    {
+        //                        if (presentProductIds.Contains((string)koronalist.id))
+        //                        {
+        //                            string koid = (string)koronalist.id;
+
+        //                            //db.Products
+        //                            // .Where(x => x.Korona_ProductId == koid)
+        //                            //  .Update(x => new Product() {  Description = "testing" });
+
+        //                            Product prod = toUpdate.Where(x => x.Korona_ProductId == koid).FirstOrDefault();
+        //                            //update
+        //                            //Product prod = new Product();
+        //                            if (prod != null)
+        //                            {
+        //                                prod.Korona_ProductId = koronalist.id;
+        //                                prod.Korona_ProductNumber = koronalist.number;
+        //                                prod.Image = null;
+        //                                prod.Name = koronalist.name;
+
+        //                                //var a = isObject(data.results[0], "prices");
+        //                                var priceObj = JsonConvert.DeserializeObject<dynamic>(koronalist.prices.ToString());
+        //                                var value = priceObj[0].value;
+        //                                prod.Price = Convert.ToDouble(value);
+        //                                //prod.Description = data.results[0].descriptions.text; 
+        //                                prod.Description = "testing 1";
+
+        //                                prod.Id = "123";
+        //                                prod.Image = "123";
+        //                                prod.Stock = 123;
+        //                                prod.BelongToStore = false;
+        //                                productListToBeUpdated.Add(prod);
+        //                            }
+        //                            else
+        //                            { }
+        //                        }
+        //                        else
+        //                        {
+        //                            //insert
+        //                            //Product prod = new Product();
+        //                            //prod.Korona_ProductId = data.results[0].id;
+        //                            //prod.Korona_ProductNumber = data.results[0].number;
+        //                            //prod.Image = null;
+        //                            //prod.Name = data.results[0].name;
+
+        //                            ////var a = isObject(data.results[0], "prices");
+        //                            //var priceObj = JsonConvert.DeserializeObject<dynamic>(data.results[0].prices.ToString());
+        //                            //var value = priceObj[0].value;
+        //                            //prod.Price = Convert.ToDouble(value);
+        //                            ////prod.Description = data.results[0].descriptions.text; 
+        //                            //prod.Description = null;
+
+        //                            Product prod = new Product();
+        //                            prod.Korona_ProductId = koronalist.id;
+        //                            prod.Korona_ProductNumber = koronalist.number;
+        //                            prod.Image = null;
+        //                            prod.Name = koronalist.name;
+
+        //                            //var a = isObject(data.results[0], "prices");
+        //                            var priceObj = JsonConvert.DeserializeObject<dynamic>(koronalist.prices.ToString());
+        //                            var value = priceObj[0].value;
+        //                            prod.Price = Convert.ToDouble(value);
+        //                            //prod.Description = data.results[0].descriptions.text; 
+        //                            prod.Description = "!@#!@#!@#";
+
+        //                            prod.Id = "123";
+        //                            prod.Image = "123";
+        //                            prod.Stock = 123;
+        //                            prod.BelongToStore = false;
+
+        //                            productListToBeInserted.Add(prod);
+        //                        }
+        //                    }
+        //                    //EFBatchOperation.For(db, db.Products).UpdateAll(productListToBeInserted,);
+
+        //                    //EFBatchOperation.For(db, db.Products).UpdateAll(productListToBeUpdated, x => x.ColumnsToUpdate(c => c.Korona_ProductId));
+        //                    //if(productListToBeInserted != null)
+        //                    //db.BulkInsert(productListToBeInserted);
+        //                    //if (productListToBeUpdated != null)
+        //                    //db.BulkUpdate(productListToBeUpdated);
+
+        //                    //db.BulkUpdate(productListToBeUpdated);
+
+
+        //                    return JsonConvert.DeserializeObject(reply).ToString();
+        //                }
+
+
+        //                else
+        //                    return data;
+
+        //            }
+        //            else
+        //            {
+        //                return result.StatusCode.ToString();
+        //            }
+        //        }
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        var msg = ex.Message;
+        //        return msg;
+        //    }
+        //}
 
 
 

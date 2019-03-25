@@ -21,7 +21,7 @@ namespace POSWeb
         public Nullable<int> Stock { get; set; }
         public string Category { get; set; }
         public Nullable<bool> BelongToStore { get; set; }
-        public Nullable<double> Price { get; set; }
+        public string Price { get; set; }
         public Nullable<System.DateTime> updatedtime { get; set; }
     }
 }

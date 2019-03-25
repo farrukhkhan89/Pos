@@ -11,12 +11,12 @@ namespace POSWeb
 {
     using System;
     
-    public partial class get_OrderDetailsForEmail_Result
+    public partial class sp_helpdiagrams_Result
     {
-        public string orderid { get; set; }
-        public string productid { get; set; }
-        public string name { get; set; }
-        public Nullable<int> quantity { get; set; }
-        public string price { get; set; }
+        public string Database { get; set; }
+        public string Name { get; set; }
+        public int ID { get; set; }
+        public string Owner { get; set; }
+        public int OwnerID { get; set; }
     }
 }

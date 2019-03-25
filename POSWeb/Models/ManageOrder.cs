@@ -8,7 +8,7 @@ namespace POSWeb.Models
 {
     public class ManageOrder
     {
-        posEntities db = new posEntities();
+        posEntities2 db = new posEntities2();
 
         public string AddOrder(dynamic orderObj)
         {
@@ -48,7 +48,7 @@ namespace POSWeb.Models
                     var price = db.Products.Where(x => x.Korona_ProductId == orderDetails.ProductId).Select(x => x.Price).FirstOrDefault();
                     if (price != null)
                     {
-                        orderDetails.Price = price * Convert.ToDouble(orderDetails.Quantity);
+                        orderDetails.Price = Convert.ToDouble( price) * Convert.ToDouble(orderDetails.Quantity);
                         total = total + orderDetails.Price.Value;
                         order.Total = total;
                     }
@@ -111,7 +111,7 @@ namespace POSWeb.Models
                     var price = db.Products.Where(x => x.Korona_ProductId == orderDetails.ProductId).Select(x => x.Price).FirstOrDefault();
                     if (price != null)
                     {
-                        orderDetails.Price = price * Convert.ToDouble(orderDetails.Quantity);
+                        orderDetails.Price = Convert.ToDouble( price) * Convert.ToDouble(orderDetails.Quantity);
                         total = total + orderDetails.Price.Value;
                         order.Total = total;
                     }
@@ -121,8 +121,8 @@ namespace POSWeb.Models
             db.Orders.Add(order);
             db.OrderDetails.AddRange(orderdetailist);
             db.SaveChanges();
-            Email email = new Email();
-            email.sendOrderEmailToSeller(order.OrderId);
+            //Email email = new Email();
+            //email.sendOrderEmailToSeller(order.OrderId);
             return order.OrderId;
 
         }

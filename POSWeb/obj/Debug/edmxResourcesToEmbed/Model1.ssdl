@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="posModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+<Schema Namespace="bravodeliver_posModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityType Name="Stores">
     <Key>
       <PropertyRef Name="id" />
@@ -166,9 +166,9 @@
   </EntityType>
   <EntityType Name="Products">
     <Key>
-      <PropertyRef Name="Korona_ProductId" />
+      <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="varchar" MaxLength="128" />
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Korona_ProductId" Type="varchar" MaxLength="128" Nullable="false" />
     <Property Name="Korona_ProductNumber" Type="varchar" MaxLength="128" />
     <Property Name="Name" Type="varchar" MaxLength="500" />
@@ -177,7 +177,7 @@
     <Property Name="Stock" Type="int" />
     <Property Name="Category" Type="varchar" MaxLength="200" />
     <Property Name="BelongToStore" Type="bit" />
-    <Property Name="Price" Type="float" />
+    <Property Name="Price" Type="varchar" MaxLength="50" />
     <Property Name="UpdatedTime" Type="datetime" />
   </EntityType>
   <EntityType Name="Revisions">
@@ -221,30 +221,15 @@
     <Property Name="PickedByRider" Type="bit" />
     <Property Name="PickedByRiderDateTime" Type="datetime" />
   </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'bravodeliver_pos.dbo.Store_Product' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="Store_Product">
     <Key>
       <PropertyRef Name="Store_Product" />
     </Key>
     <Property Name="Store_Product" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="StoreId" Type="int" />
-    <Property Name="ProductId" Type="varchar" MaxLength="128" />
-  </EntityType>
-  <EntityType Name="StoreProduct">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="StoreId" Type="varchar" MaxLength="128" Nullable="false" />
-    <Property Name="Korona_ProductId" Type="varchar" MaxLength="128" Nullable="false" />
-    <Property Name="Korona_ProductNumber" Type="varchar" MaxLength="128" />
-    <Property Name="Name" Type="varchar" MaxLength="500" />
-    <Property Name="Description" Type="varchar" MaxLength="500" />
-    <Property Name="Category" Type="varchar" MaxLength="100" />
-    <Property Name="Price" Type="float" />
-    <Property Name="Stock" Type="int" />
-    <Property Name="ImageUrl" Type="varchar" MaxLength="128" />
-    <Property Name="CreatedDateTime" Type="datetime" />
-    <Property Name="UpdatedDateTime" Type="datetime" />
+    <Property Name="ProductId" Type="int" />
   </EntityType>
   <EntityType Name="sysdiagrams">
     <Key>
@@ -256,19 +241,19 @@
     <Property Name="version" Type="int" />
     <Property Name="definition" Type="varbinary(max)" />
   </EntityType>
-  <Association Name="FK__Store_Pro__Produ__3D2915A8">
+  <Association Name="FK__Store_Pro__Produ__69FBBC1F">
     <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
     <End Role="Store_Product" Type="Self.Store_Product" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Products">
-        <PropertyRef Name="Korona_ProductId" />
+        <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="Store_Product">
         <PropertyRef Name="ProductId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Store_Pro__Store__3C34F16F">
+  <Association Name="FK__Store_Pro__Store__690797E6">
     <End Role="Stores" Type="Self.Stores" Multiplicity="0..1" />
     <End Role="Store_Product" Type="Self.Store_Product" Multiplicity="*" />
     <ReferentialConstraint>
@@ -337,6 +322,7 @@
     </ReferentialConstraint>
   </Association>
   <Function Name="dbo_get_ProductsListForIndex" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
   <Function Name="get_OrderDetailsForEmail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="orderid" Type="varchar" Mode="In" />
   </Function>
@@ -345,7 +331,40 @@
   <Function Name="report_sales_simple" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="days" Type="int" Mode="In" />
   </Function>
-  <EntityContainer Name="posModelStoreContainer">
+  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="usp_InsertLog" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ExceptionMessage" Type="nvarchar(max)" Mode="In" />
+  </Function>
+  <EntityContainer Name="bravodeliver_posModelStoreContainer">
     <EntitySet Name="Stores" EntityType="Self.Stores" Schema="bravodeliver_user" store:Type="Tables" />
     <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
@@ -363,14 +382,19 @@
     <EntitySet Name="Revisions" EntityType="Self.Revisions" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Rider" EntityType="Self.Rider" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="RiderOrders" EntityType="Self.RiderOrders" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Store_Product" EntityType="Self.Store_Product" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="StoreProduct" EntityType="Self.StoreProduct" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="FK__Store_Pro__Produ__3D2915A8" Association="Self.FK__Store_Pro__Produ__3D2915A8">
+    <EntitySet Name="Store_Product" EntityType="Self.Store_Product" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Store_Product].[Store_Product] AS [Store_Product], 
+    [Store_Product].[StoreId] AS [StoreId], 
+    [Store_Product].[ProductId] AS [ProductId]
+    FROM [dbo].[Store_Product] AS [Store_Product]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK__Store_Pro__Produ__69FBBC1F" Association="Self.FK__Store_Pro__Produ__69FBBC1F">
       <End Role="Products" EntitySet="Products" />
       <End Role="Store_Product" EntitySet="Store_Product" />
     </AssociationSet>
-    <AssociationSet Name="FK__Store_Pro__Store__3C34F16F" Association="Self.FK__Store_Pro__Store__3C34F16F">
+    <AssociationSet Name="FK__Store_Pro__Store__690797E6" Association="Self.FK__Store_Pro__Store__690797E6">
       <End Role="Stores" EntitySet="Stores" />
       <End Role="Store_Product" EntitySet="Store_Product" />
     </AssociationSet>

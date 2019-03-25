@@ -12,7 +12,7 @@ namespace POSWeb.Controllers
 {
     public class StoresController : Controller
     {
-        private posEntities db = new posEntities();
+        private posEntities2 db = new posEntities2();
 
         // GET: Stores
         public ActionResult Index()

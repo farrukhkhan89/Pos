@@ -18,11 +18,11 @@
 
                 <div class="panel-body">
                     <div class="table-responsive">
-                        <table id="report" class="display table" style="width: 100%; cellspacing: 0;">
+                        <table id="report" class="display table" style="width: 100%; ">
                             <thead>
                                 <tr>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Korona_StoreId)
+                                    <th hidden>
+                                        @Html.DisplayNameFor(model => model.id)
                                     </th>
                                     <th>
                                         @Html.DisplayNameFor(model => model.storeName)
@@ -42,16 +42,10 @@
                                     <th>
                                         @Html.DisplayNameFor(model => model.phoneNumber)
                                     </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.email)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Lat)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Lng)
-                                    </th>
-                                    @*<th></th>*@
+
+                                   
+                                  
+                                    <th>Actions</th>
                                 </tr>
 
                             </thead>
@@ -61,7 +55,7 @@
                                 {
                                     <tr>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Korona_StoreId)
+                                            @Html.DisplayFor(modelItem => item.id)
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.storeName)
@@ -81,20 +75,13 @@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.phoneNumber)
                                         </td>
+                                      
+                                        
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.email)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Lat)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Lng)
-                                        </td>
-                                        @*<td>
-                                                @Html.ActionLink("Edit", "Edit", new { id = item.sno }) |
-                                                @Html.ActionLink("Details", "Details", new { id = item.sno }) |
-                                                @Html.ActionLink("Delete", "Delete", new { id = item.sno })
-                                            </td>*@*
+                                                @*@Html.ActionLink("Edit", "Edit", new { id = item.id }) |*@
+                                                @Html.ActionLink("Details", "Details", new { id = item.id }) @*|*@
+                                                @*@Html.ActionLink("Delete", "Delete", new { id = item.id })*@
+                                            </td>
                                     </tr>
                                 }
                             </tbody>

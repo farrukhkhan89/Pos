@@ -20,7 +20,7 @@ namespace POSWeb
             this.Store_Product = new HashSet<Store_Product>();
         }
     
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Korona_ProductId { get; set; }
         public string Korona_ProductNumber { get; set; }
         public string Name { get; set; }
@@ -29,7 +29,7 @@ namespace POSWeb
         public Nullable<int> Stock { get; set; }
         public string Category { get; set; }
         public Nullable<bool> BelongToStore { get; set; }
-        public Nullable<double> Price { get; set; }
+        public string Price { get; set; }
         public Nullable<System.DateTime> UpdatedTime { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

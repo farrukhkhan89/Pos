@@ -26,7 +26,9 @@ namespace POSWeb
         public string Phone { get; set; }
         public string OrderType { get; set; }
         public Nullable<System.DateTime> deliveryDate { get; set; }
+        public string OrderLocation { get; set; }
         public Nullable<System.DateTime> CreatedDatetime { get; set; }
+        public Nullable<bool> AcceptedByRider { get; set; }
         public Nullable<bool> Shipped { get; set; }
         public string trackingNo { get; set; }
         public Nullable<bool> status { get; set; }
@@ -34,7 +36,5 @@ namespace POSWeb
         public Nullable<System.DateTime> CancelledDateTime { get; set; }
         public Nullable<bool> Completed { get; set; }
         public Nullable<System.DateTime> CompletedDateTime { get; set; }
-        public Nullable<bool> AcceptedByRider { get; set; }
-        public string OrderLocation { get; set; }
     }
 }

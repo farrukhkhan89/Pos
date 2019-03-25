@@ -7,7 +7,7 @@ namespace POSWeb.Models
 {
     public class RiderTracking
     {
-        posEntities db = new posEntities();
+        posEntities2 db = new posEntities2();
         public List<Rider> GetOnlineRiders()
         {
             var OnlineRider = db.Riders.Where(x => x.Online == true).ToList();

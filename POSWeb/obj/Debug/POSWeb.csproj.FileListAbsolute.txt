@@ -1,5 +1,5 @@
-E:\FreeLance\Bravo\Files\POSWeb10-06-2018\POSWeb\POSWeb\obj\Debug\POSWeb.csproj.CoreCompileInputs.cache
 E:\FreeLance\Bravo\Files\POSWeb10-06-2018\POSWeb\POSWeb\obj\Debug\POSWeb.csprojAssemblyReference.cache
+E:\FreeLance\Bravo\Files\POSWeb10-06-2018\POSWeb\POSWeb\obj\Debug\POSWeb.csproj.CoreCompileInputs.cache
 E:\FreeLance\Bravo\Files\POSWeb10-06-2018\POSWeb\POSWeb\bin\roslyn\csc.exe
 E:\FreeLance\Bravo\Files\POSWeb10-06-2018\POSWeb\POSWeb\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
 E:\FreeLance\Bravo\Files\POSWeb10-06-2018\POSWeb\POSWeb\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll

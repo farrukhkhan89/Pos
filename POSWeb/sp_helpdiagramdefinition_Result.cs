@@ -11,11 +11,9 @@ namespace POSWeb
 {
     using System;
     
-    public partial class report_sales_simple_Result
+    public partial class sp_helpdiagramdefinition_Result
     {
-        public string id { get; set; }
-        public string storename { get; set; }
-        public Nullable<double> total { get; set; }
-        public Nullable<int> units { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

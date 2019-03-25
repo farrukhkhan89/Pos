@@ -77,25 +77,25 @@ namespace POSWeb.Controllers
         }
 
         [System.Web.Http.HttpGet]
-        public IHttpActionResult InsertKoronaStoresProducts()
-        {
-            StoreProductUpdate pos = new StoreProductUpdate();
-            //var data = pos.getPosAllStores();
-            var t = Task.Run(() => pos.deleteAndInsertAll());
-            t.Wait();
-            if (t.Result == "0" || t.Result.ToLower() == "notfound")
-            {
-                return Json(createJson("0", "StoresProduct"));
-            }
-            else
-            {
-                //return Json(createJson("1", "Prdoucts", JsonConvert.SerializeObject(t)));
-                return Json(createJson("1", "StoresProduct", t.Result.Replace(System.Environment.NewLine, string.Empty)));
+        //public IHttpActionResult InsertKoronaStoresProducts()
+        //{
+        //    StoreProductUpdate pos = new StoreProductUpdate();
+        //    //var data = pos.getPosAllStores();
+        //    var t = Task.Run(() => pos.deleteAndInsertAll());
+        //    t.Wait();
+        //    if (t.Result == "0" || t.Result.ToLower() == "notfound")
+        //    {
+        //        return Json(createJson("0", "StoresProduct"));
+        //    }
+        //    else
+        //    {
+        //        //return Json(createJson("1", "Prdoucts", JsonConvert.SerializeObject(t)));
+        //        return Json(createJson("1", "StoresProduct", t.Result.Replace(System.Environment.NewLine, string.Empty)));
 
 
-            }
+        //    }
 
-        }
+        //}
 
         public List<ReturnResult> createJson(string code, string msg)
         {
