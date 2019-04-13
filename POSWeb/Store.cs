@@ -17,7 +17,7 @@ namespace POSWeb
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Store()
         {
-            this.Store_Product = new HashSet<Store_Product>();
+            this.Products = new HashSet<Product>();
         }
     
         public int id { get; set; }
@@ -33,6 +33,6 @@ namespace POSWeb
         public string imageUrl { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Store_Product> Store_Product { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

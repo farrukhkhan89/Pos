@@ -64,8 +64,6 @@ namespace POSWeb.Controllers
             //return storeList;
         }
 
-
-
         public IHttpActionResult getStoreByZipCode(string zipcode)
         {
             var storeList = db.Stores.Where(x => x.ZipCode == zipcode).ToList();
@@ -84,10 +82,6 @@ namespace POSWeb.Controllers
 
             //return storeList;
         }
-
-
-
-
 
         public IHttpActionResult getStoreByDistance(string zipcode)
         {
@@ -150,10 +144,6 @@ namespace POSWeb.Controllers
 
 
         }
-
-
-
-
 
         ///adding customers
         ///
@@ -528,11 +518,6 @@ namespace POSWeb.Controllers
             }
         }
 
-
-
-
-
-
         ///adding Riders
         ///
         public IHttpActionResult registerRider(dynamic user)
@@ -647,8 +632,8 @@ namespace POSWeb.Controllers
                 City = item.City,
                 email = item.email,
                 phoneNumber = item.phoneNumber,
-                State=  item.State
-               
+                State = item.State
+
             }
            ).ToList();
 
@@ -716,7 +701,7 @@ namespace POSWeb.Controllers
         {
             if (category.ToLower() == "all")
             {
-                var storeProducts = db.Store_Product.Where(x => x.StoreId == storeId).Select(x => x.StoreId).FirstOrDefault();
+                var storeProducts = db.Stores.Where(x => x.id == storeId).Select(x => x.id).FirstOrDefault();
 
 
 
@@ -815,43 +800,15 @@ namespace POSWeb.Controllers
         {
             Pos pos = new Pos();
             List<Product> prods;
-            //if (storeId == 0)
-            //{
-            //    if (!string.IsNullOrEmpty(prodName))
-            //    {
-            //        prods = db.Products.Where(x => x.Name.ToLower().Contains(prodName)).ToList();
-            //    }
-            //    else
-            //    {
-            //        prods = db.Products.ToList();
-            //    }
 
-            //    if (cat.ToLower() != "all")
-            //    {
-
-            //        prods = prods.Where(x => x.Category.ToLower() == cat.ToLower()).OrderBy(x => x.Name).Skip((page - 1) * size).Take(size).ToList();
-            //    }
-            //    else
-            //    {
-
-            //        prods = prods.OrderBy(x => x.Name).Skip((page - 1) * size).Take(size).ToList();
-            //    }
-            //}
-            //else
-            //{
-            //                select p.*from products p
-            //`````````inner
-            //                          join Store_Product sp
-            //                    on p.Korona_ProductId = sp.ProductId
-            //```````where sp.StoreId = 8
 
 
             var storeProds = (from t1 in db.Products
-                              join t2 in db.Store_Product on t1.Id equals t2.ProductId
-                              where t2.StoreId == storeId
+                              join t2 in db.Stores on t1.StoreId equals t2.id
+                              where t2.id == storeId
                               select new
                               {
-                                  ProductId=t1.Id,
+                                  ProductId = t1.Id,
                                   Korona_ProductId = t1.Korona_ProductId,
                                   Name = t1.Name,
                                   Image = t1.Image,
@@ -859,42 +816,46 @@ namespace POSWeb.Controllers
                                   Category = t1.Category
                               }).ToList();
 
-
-            if (!string.IsNullOrEmpty(cat) && !string.IsNullOrEmpty(prodName))
-                storeProds = storeProds.OrderBy(x => x.Name).Where(x => x.Category.ToLower().Contains(cat.ToLower()) && x.Name.ToLower().Contains(prodName.ToLower())).Skip((page - 1) * size).Take(size).ToList();
-            else if (string.IsNullOrEmpty(cat) && !string.IsNullOrEmpty(prodName))
+            if (storeId == 0)
             {
-                storeProds = storeProds.OrderBy(x => x.Name).Where(x => x.Name.ToLower().Contains(prodName.ToLower())).Skip((page - 1) * size).Take(size).ToList();
-            }
-            else if (!string.IsNullOrEmpty(cat) && string.IsNullOrEmpty(prodName))
-            {
-                storeProds = storeProds.OrderBy(x => x.Name).Where(x => x.Category.ToLower().Contains(cat.ToLower())).Skip((page - 1) * size).Take(size).ToList();
-            }
+                storeProds = db.Products.Where(x => x.StoreId == null).Select(emp =>
+                                      new
+                                      {
+                                          ProductId = emp.Id,
+                                          Korona_ProductId = emp.Korona_ProductId,
+                                          Name = emp.Name,
+                                          Image = emp.Image,
+                                          Price = emp.Price,
+                                          Category = emp.Category
+                                      }).ToList();
 
-            else
-            {
-                storeProds = storeProds.OrderBy(x => x.Name).Skip((page - 1) * size).Take(size).ToList();
-            }
+                if (!string.IsNullOrEmpty(cat) && !string.IsNullOrEmpty(prodName))
+                    storeProds = storeProds.OrderBy(x => x.Name).Where(x => x.Category.ToLower().Contains(cat.ToLower()) && x.Name.ToLower().Contains(prodName.ToLower())).Skip((page - 1) * size).Take(size).ToList();
+                else if (string.IsNullOrEmpty(cat) && !string.IsNullOrEmpty(prodName))
+                {
+                    storeProds = storeProds.OrderBy(x => x.Name).Where(x => x.Name.ToLower().Contains(prodName.ToLower())).Skip((page - 1) * size).Take(size).ToList();
+                }
+                else if (!string.IsNullOrEmpty(cat) && string.IsNullOrEmpty(prodName))
+                {
+                    storeProds = storeProds.OrderBy(x => x.Name).Where(x => x.Category.ToLower().Contains(cat.ToLower())).Skip((page - 1) * size).Take(size).ToList();
+                }
 
+                else
+                {
+                    storeProds = storeProds.OrderBy(x => x.Name).Skip((page - 1) * size).Take(size).ToList();
+                }
 
+                //int storeProdCount = ;
+                if (storeProds.Count != 0)
+                {
 
+                    return Json(createJson("1", "Products", storeProds));
+                }
 
-            //List<StoreProductsViewModel> spViewModel = new 
-
-            //int storeProdCount = ;
-            if (storeProds.Count != 0)
-            {
-
-                return Json(createJson("1", "Products", storeProds));
-            }
-            else
-            {
                 //return Content((HttpStatusCode)1, "Invalid Email/Password");
                 return Json(createJson("0", "No Content Found"));
             }
-
-            //return null;
-
+            return null;
         }
 
         [System.Web.Http.HttpGet]
@@ -917,9 +878,16 @@ namespace POSWeb.Controllers
                 //return Content((HttpStatusCode)1, t.Result);
             }
 
-
         }
-
+        [System.Web.Http.HttpGet]
+        public IHttpActionResult IsZipCodeAvailable(string zipCode)
+        {
+            if (db.ZipCodeLists.Count(x => x.zipCode == zipCode) > 0)
+            {
+                return Json(createJson("1", "Success", 1));
+            }
+            return Json(createJson("0", "Not Found", 0));
+        }
 
         [System.Web.Http.HttpGet]
         //public IHttpActionResult productUpdatesFromKorona()
@@ -965,51 +933,9 @@ namespace POSWeb.Controllers
 
         //    }
 
-        //}
+        //
 
-        [System.Web.Http.HttpPost]
-        public IHttpActionResult InsertKoronaStores()
-        {
-            StoreUpdate pos = new StoreUpdate();
-            //var data = pos.getPosAllStores();
-            var t = Task.Run(() => pos.deleteAndInsertAllKoronaStores());
-            t.Wait();
-            if (t.Result == "0" || t.Result.ToLower() == "notfound")
-            {
-                return Json(createJson("0", "Stores"));
-            }
-            else
-            {
-                //return Json(createJson("1", "Prdoucts", JsonConvert.SerializeObject(t)));
-                return Json(createJson("1", "Stores", t.Result.Replace(System.Environment.NewLine, string.Empty)));
-
-
-            }
-
-        }
-
-        [System.Web.Http.HttpGet]
-        //public IHttpActionResult InsertKoronaStoresProducts()
-        //{
-        //    StoreProductUpdate pos = new StoreProductUpdate();
-        //    //var data = pos.getPosAllStores();
-        //    var t = Task.Run(() => pos.deleteAndInsertAll());
-        //    t.Wait();
-        //    if (t.Result == "0" || t.Result.ToLower() == "notfound")
-        //    {
-        //        return Json(createJson("0", "StoresProduct"));
-        //    }
-        //    else
-        //    {
-        //        //return Json(createJson("1", "Prdoucts", JsonConvert.SerializeObject(t)));
-        //        return Json(createJson("1", "StoresProduct", t.Result.Replace(System.Environment.NewLine, string.Empty)));
-
-
-        //    }
-
-        //}
-
-
+            // time , pickup or delivery, productIds , quantity, if pickup then storeId , 
         public IHttpActionResult placeOrder(dynamic orderObj, string ordertype)
         {
             try
@@ -1110,8 +1036,6 @@ namespace POSWeb.Controllers
             }
         }
 
-
-
         [System.Web.Http.HttpGet]
         public IHttpActionResult getOneSignalAccount()
         {
@@ -1181,10 +1105,6 @@ namespace POSWeb.Controllers
             }
 
         }
-
-
-
-
         public class ReturnResult
         {
             public string statuscode;

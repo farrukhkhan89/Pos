@@ -179,6 +179,7 @@
     <Property Name="BelongToStore" Type="bit" />
     <Property Name="Price" Type="varchar" MaxLength="50" />
     <Property Name="UpdatedTime" Type="datetime" />
+    <Property Name="StoreId" Type="int" />
   </EntityType>
   <EntityType Name="Revisions">
     <Key>
@@ -221,16 +222,6 @@
     <Property Name="PickedByRider" Type="bit" />
     <Property Name="PickedByRiderDateTime" Type="datetime" />
   </EntityType>
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'bravodeliver_pos.dbo.Store_Product' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-  <EntityType Name="Store_Product">
-    <Key>
-      <PropertyRef Name="Store_Product" />
-    </Key>
-    <Property Name="Store_Product" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="StoreId" Type="int" />
-    <Property Name="ProductId" Type="int" />
-  </EntityType>
   <EntityType Name="sysdiagrams">
     <Key>
       <PropertyRef Name="diagram_id" />
@@ -241,26 +232,22 @@ warning 6002: The table/view 'bravodeliver_pos.dbo.Store_Product' does not have 
     <Property Name="version" Type="int" />
     <Property Name="definition" Type="varbinary(max)" />
   </EntityType>
-  <Association Name="FK__Store_Pro__Produ__69FBBC1F">
-    <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
-    <End Role="Store_Product" Type="Self.Store_Product" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Products">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Store_Product">
-        <PropertyRef Name="ProductId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__Store_Pro__Store__690797E6">
+  <EntityType Name="ZipCodeList">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="zipCode" Type="varchar" MaxLength="50" />
+    <Property Name="State" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <Association Name="FK__Products__StoreI__00DF2177">
     <End Role="Stores" Type="Self.Stores" Multiplicity="0..1" />
-    <End Role="Store_Product" Type="Self.Store_Product" Multiplicity="*" />
+    <End Role="Products" Type="Self.Products" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Stores">
         <PropertyRef Name="id" />
       </Principal>
-      <Dependent Role="Store_Product">
+      <Dependent Role="Products">
         <PropertyRef Name="StoreId" />
       </Dependent>
     </ReferentialConstraint>
@@ -383,20 +370,10 @@ warning 6002: The table/view 'bravodeliver_pos.dbo.Store_Product' does not have 
     <EntitySet Name="Rider" EntityType="Self.Rider" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="RiderOrders" EntityType="Self.RiderOrders" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Store_Product" EntityType="Self.Store_Product" store:Type="Tables" store:Schema="dbo">
-      <DefiningQuery>SELECT 
-    [Store_Product].[Store_Product] AS [Store_Product], 
-    [Store_Product].[StoreId] AS [StoreId], 
-    [Store_Product].[ProductId] AS [ProductId]
-    FROM [dbo].[Store_Product] AS [Store_Product]</DefiningQuery>
-    </EntitySet>
-    <AssociationSet Name="FK__Store_Pro__Produ__69FBBC1F" Association="Self.FK__Store_Pro__Produ__69FBBC1F">
-      <End Role="Products" EntitySet="Products" />
-      <End Role="Store_Product" EntitySet="Store_Product" />
-    </AssociationSet>
-    <AssociationSet Name="FK__Store_Pro__Store__690797E6" Association="Self.FK__Store_Pro__Store__690797E6">
+    <EntitySet Name="ZipCodeList" EntityType="Self.ZipCodeList" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Products__StoreI__00DF2177" Association="Self.FK__Products__StoreI__00DF2177">
       <End Role="Stores" EntitySet="Stores" />
-      <End Role="Store_Product" EntitySet="Store_Product" />
+      <End Role="Products" EntitySet="Products" />
     </AssociationSet>
     <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />

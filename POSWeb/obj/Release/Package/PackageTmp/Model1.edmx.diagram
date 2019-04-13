@@ -22,12 +22,10 @@
         <EntityTypeShape EntityType="bravodeliver_posModel.Rider" Width="1.5" PointX="11.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="bravodeliver_posModel.RiderOrder" Width="1.5" PointX="4.75" PointY="11.75" IsExpanded="true" />
         <EntityTypeShape EntityType="bravodeliver_posModel.sysdiagram" Width="1.5" PointX="11.75" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="bravodeliver_posModel.Store_Product" Width="1.5" PointX="3" PointY="7.625" IsExpanded="true" />
-        <AssociationConnector Association="bravodeliver_posModel.FK__Store_Pro__Store__690797E6" ManuallyRouted="false" />
         <AssociationConnector Association="bravodeliver_posModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="bravodeliver_posModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
-        <AssociationConnector Association="bravodeliver_posModel.FK__Store_Pro__Produ__69FBBC1F" ManuallyRouted="false" />
         <AssociationConnector Association="bravodeliver_posModel.AspNetUserRoles" ManuallyRouted="false" />
+        <AssociationConnector Association="bravodeliver_posModel.FK__Products__StoreI__00DF2177" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

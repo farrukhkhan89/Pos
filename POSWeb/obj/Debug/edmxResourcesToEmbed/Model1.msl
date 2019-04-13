@@ -170,6 +170,7 @@
     <EntitySetMapping Name="Products">
       <EntityTypeMapping TypeName="bravodeliver_posModel.Product">
         <MappingFragment StoreEntitySet="Products">
+          <ScalarProperty Name="StoreId" ColumnName="StoreId" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Korona_ProductId" ColumnName="Korona_ProductId" />
           <ScalarProperty Name="Korona_ProductNumber" ColumnName="Korona_ProductNumber" />
@@ -236,15 +237,6 @@
           <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
           <ScalarProperty Name="version" ColumnName="version" />
           <ScalarProperty Name="definition" ColumnName="definition" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Store_Product">
-      <EntityTypeMapping TypeName="bravodeliver_posModel.Store_Product">
-        <MappingFragment StoreEntitySet="Store_Product">
-          <ScalarProperty Name="Store_Product1" ColumnName="Store_Product" />
-          <ScalarProperty Name="StoreId" ColumnName="StoreId" />
-          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -322,5 +314,14 @@
     <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="bravodeliver_posModel.Store.sp_renamediagram" />
     <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="bravodeliver_posModel.Store.sp_upgraddiagrams" />
     <FunctionImportMapping FunctionImportName="usp_InsertLog" FunctionName="bravodeliver_posModel.Store.usp_InsertLog" />
+    <EntitySetMapping Name="ZipCodeLists">
+      <EntityTypeMapping TypeName="bravodeliver_posModel.ZipCodeList">
+        <MappingFragment StoreEntitySet="ZipCodeList">
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="zipCode" ColumnName="zipCode" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

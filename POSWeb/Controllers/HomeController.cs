@@ -37,6 +37,8 @@ namespace POSWeb.Controllers
         {
             //ViewBag.Message = "Your contact page.";
             var currentDate = DateTime.Now.Date;
+
+
             ViewBag.totalSales = db.Orders.Where(x => x.Cancelled == null || x.Cancelled == false).Sum(x => x.Total);
             ViewBag.TodaySales = db.Orders.Where(x => (x.Cancelled == null || x.Cancelled == false) && DbFunctions.TruncateTime(x.CreatedDatetime) == currentDate).Sum(x => x.Total);
 

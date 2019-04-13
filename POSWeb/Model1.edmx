@@ -184,6 +184,7 @@
           <Property Name="BelongToStore" Type="bit" />
           <Property Name="Price" Type="varchar" MaxLength="50" />
           <Property Name="UpdatedTime" Type="datetime" />
+          <Property Name="StoreId" Type="int" />
         </EntityType>
         <EntityType Name="Revisions">
           <Key>
@@ -226,16 +227,6 @@
           <Property Name="PickedByRider" Type="bit" />
           <Property Name="PickedByRiderDateTime" Type="datetime" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'bravodeliver_pos.dbo.Store_Product' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="Store_Product">
-          <Key>
-            <PropertyRef Name="Store_Product" />
-          </Key>
-          <Property Name="Store_Product" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="StoreId" Type="int" />
-          <Property Name="ProductId" Type="int" />
-        </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -246,26 +237,22 @@ warning 6002: The table/view 'bravodeliver_pos.dbo.Store_Product' does not have 
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
-        <Association Name="FK__Store_Pro__Produ__69FBBC1F">
-          <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
-          <End Role="Store_Product" Type="Self.Store_Product" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Products">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Store_Product">
-              <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Store_Pro__Store__690797E6">
+        <EntityType Name="ZipCodeList">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="zipCode" Type="varchar" MaxLength="50" />
+          <Property Name="State" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK__Products__StoreI__00DF2177">
           <End Role="Stores" Type="Self.Stores" Multiplicity="0..1" />
-          <End Role="Store_Product" Type="Self.Store_Product" Multiplicity="*" />
+          <End Role="Products" Type="Self.Products" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Stores">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="Store_Product">
+            <Dependent Role="Products">
               <PropertyRef Name="StoreId" />
             </Dependent>
           </ReferentialConstraint>
@@ -388,20 +375,10 @@ warning 6002: The table/view 'bravodeliver_pos.dbo.Store_Product' does not have 
           <EntitySet Name="Rider" EntityType="Self.Rider" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RiderOrders" EntityType="Self.RiderOrders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Store_Product" EntityType="Self.Store_Product" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Store_Product].[Store_Product] AS [Store_Product], 
-    [Store_Product].[StoreId] AS [StoreId], 
-    [Store_Product].[ProductId] AS [ProductId]
-    FROM [dbo].[Store_Product] AS [Store_Product]</DefiningQuery>
-          </EntitySet>
-          <AssociationSet Name="FK__Store_Pro__Produ__69FBBC1F" Association="Self.FK__Store_Pro__Produ__69FBBC1F">
-            <End Role="Products" EntitySet="Products" />
-            <End Role="Store_Product" EntitySet="Store_Product" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Store_Pro__Store__690797E6" Association="Self.FK__Store_Pro__Store__690797E6">
+          <EntitySet Name="ZipCodeList" EntityType="Self.ZipCodeList" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Products__StoreI__00DF2177" Association="Self.FK__Products__StoreI__00DF2177">
             <End Role="Stores" EntitySet="Stores" />
-            <End Role="Store_Product" EntitySet="Store_Product" />
+            <End Role="Products" EntitySet="Products" />
           </AssociationSet>
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -439,7 +416,7 @@ warning 6002: The table/view 'bravodeliver_pos.dbo.Store_Product' does not have 
           <Property Name="Lat" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Lng" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="imageUrl" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Store_Product" Relationship="Self.FK__Store_Pro__Store__690797E6" FromRole="Stores" ToRole="Store_Product" />
+          <NavigationProperty Name="Products" Relationship="bravodeliver_posModel.FK__Products__StoreI__00DF2177" FromRole="Store" ToRole="Product" />
         </EntityType>
         <EntityType Name="AspNetRole">
           <Key>
@@ -602,7 +579,8 @@ warning 6002: The table/view 'bravodeliver_pos.dbo.Store_Product' does not have 
           <Property Name="BelongToStore" Type="Boolean" />
           <Property Name="Price" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="UpdatedTime" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Store_Product" Relationship="Self.FK__Store_Pro__Produ__69FBBC1F" FromRole="Products" ToRole="Store_Product" />
+          <Property Name="StoreId" Type="Int32" />
+          <NavigationProperty Name="Store" Relationship="bravodeliver_posModel.FK__Products__StoreI__00DF2177" FromRole="Product" ToRole="Store" />
         </EntityType>
         <EntityType Name="Revision">
           <Key>
@@ -655,28 +633,6 @@ warning 6002: The table/view 'bravodeliver_pos.dbo.Store_Product' does not have 
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
-        <EntityType Name="Store_Product">
-          <Key>
-            <PropertyRef Name="Store_Product1" />
-          </Key>
-          <Property Name="Store_Product1" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="StoreId" Type="Int32" />
-          <Property Name="ProductId" Type="Int32" />
-          <NavigationProperty Name="Store" Relationship="Self.FK__Store_Pro__Store__690797E6" FromRole="Store_Product" ToRole="Stores" />
-          <NavigationProperty Name="Product" Relationship="Self.FK__Store_Pro__Produ__69FBBC1F" FromRole="Store_Product" ToRole="Products" />
-        </EntityType>
-        <Association Name="FK__Store_Pro__Store__690797E6">
-          <End Role="Stores" Type="Self.Store" Multiplicity="0..1" />
-          <End Role="Store_Product" Type="Self.Store_Product" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Stores">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Store_Product">
-              <PropertyRef Name="StoreId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -705,18 +661,6 @@ warning 6002: The table/view 'bravodeliver_pos.dbo.Store_Product' does not have 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Store_Pro__Produ__69FBBC1F">
-          <End Role="Products" Type="Self.Product" Multiplicity="0..1" />
-          <End Role="Store_Product" Type="Self.Store_Product" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Products">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Store_Product">
-              <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="AspNetUserRoles">
           <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
@@ -739,11 +683,6 @@ warning 6002: The table/view 'bravodeliver_pos.dbo.Store_Product' does not have 
           <EntitySet Name="Riders" EntityType="Self.Rider" />
           <EntitySet Name="RiderOrders" EntityType="Self.RiderOrder" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
-          <EntitySet Name="Store_Product" EntityType="Self.Store_Product" />
-          <AssociationSet Name="FK__Store_Pro__Store__690797E6" Association="Self.FK__Store_Pro__Store__690797E6">
-            <End Role="Stores" EntitySet="Stores" />
-            <End Role="Store_Product" EntitySet="Store_Product" />
-          </AssociationSet>
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -752,22 +691,18 @@ warning 6002: The table/view 'bravodeliver_pos.dbo.Store_Product' does not have 
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
           </AssociationSet>
-          <AssociationSet Name="FK__Store_Pro__Produ__69FBBC1F" Association="Self.FK__Store_Pro__Produ__69FBBC1F">
-            <End Role="Products" EntitySet="Products" />
-            <End Role="Store_Product" EntitySet="Store_Product" />
-          </AssociationSet>
           <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
           <FunctionImport Name="dbo_get_ProductsListForIndex" ReturnType="Collection(bravodeliver_posModel.dbo_get_ProductsListForIndex_Result)" />
           <FunctionImport Name="get_OrderDetailsForEmail" ReturnType="Collection(bravodeliver_posModel.get_OrderDetailsForEmail_Result)">
-            <Parameter Name="orderid" Mode="In" Type="String" />
+          <Parameter Name="orderid" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="get_OrdersListForIndex" />
           <FunctionImport Name="report_customer_basic" ReturnType="Collection(bravodeliver_posModel.report_customer_basic_Result)" />
           <FunctionImport Name="report_sales_simple">
-            <Parameter Name="days" Mode="In" Type="Int32" />
+          <Parameter Name="days" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_alterdiagram">
             <Parameter Name="diagramname" Mode="In" Type="String" />
@@ -800,8 +735,13 @@ warning 6002: The table/view 'bravodeliver_pos.dbo.Store_Product' does not have 
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
           <FunctionImport Name="usp_InsertLog">
-            <Parameter Name="ExceptionMessage" Mode="In" Type="String" />
+          <Parameter Name="ExceptionMessage" Mode="In" Type="String" />
           </FunctionImport>
+          <AssociationSet Name="FK__Products__StoreI__00DF2177" Association="bravodeliver_posModel.FK__Products__StoreI__00DF2177">
+            <End Role="Store" EntitySet="Stores" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <EntitySet Name="ZipCodeLists" EntityType="bravodeliver_posModel.ZipCodeList" />
         </EntityContainer>
         <ComplexType Name="dbo_get_ProductsListForIndex_Result">
           <Property Type="String" Name="Korona_ProductId" Nullable="false" MaxLength="128" />
@@ -841,6 +781,26 @@ warning 6002: The table/view 'bravodeliver_pos.dbo.Store_Product' does not have 
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
+        <Association Name="FK__Products__StoreI__00DF2177">
+          <End Type="bravodeliver_posModel.Store" Role="Store" Multiplicity="0..1" />
+          <End Type="bravodeliver_posModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ZipCodeList">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="zipCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1016,6 +976,7 @@ warning 6002: The table/view 'bravodeliver_pos.dbo.Store_Product' does not have 
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="bravodeliver_posModel.Product">
               <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Korona_ProductId" ColumnName="Korona_ProductId" />
                 <ScalarProperty Name="Korona_ProductNumber" ColumnName="Korona_ProductNumber" />
@@ -1082,15 +1043,6 @@ warning 6002: The table/view 'bravodeliver_pos.dbo.Store_Product' does not have 
                 <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
                 <ScalarProperty Name="version" ColumnName="version" />
                 <ScalarProperty Name="definition" ColumnName="definition" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Store_Product">
-            <EntityTypeMapping TypeName="bravodeliver_posModel.Store_Product">
-              <MappingFragment StoreEntitySet="Store_Product">
-                <ScalarProperty Name="Store_Product1" ColumnName="Store_Product" />
-                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1168,6 +1120,15 @@ warning 6002: The table/view 'bravodeliver_pos.dbo.Store_Product' does not have 
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="bravodeliver_posModel.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="bravodeliver_posModel.Store.sp_upgraddiagrams" />
           <FunctionImportMapping FunctionImportName="usp_InsertLog" FunctionName="bravodeliver_posModel.Store.usp_InsertLog" />
+          <EntitySetMapping Name="ZipCodeLists">
+            <EntityTypeMapping TypeName="bravodeliver_posModel.ZipCodeList">
+              <MappingFragment StoreEntitySet="ZipCodeList">
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="zipCode" ColumnName="zipCode" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

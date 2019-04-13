@@ -67,7 +67,7 @@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.orderid)
                                         </td>
-                                        <td>
+                                        <td ondblclick="goToEdit(@item.CustomerID)">
                                             @Html.DisplayFor(modelItem => item.CustomerName)
                                         </td>
                                         <td>
@@ -102,3 +102,11 @@
         </div>
     </div>
 </div>
+
+<script>
+  function goToEdit(s) {
+
+        location.href = "@Url.Action("Stores", "Details", new {id= "cid" })".replace("cid",s.toString());
+    }
+
+</script>
