@@ -340,6 +340,7 @@
       <End Role="Store" EntitySet="Stores" />
       <End Role="Product" EntitySet="Products" />
     </AssociationSet>
+    <EntitySet Name="ZipCodeLists" EntityType="bravodeliver_posModel.ZipCodeList" />
   </EntityContainer>
   <ComplexType Name="dbo_get_ProductsListForIndex_Result">
     <Property Type="String" Name="Korona_ProductId" Nullable="false" MaxLength="128" />
@@ -391,4 +392,12 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="ZipCodeList">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="zipCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="State" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+  </EntityType>
 </Schema>

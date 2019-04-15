@@ -8,7 +8,7 @@ namespace POSWeb.Models
 {
     public class ManageOrder
     {
-        posEntities2 db = new posEntities2();
+        bravodeliver_posEntities db = new bravodeliver_posEntities();
 
         public string AddOrder(dynamic orderObj)
         {
@@ -63,7 +63,7 @@ namespace POSWeb.Models
             var lng = orderObj[0].Lng;
 
             RiderTracking riderTrack = new RiderTracking();
-            riderTrack.SendNotificationToRider(lat,lng, order.OrderId);
+            //riderTrack.SendNotificationToRider(lat,lng, order.OrderId);
             return order.OrderId;
 
         }

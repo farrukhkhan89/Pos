@@ -8,7 +8,7 @@ namespace POSWeb.Controllers
 {
     public class ReportsController : Controller
     {
-        posEntities2 db = new posEntities2();
+        bravodeliver_posEntities db = new bravodeliver_posEntities();
         // GET: Reports
         public ActionResult Index()
         {

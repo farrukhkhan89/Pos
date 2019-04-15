@@ -12,7 +12,7 @@ namespace POSWeb.Controllers
 {
     public class KoronaStoresController : Controller
     {
-        private posEntities2 db = new posEntities2();
+        private bravodeliver_posEntities db = new bravodeliver_posEntities();
 
         // GET: KoronaStores
         public ActionResult Index()

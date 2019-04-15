@@ -7,7 +7,7 @@ namespace POSWeb.Models
 {
     public class RiderTracking
     {
-        posEntities2 db = new posEntities2();
+        bravodeliver_posEntities db = new bravodeliver_posEntities();
         public List<Rider> GetOnlineRiders()
         {
             var OnlineRider = db.Riders.Where(x => x.Online == true).ToList();
@@ -51,20 +51,20 @@ namespace POSWeb.Models
         /// <param name="lat"></param>
         /// <param name="lng"></param>
         /// <returns></returns>
-        public bool SendNotificationToRider(string lat, string lng, string orderId)
-        {
-            RiderTracking RiderTracker = new RiderTracking();
-            var RiderData = RiderTracker.GetNearestRider(lat, lng);
-            if (RiderData != null)
-            {
-                var RiderObj = db.Riders.Where(x => x.Id == RiderData.RiderId).FirstOrDefault();
-                //send notifcation
-                PushNotification pushObj = new PushNotification();
-                pushObj.sendPustToRiderForOrder(RiderObj.notification_playerId, orderId);
-                return true;
-            }
-            return false;
-        }
+        //public bool SendNotificationToRider(string lat, string lng, string orderId)
+        //{
+        //    RiderTracking RiderTracker = new RiderTracking();
+        //    var RiderData = RiderTracker.GetNearestRider(lat, lng);
+        //    if (RiderData != null)
+        //    {
+        //        var RiderObj = db.Riders.Where(x => x.Id == RiderData.RiderId).FirstOrDefault();
+        //        //send notifcation
+        //        PushNotification pushObj = new PushNotification();
+        //        pushObj.sendPustToRiderForOrder(RiderObj.notification_playerId, orderId);
+        //        return true;
+        //    }
+        //    return false;
+        //}
     }
 
     public class RiderDistance

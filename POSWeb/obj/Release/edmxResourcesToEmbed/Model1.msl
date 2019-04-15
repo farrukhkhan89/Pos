@@ -314,5 +314,14 @@
     <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="bravodeliver_posModel.Store.sp_renamediagram" />
     <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="bravodeliver_posModel.Store.sp_upgraddiagrams" />
     <FunctionImportMapping FunctionImportName="usp_InsertLog" FunctionName="bravodeliver_posModel.Store.usp_InsertLog" />
+    <EntitySetMapping Name="ZipCodeLists">
+      <EntityTypeMapping TypeName="bravodeliver_posModel.ZipCodeList">
+        <MappingFragment StoreEntitySet="ZipCodeList">
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="zipCode" ColumnName="zipCode" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

@@ -10,13 +10,12 @@
 namespace POSWeb
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class get_OrderDetailsForEmail_Result
+    public partial class Address
     {
-        public string orderid { get; set; }
-        public string productid { get; set; }
-        public string name { get; set; }
-        public Nullable<int> quantity { get; set; }
-        public string price { get; set; }
+        public int AddressId { get; set; }
+        public string Address1 { get; set; }
+        public string Address2 { get; set; }
     }
 }

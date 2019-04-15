@@ -232,6 +232,14 @@
     <Property Name="version" Type="int" />
     <Property Name="definition" Type="varbinary(max)" />
   </EntityType>
+  <EntityType Name="ZipCodeList">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="zipCode" Type="varchar" MaxLength="50" />
+    <Property Name="State" Type="varchar" MaxLength="100" />
+  </EntityType>
   <Association Name="FK__Products__StoreI__00DF2177">
     <End Role="Stores" Type="Self.Stores" Multiplicity="0..1" />
     <End Role="Products" Type="Self.Products" Multiplicity="*" />
@@ -362,6 +370,7 @@
     <EntitySet Name="Rider" EntityType="Self.Rider" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="RiderOrders" EntityType="Self.RiderOrders" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ZipCodeList" EntityType="Self.ZipCodeList" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK__Products__StoreI__00DF2177" Association="Self.FK__Products__StoreI__00DF2177">
       <End Role="Stores" EntitySet="Stores" />
       <End Role="Products" EntitySet="Products" />

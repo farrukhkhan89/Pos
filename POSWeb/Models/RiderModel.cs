@@ -14,7 +14,7 @@ namespace POSWeb.Models
     public class RiderModel
     {
 
-        posEntities2 db = new posEntities2();
+        bravodeliver_posEntities db = new bravodeliver_posEntities();
 
         ///adding customers
         ///

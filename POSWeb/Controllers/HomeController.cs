@@ -12,7 +12,7 @@ namespace POSWeb.Controllers
     [CustomAuthorize]
     public class HomeController : Controller
     {
-        posEntities2 db = new posEntities2();
+        bravodeliver_posEntities db = new bravodeliver_posEntities();
         public ActionResult Index()
         {
             return View();

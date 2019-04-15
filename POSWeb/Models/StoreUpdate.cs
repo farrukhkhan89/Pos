@@ -14,7 +14,7 @@ namespace POSWeb.Models
 {
     public class StoreUpdate
     {
-        posEntities2 db = new posEntities2();
+        bravodeliver_posEntities db = new bravodeliver_posEntities();
         //const string url = "https://128.koronacloud.com/api/v3/accounts/";
         //const string url = "https://www.koronacloud.com/web/api/v3/accounts/";
         //const string url = "https://167.koronacloud.com/web/api/v3/accounts/";

@@ -83,3 +83,4 @@ E:\FreeLance\Bravo\Files\POSWeb10-06-2018\POSWeb\POSWeb\bin\Microsoft.Owin.Secur
 E:\FreeLance\Bravo\Files\POSWeb10-06-2018\POSWeb\POSWeb\obj\Debug\POSWeb.csproj.CopyComplete
 E:\FreeLance\Bravo\Files\POSWeb10-06-2018\POSWeb\POSWeb\obj\Debug\POSWeb.dll
 E:\FreeLance\Bravo\Files\POSWeb10-06-2018\POSWeb\POSWeb\obj\Debug\POSWeb.pdb
+E:\FreeLance\Bravo\Files\POSWeb10-06-2018\POSWeb\POSWeb\bin\Braintree.dll

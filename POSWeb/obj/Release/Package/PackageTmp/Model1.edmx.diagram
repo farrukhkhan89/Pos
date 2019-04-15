@@ -26,6 +26,7 @@
         <AssociationConnector Association="bravodeliver_posModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="bravodeliver_posModel.AspNetUserRoles" ManuallyRouted="false" />
         <AssociationConnector Association="bravodeliver_posModel.FK__Products__StoreI__00DF2177" />
+        <EntityTypeShape EntityType="bravodeliver_posModel.ZipCodeList" Width="1.5" PointX="7.375" PointY="12.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

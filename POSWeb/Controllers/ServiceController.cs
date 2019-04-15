@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿
+using Braintree;
+using Newtonsoft.Json;
 using POSWeb.Models;
 using shortid;
 using System;
@@ -29,7 +31,7 @@ namespace POSWeb.Controllers
     }
     public class ServiceController : ApiController
     {
-        posEntities2 db = new posEntities2();
+        bravodeliver_posEntities db = new bravodeliver_posEntities();
         public IHttpActionResult getAllStore()
         {
             var storeList = db.Stores.Select(item => new StoreViewModel
@@ -178,7 +180,8 @@ namespace POSWeb.Controllers
 
                         cust.phone = user.phone;
                         cust.city = user.city;
-                        cust.address = user.address;
+                        cust.Address1 = user.Address1;
+                        cust.Address2 = user.Address2;
                         cust.zipCode = user.zipCode;
                         cust.state = user.state;
                         db.Customers.Add(cust);
@@ -226,7 +229,8 @@ namespace POSWeb.Controllers
                         cust.email = user.email;
                         cust.phone = user.phone;
                         cust.city = user.city;
-                        cust.address = user.address;
+                        cust.Address1 = user.address1;
+                        cust.Address2 = user.address2;
                         cust.zipCode = user.zipCode;
                         cust.state = user.state;
 
@@ -288,7 +292,8 @@ namespace POSWeb.Controllers
                         lastName = s.lastName,
                         Id = s.Id
                         ,
-                        address = s.address,
+                        Address1 = s.Address1,
+                        Address2 = s.Address2,
                         state = s.state,
                         zipCode = s.zipCode,
                         phone = s.phone,
@@ -371,7 +376,8 @@ namespace POSWeb.Controllers
                             lastName = s.lastName,
                             Id = s.Id
                             ,
-                            address = s.address,
+                            Address1 = s.Address1,
+                            Address2 = s.Address2,
                             state = s.state,
                             zipCode = s.zipCode,
                             phone = s.phone,
@@ -398,7 +404,8 @@ namespace POSWeb.Controllers
 
                         cust.city = user.city;
                         cust.phone = user.phone;
-                        cust.address = user.address;
+                        cust.Address1 = user.Address1;
+                        cust.Address2 = user.Address2;
                         cust.zipCode = user.zipCode;
                         cust.state = user.state;
                         db.Customers.Add(cust);
@@ -430,7 +437,7 @@ namespace POSWeb.Controllers
         }
 
         [System.Web.Http.HttpPost]
-        public string comparePassword(string password)
+        public string comparePassword([FromBody] string password)
         {
             byte[] data = System.Text.Encoding.ASCII.GetBytes(password.Trim());
             data = new System.Security.Cryptography.SHA256Managed().ComputeHash(data);
@@ -828,35 +835,35 @@ namespace POSWeb.Controllers
                                           Price = emp.Price,
                                           Category = emp.Category
                                       }).ToList();
-
-                if (!string.IsNullOrEmpty(cat) && !string.IsNullOrEmpty(prodName))
-                    storeProds = storeProds.OrderBy(x => x.Name).Where(x => x.Category.ToLower().Contains(cat.ToLower()) && x.Name.ToLower().Contains(prodName.ToLower())).Skip((page - 1) * size).Take(size).ToList();
-                else if (string.IsNullOrEmpty(cat) && !string.IsNullOrEmpty(prodName))
-                {
-                    storeProds = storeProds.OrderBy(x => x.Name).Where(x => x.Name.ToLower().Contains(prodName.ToLower())).Skip((page - 1) * size).Take(size).ToList();
-                }
-                else if (!string.IsNullOrEmpty(cat) && string.IsNullOrEmpty(prodName))
-                {
-                    storeProds = storeProds.OrderBy(x => x.Name).Where(x => x.Category.ToLower().Contains(cat.ToLower())).Skip((page - 1) * size).Take(size).ToList();
-                }
-
-                else
-                {
-                    storeProds = storeProds.OrderBy(x => x.Name).Skip((page - 1) * size).Take(size).ToList();
-                }
-
-                //int storeProdCount = ;
-                if (storeProds.Count != 0)
-                {
-
-                    return Json(createJson("1", "Products", storeProds));
-                }
-
-                //return Content((HttpStatusCode)1, "Invalid Email/Password");
-                return Json(createJson("0", "No Content Found"));
             }
-            return null;
+            if (!string.IsNullOrEmpty(cat) && !string.IsNullOrEmpty(prodName))
+                storeProds = storeProds.OrderBy(x => x.Name).Where(x => x.Category.ToLower().Contains(cat.ToLower()) && x.Name.ToLower().Contains(prodName.ToLower())).Skip((page - 1) * size).Take(size).ToList();
+            else if (string.IsNullOrEmpty(cat) && !string.IsNullOrEmpty(prodName))
+            {
+                storeProds = storeProds.OrderBy(x => x.Name).Where(x => x.Name.ToLower().Contains(prodName.ToLower())).Skip((page - 1) * size).Take(size).ToList();
+            }
+            else if (!string.IsNullOrEmpty(cat) && string.IsNullOrEmpty(prodName))
+            {
+                storeProds = storeProds.OrderBy(x => x.Name).Where(x => x.Category.ToLower().Contains(cat.ToLower())).Skip((page - 1) * size).Take(size).ToList();
+            }
+
+            else
+            {
+                storeProds = storeProds.OrderBy(x => x.Name).Skip((page - 1) * size).Take(size).ToList();
+            }
+
+            //int storeProdCount = ;
+            if (storeProds.Count != 0)
+            {
+
+                return Json(createJson("1", "Products", storeProds));
+            }
+
+            //return Content((HttpStatusCode)1, "Invalid Email/Password");
+            return Json(createJson("0", "No Content Found"));
         }
+
+
 
         [System.Web.Http.HttpGet]
         public IHttpActionResult getProductsDetails(string id)
@@ -935,47 +942,48 @@ namespace POSWeb.Controllers
 
         //
 
-            // time , pickup or delivery, productIds , quantity, if pickup then storeId , 
-        public IHttpActionResult placeOrder(dynamic orderObj, string ordertype)
+        // time , pickup or delivery, productIds , quantity, if pickup then storeId , 
+        [System.Web.Http.HttpPost]
+        public IHttpActionResult placeOrder(string nounce,decimal amount , List<ProductsPlaceOrderModel> products)
         {
             try
             {
-                string orderId;
-                ordertype = ordertype.ToLower();
-                if (ordertype == "delivery")
-                {
-                    ManageOrder mg = new ManageOrder();
-                    orderId = mg.AddOrder(orderObj);
+                //string orderId;
+                //ordertype = ordertype.ToLower();
+                //if (ordertype == "delivery")
+                //{
+                //    ManageOrder mg = new ManageOrder();
+                //    orderId = mg.AddOrder(orderObj);
 
-                }
-                else
-                {
-                    ManageOrder mg = new ManageOrder();
-                    orderId = mg.AddOrderPickUp(orderObj);
+                //}
+                //else
+                //{
+                //    ManageOrder mg = new ManageOrder();
+                //    orderId = mg.AddOrderPickUp(orderObj);
 
-                }
-                var orderList = db.Orders.Where(x => x.OrderId == orderId).ToList();
-                var orderDetailsList = db.OrderDetails.Where(x => x.OrderId == orderId).ToList();
-                if (orderDetailsList != null && orderList != null)
-                {
-                    OrderViewModel obj = new OrderViewModel();
-                    obj.orderObj = orderList;
-                    obj.orderDetails = orderDetailsList;
-                    return Json(createJson("1", "Order", JsonConvert.SerializeObject(obj)));
-                }
-                else
-                {
-                    return Json(createJson("0", "Order", "Order Failed"));
-                }
-                //return Json("test");
-                //var data =  JsonConvert.DeserializeObject<dynamic>(orderObj.ToString());
-                //  var obj = data[0].UserId;
-                //  dynamic orderDetailObj;
-                //  if (data[0]["OrderDetails"] != null)
-                //  {
-                //      orderDetailObj = data[0].OrderDetails;
-                //  }
-
+                //}
+                //var orderList = db.Orders.Where(x => x.OrderId == orderId).ToList();
+                //var orderDetailsList = db.OrderDetails.Where(x => x.OrderId == orderId).ToList();
+                //if (orderDetailsList != null && orderList != null)
+                //{
+                //    OrderViewModel obj = new OrderViewModel();
+                //    obj.orderObj = orderList;
+                //    obj.orderDetails = orderDetailsList;
+                //    return Json(createJson("1", "Order", JsonConvert.SerializeObject(obj)));
+                //}
+                //else
+                //{
+                //    return Json(createJson("0", "Order", "Order Failed"));
+                //}
+                ////return Json("test");
+                ////var data =  JsonConvert.DeserializeObject<dynamic>(orderObj.ToString());
+                ////  var obj = data[0].UserId;
+                ////  dynamic orderDetailObj;
+                ////  if (data[0]["OrderDetails"] != null)
+                ////  {
+                ////      orderDetailObj = data[0].OrderDetails;
+                ////  }
+                return null;
             }
             catch (Exception ex)
             {
@@ -1105,6 +1113,44 @@ namespace POSWeb.Controllers
             }
 
         }
+
+        BraintreeGateway gateway = new BraintreeGateway
+        {
+            Environment = Braintree.Environment.SANDBOX,
+            MerchantId = "mpnfwsg7f2x2x9wz",
+            PublicKey = "zyg88sh5q8v6dx3b",
+            PrivateKey = "7e967773fad4a5bd744e3c7fb66f7d19"
+
+        };
+
+        [System.Web.Http.HttpGet]
+        public IHttpActionResult GetBrainTreeToken()
+        {
+            string nounce = "";
+
+            string token = gateway.ClientToken.Generate();
+            return Json(createJson("1", "Token", token));
+        }
+
+        [System.Web.Http.AllowAnonymous]
+        [System.Web.Http.HttpPost]
+        public IHttpActionResult CreateTransactionByNounce([FromBody] decimal amount, [FromBody] string nounce)
+        {
+            var request = new TransactionRequest
+            {
+                Amount = amount,
+                PaymentMethodNonce = nounce,
+                Options = new TransactionOptionsRequest
+                {
+                    SubmitForSettlement = true
+                }
+            };
+
+            Result<Transaction> result = gateway.Transaction.Sale(request);
+            return Json(createJson("1", "Result", result));
+        }
+
+
         public class ReturnResult
         {
             public string statuscode;

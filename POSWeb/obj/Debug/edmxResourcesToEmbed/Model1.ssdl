@@ -16,6 +16,31 @@
     <Property Name="Lng" Type="varchar" MaxLength="100" />
     <Property Name="imageUrl" Type="varchar" MaxLength="200" />
   </EntityType>
+  <EntityType Name="Addresses">
+    <Key>
+      <PropertyRef Name="AddressId" />
+    </Key>
+    <Property Name="AddressId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Address1" Type="varchar" MaxLength="255" />
+    <Property Name="Address2" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'bravodeliver_pos.dbo.Arlington' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="Arlington">
+          <Property Name="artId" Type="varchar" MaxLength="50" />
+          <Property Name="artName" Type="varchar" MaxLength="250" />
+          <Property Name="Product Code1" Type="varchar" MaxLength="50" />
+          <Property Name="Product Code2" Type="varchar" MaxLength="50" />
+          <Property Name="Commodity Group Number" Type="varchar" MaxLength="50" />
+          <Property Name="cat" Type="varchar" MaxLength="50" />
+          <Property Name="Sector Number" Type="varchar" MaxLength="50" />
+          <Property Name="Sector Name" Type="varchar" MaxLength="50" />
+          <Property Name="Assortment Number" Type="varchar" MaxLength="50" />
+          <Property Name="Assortment Name" Type="varchar" MaxLength="50" />
+          <Property Name="Product Cost" Type="varchar" MaxLength="50" />
+          <Property Name="Last Purchase Price" Type="varchar" MaxLength="50" />
+          <Property Name="price" Type="varchar" MaxLength="50" />
+        </EntityType>-->
   <EntityType Name="AspNetRoles">
     <Key>
       <PropertyRef Name="Id" />
@@ -67,6 +92,23 @@
     <Property Name="AccessFailedCount" Type="int" Nullable="false" />
     <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
   </EntityType>
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'bravodeliver_pos.dbo.basswood' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="basswood">
+          <Property Name="artId" Type="varchar" MaxLength="50" />
+          <Property Name="artName" Type="varchar" MaxLength="250" />
+          <Property Name="Product Code1" Type="varchar" MaxLength="50" />
+          <Property Name="Product Code2" Type="varchar" MaxLength="50" />
+          <Property Name="Commodity Group Number" Type="varchar" MaxLength="50" />
+          <Property Name="cat" Type="varchar" MaxLength="50" />
+          <Property Name="Sector Number" Type="varchar" MaxLength="50" />
+          <Property Name="Sector Name" Type="varchar" MaxLength="50" />
+          <Property Name="Assortment Number" Type="varchar" MaxLength="50" />
+          <Property Name="Assortment Name" Type="varchar" MaxLength="50" />
+          <Property Name="Product Cost" Type="varchar" MaxLength="50" />
+          <Property Name="Last Purchase Price" Type="varchar" MaxLength="50" />
+          <Property Name="price" Type="varchar" MaxLength="50" />
+        </EntityType>-->
   <EntityType Name="Customer">
     <Key>
       <PropertyRef Name="Id" />
@@ -76,13 +118,14 @@
     <Property Name="lastName" Type="varchar" MaxLength="50" />
     <Property Name="email" Type="varchar" MaxLength="50" />
     <Property Name="password" Type="varchar" MaxLength="128" />
-    <Property Name="address" Type="varchar" MaxLength="100" />
     <Property Name="city" Type="varchar" MaxLength="50" />
     <Property Name="state" Type="varchar" MaxLength="50" />
     <Property Name="zipCode" Type="varchar" MaxLength="50" />
     <Property Name="resetCode" Type="varchar" MaxLength="50" />
     <Property Name="phone" Type="varchar" MaxLength="50" />
     <Property Name="notification_playerId" Type="varchar" MaxLength="128" />
+    <Property Name="Address1" Type="varchar" MaxLength="255" />
+    <Property Name="Address2" Type="varchar" MaxLength="255" />
   </EntityType>
   <EntityType Name="FacebookUser">
     <Key>
@@ -308,51 +351,9 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Function Name="dbo_get_ProductsListForIndex" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
-  <Function Name="get_OrderDetailsForEmail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="orderid" Type="varchar" Mode="In" />
-  </Function>
-  <Function Name="get_OrdersListForIndex" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-  <Function Name="report_customer_basic" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-  <Function Name="report_sales_simple" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="days" Type="int" Mode="In" />
-  </Function>
-  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-    <Parameter Name="version" Type="int" Mode="In" />
-    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-  </Function>
-  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-    <Parameter Name="version" Type="int" Mode="In" />
-    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-  </Function>
-  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-  </Function>
-  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-  </Function>
-  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-  </Function>
-  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
-  </Function>
-  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-  <Function Name="usp_InsertLog" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="ExceptionMessage" Type="nvarchar(max)" Mode="In" />
-  </Function>
   <EntityContainer Name="bravodeliver_posModelStoreContainer">
     <EntitySet Name="Stores" EntityType="Self.Stores" Schema="bravodeliver_user" store:Type="Tables" />
+    <EntitySet Name="Addresses" EntityType="Self.Addresses" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
