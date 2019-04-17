@@ -4,29 +4,32 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="e136121991cc4633b9849815fa7249c5" Name="Diagram1">
-        <EntityTypeShape EntityType="bravodeliver_posModel.Store" Width="1.5" PointX="0.75" PointY="7" IsExpanded="true" />
+      <Diagram DiagramId="86ffbf4c858748b2b9434f1b8884eaa8" Name="Diagram1">
+        <EntityTypeShape EntityType="bravodeliver_posModel.Store" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="bravodeliver_posModel.Address" Width="1.5" PointX="5.75" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="bravodeliver_posModel.AspNetRole" Width="1.5" PointX="0.75" PointY="2.5" IsExpanded="true" />
         <EntityTypeShape EntityType="bravodeliver_posModel.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="bravodeliver_posModel.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="bravodeliver_posModel.AspNetUser" Width="1.5" PointX="3" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="bravodeliver_posModel.Customer" Width="1.5" PointX="5.75" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="bravodeliver_posModel.FacebookUser" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="bravodeliver_posModel.KoronaStore" Width="1.5" PointX="7.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="bravodeliver_posModel.LiveTracking" Width="1.5" PointX="7.75" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="bravodeliver_posModel.Log" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="bravodeliver_posModel.OrderDetail" Width="1.5" PointX="9.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="bravodeliver_posModel.Order" Width="1.5" PointX="9.75" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="bravodeliver_posModel.Product" Width="1.5" PointX="0.75" PointY="12" IsExpanded="true" />
-        <EntityTypeShape EntityType="bravodeliver_posModel.Revision" Width="1.5" PointX="2.75" PointY="10.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="bravodeliver_posModel.Rider" Width="1.5" PointX="11.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="bravodeliver_posModel.RiderOrder" Width="1.5" PointX="4.75" PointY="11.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="bravodeliver_posModel.sysdiagram" Width="1.5" PointX="11.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="bravodeliver_posModel.Customer" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="bravodeliver_posModel.FacebookUser" Width="1.5" PointX="7.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="bravodeliver_posModel.KoronaStore" Width="1.5" PointX="7.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="bravodeliver_posModel.LiveTracking" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="bravodeliver_posModel.Log" Width="1.5" PointX="9.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="bravodeliver_posModel.OrderDetail" Width="1.5" PointX="9.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="bravodeliver_posModel.Order" Width="1.5" PointX="9.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="bravodeliver_posModel.Product" Width="1.5" PointX="3" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="bravodeliver_posModel.Revision" Width="1.5" PointX="11.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="bravodeliver_posModel.Rider" Width="1.5" PointX="0.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="bravodeliver_posModel.RiderOrder" Width="1.5" PointX="2.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="bravodeliver_posModel.sysdiagram" Width="1.5" PointX="11.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="bravodeliver_posModel.ZipCodeList" Width="1.5" PointX="4.75" PointY="11.75" IsExpanded="true" />
+        <AssociationConnector Association="bravodeliver_posModel.FK__Products__StoreI__00DF2177" ManuallyRouted="false" />
         <AssociationConnector Association="bravodeliver_posModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="bravodeliver_posModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="bravodeliver_posModel.AspNetUserRoles" ManuallyRouted="false" />
-        <AssociationConnector Association="bravodeliver_posModel.FK__Products__StoreI__00DF2177" />
-        <EntityTypeShape EntityType="bravodeliver_posModel.ZipCodeList" Width="1.5" PointX="7.375" PointY="12.75" />
+        <EntityTypeShape EntityType="bravodeliver_posModel.Address_New" Width="1.5" PointX="5.5" PointY="14.375" />
+        <AssociationConnector Association="bravodeliver_posModel.FK_CustomerAddress" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

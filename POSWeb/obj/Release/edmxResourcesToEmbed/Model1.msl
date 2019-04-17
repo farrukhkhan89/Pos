@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="bravodeliver_posModelStoreContainer" CdmEntityContainer="posEntities2">
+  <EntityContainerMapping StorageEntityContainer="bravodeliver_posModelStoreContainer" CdmEntityContainer="bravodeliver_posEntities">
     <EntitySetMapping Name="Stores">
       <EntityTypeMapping TypeName="bravodeliver_posModel.Store">
         <MappingFragment StoreEntitySet="Stores">
@@ -15,6 +15,15 @@
           <ScalarProperty Name="Lat" ColumnName="Lat" />
           <ScalarProperty Name="Lng" ColumnName="Lng" />
           <ScalarProperty Name="imageUrl" ColumnName="imageUrl" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Addresses">
+      <EntityTypeMapping TypeName="bravodeliver_posModel.Address">
+        <MappingFragment StoreEntitySet="Addresses">
+          <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+          <ScalarProperty Name="Address1" ColumnName="Address1" />
+          <ScalarProperty Name="Address2" ColumnName="Address2" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -66,15 +75,12 @@
     <EntitySetMapping Name="Customers">
       <EntityTypeMapping TypeName="bravodeliver_posModel.Customer">
         <MappingFragment StoreEntitySet="Customer">
+          <ScalarProperty Name="add_new_id" ColumnName="add_new_id" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="firstName" ColumnName="firstName" />
           <ScalarProperty Name="lastName" ColumnName="lastName" />
           <ScalarProperty Name="email" ColumnName="email" />
           <ScalarProperty Name="password" ColumnName="password" />
-          <ScalarProperty Name="address" ColumnName="address" />
-          <ScalarProperty Name="city" ColumnName="city" />
-          <ScalarProperty Name="state" ColumnName="state" />
-          <ScalarProperty Name="zipCode" ColumnName="zipCode" />
           <ScalarProperty Name="resetCode" ColumnName="resetCode" />
           <ScalarProperty Name="phone" ColumnName="phone" />
           <ScalarProperty Name="notification_playerId" ColumnName="notification_playerId" />
@@ -170,7 +176,6 @@
     <EntitySetMapping Name="Products">
       <EntityTypeMapping TypeName="bravodeliver_posModel.Product">
         <MappingFragment StoreEntitySet="Products">
-          <ScalarProperty Name="StoreId" ColumnName="StoreId" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Korona_ProductId" ColumnName="Korona_ProductId" />
           <ScalarProperty Name="Korona_ProductNumber" ColumnName="Korona_ProductNumber" />
@@ -182,6 +187,7 @@
           <ScalarProperty Name="BelongToStore" ColumnName="BelongToStore" />
           <ScalarProperty Name="Price" ColumnName="Price" />
           <ScalarProperty Name="UpdatedTime" ColumnName="UpdatedTime" />
+          <ScalarProperty Name="StoreId" ColumnName="StoreId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -240,6 +246,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="ZipCodeLists">
+      <EntityTypeMapping TypeName="bravodeliver_posModel.ZipCodeList">
+        <MappingFragment StoreEntitySet="ZipCodeList">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="zipCode" ColumnName="zipCode" />
+          <ScalarProperty Name="State" ColumnName="State" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="AspNetUserRoles" TypeName="bravodeliver_posModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
       <EndProperty Name="AspNetRoles">
         <ScalarProperty Name="Id" ColumnName="RoleId" />
@@ -248,78 +263,20 @@
         <ScalarProperty Name="Id" ColumnName="UserId" />
       </EndProperty>
     </AssociationSetMapping>
-    <FunctionImportMapping FunctionImportName="dbo_get_ProductsListForIndex" FunctionName="bravodeliver_posModel.Store.dbo_get_ProductsListForIndex">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="bravodeliver_posModel.dbo_get_ProductsListForIndex_Result">
-          <ScalarProperty Name="Korona_ProductId" ColumnName="Korona_ProductId" />
-          <ScalarProperty Name="Korona_ProductNumber" ColumnName="Korona_ProductNumber" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Image" ColumnName="Image" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="Stock" ColumnName="Stock" />
-          <ScalarProperty Name="Category" ColumnName="Category" />
-          <ScalarProperty Name="BelongToStore" ColumnName="BelongToStore" />
-          <ScalarProperty Name="Price" ColumnName="Price" />
-          <ScalarProperty Name="updatedtime" ColumnName="updatedtime" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="get_OrderDetailsForEmail" FunctionName="bravodeliver_posModel.Store.get_OrderDetailsForEmail">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="bravodeliver_posModel.get_OrderDetailsForEmail_Result">
-          <ScalarProperty Name="orderid" ColumnName="orderid" />
-          <ScalarProperty Name="productid" ColumnName="productid" />
-          <ScalarProperty Name="name" ColumnName="name" />
-          <ScalarProperty Name="quantity" ColumnName="quantity" />
-          <ScalarProperty Name="price" ColumnName="price" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="get_OrdersListForIndex" FunctionName="bravodeliver_posModel.Store.get_OrdersListForIndex" />
-    <FunctionImportMapping FunctionImportName="report_customer_basic" FunctionName="bravodeliver_posModel.Store.report_customer_basic">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="bravodeliver_posModel.report_customer_basic_Result">
-          <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="name" ColumnName="name" />
-          <ScalarProperty Name="phone" ColumnName="phone" />
-          <ScalarProperty Name="address" ColumnName="address" />
-          <ScalarProperty Name="email" ColumnName="email" />
-          <ScalarProperty Name="orders" ColumnName="orders" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="report_sales_simple" FunctionName="bravodeliver_posModel.Store.report_sales_simple" />
-    <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="bravodeliver_posModel.Store.sp_alterdiagram" />
-    <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="bravodeliver_posModel.Store.sp_creatediagram" />
-    <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="bravodeliver_posModel.Store.sp_dropdiagram" />
-    <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="bravodeliver_posModel.Store.sp_helpdiagramdefinition">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="bravodeliver_posModel.sp_helpdiagramdefinition_Result">
-          <ScalarProperty Name="version" ColumnName="version" />
-          <ScalarProperty Name="definition" ColumnName="definition" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="bravodeliver_posModel.Store.sp_helpdiagrams">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="bravodeliver_posModel.sp_helpdiagrams_Result">
-          <ScalarProperty Name="Database" ColumnName="Database" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="Owner" ColumnName="Owner" />
-          <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="bravodeliver_posModel.Store.sp_renamediagram" />
-    <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="bravodeliver_posModel.Store.sp_upgraddiagrams" />
-    <FunctionImportMapping FunctionImportName="usp_InsertLog" FunctionName="bravodeliver_posModel.Store.usp_InsertLog" />
-    <EntitySetMapping Name="ZipCodeLists">
-      <EntityTypeMapping TypeName="bravodeliver_posModel.ZipCodeList">
-        <MappingFragment StoreEntitySet="ZipCodeList">
-          <ScalarProperty Name="State" ColumnName="State" />
-          <ScalarProperty Name="zipCode" ColumnName="zipCode" />
-          <ScalarProperty Name="id" ColumnName="id" />
+    <EntitySetMapping Name="Address_New">
+      <EntityTypeMapping TypeName="bravodeliver_posModel.Address_New">
+        <MappingFragment StoreEntitySet="Address_New">
+          <ScalarProperty Name="shipping_zipcode" ColumnName="shipping_zipcode" />
+          <ScalarProperty Name="shipping_address2" ColumnName="shipping_address2" />
+          <ScalarProperty Name="shipping_address1" ColumnName="shipping_address1" />
+          <ScalarProperty Name="billing_zipcode" ColumnName="billing_zipcode" />
+          <ScalarProperty Name="billing_city" ColumnName="billing_city" />
+          <ScalarProperty Name="billing_state" ColumnName="billing_state" />
+          <ScalarProperty Name="billing_address2" ColumnName="billing_address2" />
+          <ScalarProperty Name="billing_address1" ColumnName="billing_address1" />
+          <ScalarProperty Name="shipping_city" ColumnName="shipping_city" />
+          <ScalarProperty Name="shipping_state" ColumnName="shipping_state" />
+          <ScalarProperty Name="add_new_id" ColumnName="add_new_id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -14,6 +14,8 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Mail;
 using System.Runtime.Serialization.Json;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -143,14 +145,13 @@ namespace POSWeb.Controllers
                 return Json(createJson("0", "error"));
             }
 
-
-
         }
 
         ///adding customers
         ///
+        [System.Web.Http.AllowAnonymous]
         [System.Web.Http.HttpPost]
-        public IHttpActionResult registerCustomer(dynamic user)
+        public IHttpActionResult registerCustomer([FromBody] dynamic user)
         {
 
             try
@@ -167,6 +168,7 @@ namespace POSWeb.Controllers
                     else
                     {
                         Customer cust = new Customer();
+                        Address_New add = new Address_New();
 
                         cust.Id = Guid.NewGuid().ToString();
                         cust.firstName = user.firstName;
@@ -175,20 +177,53 @@ namespace POSWeb.Controllers
 
                         ///hasing pass
                         ///
-                        var pass = EncryptPassword(user.password.ToString());
+                        var pass = user.password.ToString();
                         cust.password = pass;
 
                         cust.phone = user.phone;
-                        cust.city = user.city;
-                        cust.Address1 = user.Address1;
-                        cust.Address2 = user.Address2;
-                        cust.zipCode = user.zipCode;
-                        cust.state = user.state;
+
+                        add.billing_address1 = user.billing_address1;
+                        add.billing_address2 = user.billing_address2;
+                        add.billing_city = user.billing_city;
+                        add.billing_state = user.billing_state;
+                        add.billing_zipcode = user.billing_zipcode;
+
+                        add.shipping_address1 = user.shipping_address1;
+                        add.shipping_address2 = user.shipping_address2;
+                        add.shipping_city = user.shipping_city;
+                        add.shipping_state = user.shipping_state;
+                        add.shipping_zipcode = user.shipping_zipcode;
+                        db.Address_New.Add(add);
+                        db.SaveChanges();
+                        cust.add_new_id = add.add_new_id;
                         db.Customers.Add(cust);
+
                         db.SaveChanges();
 
-                        //return Json("Saved");
-                        return Json(createJson("1", "Saved", user));
+                        CustomerViewModel custVm = new CustomerViewModel()
+                        {
+                            Id = cust.Id,
+                            add_new_id = add.add_new_id,
+                            billing_address1 = add.billing_address1,
+                            billing_address2 = add.billing_address2,
+                            billing_city = add.billing_city,
+                            billing_state = add.billing_state,
+                            billing_zipcode = add.billing_zipcode,
+                            email = cust.email,
+                            firstName = cust.firstName,
+                            lastName = cust.lastName,
+                            password = cust.password,
+                            phone = cust.phone,
+                            shipping_address1 = add.shipping_address1,
+                            shipping_address2 = add.shipping_address2,
+                            shipping_city = add.shipping_city,
+                            shipping_state = add.shipping_state,
+                            shipping_zipcode = add.shipping_zipcode
+
+                        };
+
+
+                        return Json(createJson("1", "Saved", custVm));
                     }
                 }
                 else
@@ -205,7 +240,49 @@ namespace POSWeb.Controllers
             }
         }
 
+        public void SendEmailForgetPassword(string email, string password)
+        {
+            MailMessage mail = new MailMessage();
 
+
+            mail.Sender = new MailAddress("no-reply@bravodelivery.com");
+            mail.To.Add(email);
+            mail.From = new MailAddress("no-reply@bravodelivery.com", "Email head", System.Text.Encoding.UTF8);
+            mail.Subject = "Forgot Passoword !! Bravo Delivery";
+            mail.SubjectEncoding = System.Text.Encoding.UTF8;
+            mail.Body = password;
+            mail.BodyEncoding = System.Text.Encoding.UTF8;
+            mail.IsBodyHtml = true;
+            mail.Priority = MailPriority.High;
+
+            mail.IsBodyHtml = true;
+
+            var client = new SmtpClient("bravodelivery.com", 587)
+            {
+                Credentials = new NetworkCredential("no-reply@bravodelivery.com", "Abcd1234"),
+                // EnableSsl = true
+            };
+            client.EnableSsl = false;
+            //client.Send("no-reply@bravodelivery.com", "farrukhmask@gmail.com", "test", "testbody");
+            client.Send(mail);
+        }
+
+        [System.Web.Http.AllowAnonymous]
+        [System.Web.Http.HttpPost]
+        public IHttpActionResult forgotPassowrd([FromBody] dynamic user)
+        {
+            string email = (string)user.email;
+            var emailcheck = db.Customers.Where(x => x.email == email).FirstOrDefault();
+            if (emailcheck != null)
+            {
+                SendEmailForgetPassword(email, emailcheck.password);
+                return Json(createJson("1", "Email Sent"));
+            }
+            else
+            {
+                return Json(createJson("0", "Email Not Registered"));
+            }
+        }
         /// <summary>
         /// edit customer
         /// </summary>
@@ -228,11 +305,6 @@ namespace POSWeb.Controllers
                         cust.lastName = user.lastName;
                         cust.email = user.email;
                         cust.phone = user.phone;
-                        cust.city = user.city;
-                        cust.Address1 = user.address1;
-                        cust.Address2 = user.address2;
-                        cust.zipCode = user.zipCode;
-                        cust.state = user.state;
 
                         db.SaveChanges();
 
@@ -272,36 +344,43 @@ namespace POSWeb.Controllers
             }
         }
 
+        [System.Web.Http.AllowAnonymous]
+        [System.Web.Http.HttpPost]
         public IHttpActionResult login(dynamic user)
         {
-
             if (user != null)
             {
                 var email = (string)user.email;
 
                 var pass = (string)user.password;
 
-                pass = comparePassword(pass.Trim());
-
-                var cust = db.Customers.Where(x => x.email == email && x.password == pass).ToList().Count;
-                if (cust > 0)
+                var cust = db.Customers.Where(x => x.email == email && x.password == pass).First();
+                var add = db.Address_New.Where(x => x.add_new_id == cust.add_new_id).FirstOrDefault();
+                if (cust != null)
                 {
-                    var custObj = db.Customers.Where(x => x.email == email && x.password == pass).Select(s => new
+                    CustomerViewModel custVm = new CustomerViewModel()
                     {
-                        firstName = s.firstName,
-                        lastName = s.lastName,
-                        Id = s.Id
-                        ,
-                        Address1 = s.Address1,
-                        Address2 = s.Address2,
-                        state = s.state,
-                        zipCode = s.zipCode,
-                        phone = s.phone,
-                        city = s.city,
-                        email = s.email
-                    });
+                        Id = cust.Id,
+                        add_new_id = add.add_new_id,
+                        billing_address1 = add.billing_address1,
+                        billing_address2 = add.billing_address2,
+                        billing_city = add.billing_city,
+                        billing_state = add.billing_state,
+                        billing_zipcode = add.billing_zipcode,
+                        email = cust.email,
+                        firstName = cust.firstName,
+                        lastName = cust.lastName,
+                        password = cust.password,
+                        phone = cust.phone,
+                        shipping_address1 = add.shipping_address1,
+                        shipping_address2 = add.shipping_address2,
+                        shipping_city = add.shipping_city,
+                        shipping_state = add.shipping_state,
+                        shipping_zipcode = add.shipping_zipcode
 
-                    return Json(createJson("1", "loggedIn", custObj));
+                    };
+
+                    return Json(createJson("1", "loggedIn", custVm));
                 }
                 else
                 {
@@ -314,10 +393,92 @@ namespace POSWeb.Controllers
                 //return Content((HttpStatusCode)1, "JSON found null");
                 return Json(createJson("0", "JSON found null"));
             }
-
         }
 
-        ////setting player id
+        [System.Web.Http.AllowAnonymous]
+        [System.Web.Http.HttpPost]
+        public IHttpActionResult profileUpdate([FromBody] dynamic user)
+        {
+            string email = string.Empty;
+
+            if (user != null)
+            {
+                email = (string)user.email;
+
+                var cust = db.Customers.Where(x => x.email == email).FirstOrDefault();
+
+                if (cust != null)
+                {
+                    var add = db.Address_New.Where(x => x.add_new_id == cust.add_new_id).FirstOrDefault();
+                    cust.firstName = user.firstName;
+                    cust.lastName = user.lastName;
+                    cust.email = user.email;
+
+                    cust.phone = user.phone;
+
+                    add.billing_address1 = user.billing_address1;
+                    add.billing_address2 = user.billing_address2;
+                    add.billing_city = user.billing_city;
+                    add.billing_state = user.billing_state;
+                    add.billing_zipcode = user.billing_zipcode;
+
+                    add.shipping_address1 = user.shipping_address1;
+                    add.shipping_address2 = user.shipping_address2;
+                    add.shipping_city = user.shipping_city;
+                    add.shipping_state = user.shipping_state;
+                    add.shipping_zipcode = user.shipping_zipcode;
+
+                    db.SaveChanges();
+
+                    CustomerViewModel custVm = new CustomerViewModel()
+                    {
+                        Id = cust.Id,
+                        add_new_id = add.add_new_id,
+                        billing_address1 = add.billing_address1,
+                        billing_address2 = add.billing_address2,
+                        billing_city = add.billing_city,
+                        billing_state = add.billing_state,
+                        billing_zipcode = add.billing_zipcode,
+                        email = cust.email,
+                        firstName = cust.firstName,
+                        lastName = cust.lastName,
+                        password = cust.password,
+                        phone = cust.phone,
+                        shipping_address1 = add.shipping_address1,
+                        shipping_address2 = add.shipping_address2,
+                        shipping_city = add.shipping_city,
+                        shipping_state = add.shipping_state,
+                        shipping_zipcode = add.shipping_zipcode
+
+                    };
+
+
+                    return Json(createJson("1", "Saved", custVm));
+
+
+                }
+            }
+
+            return null;
+        }
+
+        [System.Web.Http.AllowAnonymous]
+        [System.Web.Http.HttpPost]
+        public IHttpActionResult CheckZipCodeExists([FromBody] dynamic user)
+        {
+            List<string> zipCodes = new List<string>() { "75002","75013","75023","75024","75025","75026","75074","75075","75086","75093","75094","75049","75424","75029","75056","75057","75065","75067","75068","75077","76201","76202","76203","76204","76205","76206","76207","76208","76209","76210","76227","76247","76258","76262","76266","75001","75006","75011","75030","75088","75089","75080","75081","75082","75083","75085","75172","75180","75201","75202","75203","75204","75205","75206","75207","75208","75209","75210","75211","75212","75214","75215","75216","75217","75218","75219","75220","75221","75222","75223","75224","75225","75226","75227","75228","75229","75230","75231","75232","75233","75234","75235","75236","75237","75238","75239","75240","75241","75242","75243","75244","75245","75246","75247","75248","75249","75250","75251","75253","75254","75258","75260","75261","75262","75263","75264","75265","75266","75267","75270","75295","75313","75315","75336","75339","75342","75254","75355","75356","75357","75359","75360","75367","75370","75371","75372","75374","75376","75378","75379","75380","75381","75382","75298","76009","76084","76093","76001","76002","76003","76004","76005","76006","76007","76010","76011","76012","76013","76013","76014","76015","76015","76016","76017","76018","76020","76094","76096"};
+            if(zipCodes.Contains((string)user.zipCode))
+            {
+                return Json(createJson("1", "true"));
+            }
+            else
+            {
+                return Json(createJson("0", "false"));
+            }
+            
+               
+        }
+
         public IHttpActionResult setPlayerId(dynamic user)
         {
             try
@@ -374,14 +535,8 @@ namespace POSWeb.Controllers
                         {
                             firstName = s.firstName,
                             lastName = s.lastName,
-                            Id = s.Id
-                            ,
-                            Address1 = s.Address1,
-                            Address2 = s.Address2,
-                            state = s.state,
-                            zipCode = s.zipCode,
-                            phone = s.phone,
-                            city = s.city,
+                            Id = s.Id,
+
                             email = s.email
                         });
                         return Json(createJson("1", "loggedIn", custObj));
@@ -402,12 +557,11 @@ namespace POSWeb.Controllers
                         fbuser.DateTime = DateTime.Now;
                         db.FacebookUsers.Add(fbuser);
 
-                        cust.city = user.city;
+
                         cust.phone = user.phone;
-                        cust.Address1 = user.Address1;
-                        cust.Address2 = user.Address2;
-                        cust.zipCode = user.zipCode;
-                        cust.state = user.state;
+                        //cust.Address1 = user.Address1;
+                        //cust.Address2 = user.Address2;
+
                         db.Customers.Add(cust);
                         db.SaveChanges();
 
@@ -445,9 +599,6 @@ namespace POSWeb.Controllers
             return hash;
 
         }
-
-
-
 
         public IHttpActionResult GerenateResetCode(dynamic user)
         {
@@ -487,43 +638,35 @@ namespace POSWeb.Controllers
             }
         }
 
+
+        [System.Web.Http.AllowAnonymous]
+        [System.Web.Http.HttpPost]
         public IHttpActionResult changePassword(dynamic user)
         {
             if (user != null)
             {
                 var email = (string)user.email;
-                var Count = db.Customers.Where(x => x.email == email).ToList().Count;
-                if (Count > 0)
+                var customer = db.Customers.Where(x => x.email == email).FirstOrDefault();
+                if (customer != null && customer.password == (string)user.oldPassword)
                 {
-                    var resetCode = (string)user.resetCode;
-                    var cust = db.Customers.Where(x => x.email == email).ToList().FirstOrDefault();
-                    if (cust.resetCode == resetCode)
-                    {
-                        var pass = EncryptPassword(user.password.ToString());
-                        cust.password = pass;
-                        cust.resetCode = null;
-                        db.SaveChanges();
+                    customer.password = (string)user.newPassword;
 
-                        return Json(createJson("1", "Password Changed"));
-                    }
-                    else
-                    {
-                        //return Content((HttpStatusCode)1, "Invalid Reset Code");
-                        return Json(createJson("0", "Invalid Reset Code"));
-                    }
+                    db.SaveChanges();
+
+                    return Json(createJson("1", "Password Changed"));
                 }
                 else
                 {
-                    return Json(createJson("0", "Email Not Found"));
+                    return Json(createJson("0", "Email does not exist or old password does not match"));
                 }
-
             }
             else
             {
-                //return Content((HttpStatusCode)1, "JSON found null");
-                return Json(createJson("0", "JSON found null"));
+                return Json(createJson("0", "Email Not Found"));
             }
+
         }
+
 
         ///adding Riders
         ///
@@ -943,47 +1086,18 @@ namespace POSWeb.Controllers
         //
 
         // time , pickup or delivery, productIds , quantity, if pickup then storeId , 
+        [System.Web.Http.AllowAnonymous]
         [System.Web.Http.HttpPost]
-        public IHttpActionResult placeOrder(string nounce,decimal amount , List<ProductsPlaceOrderModel> products)
+        public IHttpActionResult placeOrder([FromBody] dynamic para)
         {
             try
             {
-                //string orderId;
-                //ordertype = ordertype.ToLower();
-                //if (ordertype == "delivery")
-                //{
-                //    ManageOrder mg = new ManageOrder();
-                //    orderId = mg.AddOrder(orderObj);
+                decimal totalAmount = 0;
+                totalAmount = Convert.ToDecimal (para.grandTotal);
 
-                //}
-                //else
-                //{
-                //    ManageOrder mg = new ManageOrder();
-                //    orderId = mg.AddOrderPickUp(orderObj);
 
-                //}
-                //var orderList = db.Orders.Where(x => x.OrderId == orderId).ToList();
-                //var orderDetailsList = db.OrderDetails.Where(x => x.OrderId == orderId).ToList();
-                //if (orderDetailsList != null && orderList != null)
-                //{
-                //    OrderViewModel obj = new OrderViewModel();
-                //    obj.orderObj = orderList;
-                //    obj.orderDetails = orderDetailsList;
-                //    return Json(createJson("1", "Order", JsonConvert.SerializeObject(obj)));
-                //}
-                //else
-                //{
-                //    return Json(createJson("0", "Order", "Order Failed"));
-                //}
-                ////return Json("test");
-                ////var data =  JsonConvert.DeserializeObject<dynamic>(orderObj.ToString());
-                ////  var obj = data[0].UserId;
-                ////  dynamic orderDetailObj;
-                ////  if (data[0]["OrderDetails"] != null)
-                ////  {
-                ////      orderDetailObj = data[0].OrderDetails;
-                ////  }
-                return null;
+                Result<Transaction> result = CreateTransactionByNounce(totalAmount,(string) para.nonce);
+                return Json(createJson("1", "Result", result));
             }
             catch (Exception ex)
             {
@@ -1132,9 +1246,9 @@ namespace POSWeb.Controllers
             return Json(createJson("1", "Token", token));
         }
 
-        [System.Web.Http.AllowAnonymous]
-        [System.Web.Http.HttpPost]
-        public IHttpActionResult CreateTransactionByNounce([FromBody] decimal amount, [FromBody] string nounce)
+        //[System.Web.Http.AllowAnonymous]
+        //[System.Web.Http.HttpPost]
+        public Result<Transaction> CreateTransactionByNounce(decimal amount, string nounce)
         {
             var request = new TransactionRequest
             {
@@ -1147,7 +1261,7 @@ namespace POSWeb.Controllers
             };
 
             Result<Transaction> result = gateway.Transaction.Sale(request);
-            return Json(createJson("1", "Result", result));
+            return result;
         }
 
 
@@ -1171,6 +1285,48 @@ namespace POSWeb.Controllers
                 this.content = content;
                 //   this.result = result;
             }
+        }
+
+        public static string Encrypt(string clearText, string EncryptionKey = "hhiijjkkaabbccdd")
+        {
+            byte[] clearBytes = Encoding.Unicode.GetBytes(clearText);
+            using (Aes encryptor = Aes.Create())
+            {
+                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+                encryptor.Key = pdb.GetBytes(32);
+                encryptor.IV = pdb.GetBytes(16);
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
+                    {
+                        cs.Write(clearBytes, 0, clearBytes.Length);
+                        cs.Close();
+                    }
+                    clearText = Convert.ToBase64String(ms.ToArray());
+                }
+            }
+            return clearText;
+        }
+
+        public static string Decrypt(string cipherText, string EncryptionKey = "hhiijjkkaabbccdd")
+        {
+            byte[] cipherBytes = Convert.FromBase64String(cipherText);
+            using (Aes encryptor = Aes.Create())
+            {
+                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+                encryptor.Key = pdb.GetBytes(32);
+                encryptor.IV = pdb.GetBytes(16);
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateDecryptor(), CryptoStreamMode.Write))
+                    {
+                        cs.Write(cipherBytes, 0, cipherBytes.Length);
+                        cs.Close();
+                    }
+                    cipherText = Encoding.Unicode.GetString(ms.ToArray());
+                }
+            }
+            return cipherText;
         }
     }
 }

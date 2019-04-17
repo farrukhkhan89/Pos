@@ -83,14 +83,11 @@
     <Property Name="lastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="password" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-    <Property Name="city" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="state" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="zipCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="resetCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="notification_playerId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-    <Property Name="Address1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Name="Address2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="add_new_id" Type="Int32" />
+    <NavigationProperty Name="Address_New" Relationship="bravodeliver_posModel.FK_CustomerAddress" FromRole="Customer" ToRole="Address_New" />
   </EntityType>
   <EntityType Name="FacebookUser">
     <Key>
@@ -329,5 +326,39 @@
       <End Role="AspNetRoles" EntitySet="AspNetRoles" />
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
     </AssociationSet>
+    <EntitySet Name="Address_New" EntityType="bravodeliver_posModel.Address_New" />
+    <AssociationSet Name="FK_CustomerAddress" Association="bravodeliver_posModel.FK_CustomerAddress">
+      <End Role="Address_New" EntitySet="Address_New" />
+      <End Role="Customer" EntitySet="Customers" />
+    </AssociationSet>
   </EntityContainer>
+  <EntityType Name="Address_New">
+    <Key>
+      <PropertyRef Name="add_new_id" />
+    </Key>
+    <Property Name="add_new_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="shipping_state" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="shipping_city" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Customers" Relationship="bravodeliver_posModel.FK_CustomerAddress" FromRole="Address_New" ToRole="Customer" />
+    <Property Name="billing_address1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="billing_address2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="billing_state" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="billing_city" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="billing_zipcode" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="shipping_address1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="shipping_address2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="shipping_zipcode" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <Association Name="FK_CustomerAddress">
+    <End Type="bravodeliver_posModel.Address_New" Role="Address_New" Multiplicity="0..1" />
+    <End Type="bravodeliver_posModel.Customer" Role="Customer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Address_New">
+        <PropertyRef Name="add_new_id" />
+      </Principal>
+      <Dependent Role="Customer">
+        <PropertyRef Name="add_new_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

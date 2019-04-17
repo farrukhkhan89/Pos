@@ -19,13 +19,11 @@ namespace POSWeb
         public string lastName { get; set; }
         public string email { get; set; }
         public string password { get; set; }
-        public string city { get; set; }
-        public string state { get; set; }
-        public string zipCode { get; set; }
         public string resetCode { get; set; }
         public string phone { get; set; }
         public string notification_playerId { get; set; }
-        public string Address1 { get; set; }
-        public string Address2 { get; set; }
+        public Nullable<int> add_new_id { get; set; }
+    
+        public virtual Address_New Address_New { get; set; }
     }
 }

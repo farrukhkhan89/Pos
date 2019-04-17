@@ -44,5 +44,6 @@ namespace POSWeb
         public virtual DbSet<RiderOrder> RiderOrders { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<ZipCodeList> ZipCodeLists { get; set; }
+        public virtual DbSet<Address_New> Address_New { get; set; }
     }
 }

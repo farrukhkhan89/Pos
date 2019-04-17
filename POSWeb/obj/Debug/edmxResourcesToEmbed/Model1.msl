@@ -75,19 +75,15 @@
     <EntitySetMapping Name="Customers">
       <EntityTypeMapping TypeName="bravodeliver_posModel.Customer">
         <MappingFragment StoreEntitySet="Customer">
+          <ScalarProperty Name="add_new_id" ColumnName="add_new_id" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="firstName" ColumnName="firstName" />
           <ScalarProperty Name="lastName" ColumnName="lastName" />
           <ScalarProperty Name="email" ColumnName="email" />
           <ScalarProperty Name="password" ColumnName="password" />
-          <ScalarProperty Name="city" ColumnName="city" />
-          <ScalarProperty Name="state" ColumnName="state" />
-          <ScalarProperty Name="zipCode" ColumnName="zipCode" />
           <ScalarProperty Name="resetCode" ColumnName="resetCode" />
           <ScalarProperty Name="phone" ColumnName="phone" />
           <ScalarProperty Name="notification_playerId" ColumnName="notification_playerId" />
-          <ScalarProperty Name="Address1" ColumnName="Address1" />
-          <ScalarProperty Name="Address2" ColumnName="Address2" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -267,5 +263,22 @@
         <ScalarProperty Name="Id" ColumnName="UserId" />
       </EndProperty>
     </AssociationSetMapping>
+    <EntitySetMapping Name="Address_New">
+      <EntityTypeMapping TypeName="bravodeliver_posModel.Address_New">
+        <MappingFragment StoreEntitySet="Address_New">
+          <ScalarProperty Name="shipping_zipcode" ColumnName="shipping_zipcode" />
+          <ScalarProperty Name="shipping_address2" ColumnName="shipping_address2" />
+          <ScalarProperty Name="shipping_address1" ColumnName="shipping_address1" />
+          <ScalarProperty Name="billing_zipcode" ColumnName="billing_zipcode" />
+          <ScalarProperty Name="billing_city" ColumnName="billing_city" />
+          <ScalarProperty Name="billing_state" ColumnName="billing_state" />
+          <ScalarProperty Name="billing_address2" ColumnName="billing_address2" />
+          <ScalarProperty Name="billing_address1" ColumnName="billing_address1" />
+          <ScalarProperty Name="shipping_city" ColumnName="shipping_city" />
+          <ScalarProperty Name="shipping_state" ColumnName="shipping_state" />
+          <ScalarProperty Name="add_new_id" ColumnName="add_new_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

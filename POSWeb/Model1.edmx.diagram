@@ -28,6 +28,8 @@
         <AssociationConnector Association="bravodeliver_posModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="bravodeliver_posModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="bravodeliver_posModel.AspNetUserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="bravodeliver_posModel.Address_New" Width="1.5" PointX="5.5" PointY="14.375" />
+        <AssociationConnector Association="bravodeliver_posModel.FK_CustomerAddress" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

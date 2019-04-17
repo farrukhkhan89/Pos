@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="bravodeliver_posModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="bravodeliver_posModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Stores">
           <Key>
             <PropertyRef Name="id" />
@@ -21,6 +21,22 @@
           <Property Name="Lng" Type="varchar" MaxLength="100" />
           <Property Name="imageUrl" Type="varchar" MaxLength="200" />
         </EntityType>
+        <EntityType Name="Address_New">
+          <Key>
+            <PropertyRef Name="add_new_id" />
+          </Key>
+          <Property Name="add_new_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="billing_address1" Type="varchar" MaxLength="255" />
+          <Property Name="billing_address2" Type="varchar" MaxLength="255" />
+          <Property Name="billing_state" Type="varchar" MaxLength="255" />
+          <Property Name="billing_city" Type="varchar" MaxLength="255" />
+          <Property Name="billing_zipcode" Type="varchar" MaxLength="255" />
+          <Property Name="shipping_address1" Type="varchar" MaxLength="255" />
+          <Property Name="shipping_address2" Type="varchar" MaxLength="255" />
+          <Property Name="shipping_state" Type="varchar" MaxLength="255" />
+          <Property Name="shipping_city" Type="varchar" MaxLength="255" />
+          <Property Name="shipping_zipcode" Type="varchar" MaxLength="255" />
+        </EntityType>
         <EntityType Name="Addresses">
           <Key>
             <PropertyRef Name="AddressId" />
@@ -29,23 +45,6 @@
           <Property Name="Address1" Type="varchar" MaxLength="255" />
           <Property Name="Address2" Type="varchar" MaxLength="255" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'bravodeliver_pos.dbo.Arlington' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="Arlington">
-          <Property Name="artId" Type="varchar" MaxLength="50" />
-          <Property Name="artName" Type="varchar" MaxLength="250" />
-          <Property Name="Product Code1" Type="varchar" MaxLength="50" />
-          <Property Name="Product Code2" Type="varchar" MaxLength="50" />
-          <Property Name="Commodity Group Number" Type="varchar" MaxLength="50" />
-          <Property Name="cat" Type="varchar" MaxLength="50" />
-          <Property Name="Sector Number" Type="varchar" MaxLength="50" />
-          <Property Name="Sector Name" Type="varchar" MaxLength="50" />
-          <Property Name="Assortment Number" Type="varchar" MaxLength="50" />
-          <Property Name="Assortment Name" Type="varchar" MaxLength="50" />
-          <Property Name="Product Cost" Type="varchar" MaxLength="50" />
-          <Property Name="Last Purchase Price" Type="varchar" MaxLength="50" />
-          <Property Name="price" Type="varchar" MaxLength="50" />
-        </EntityType>-->
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -97,23 +96,6 @@ warning 6013: The table/view 'bravodeliver_pos.dbo.Arlington' does not have a pr
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'bravodeliver_pos.dbo.basswood' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="basswood">
-          <Property Name="artId" Type="varchar" MaxLength="50" />
-          <Property Name="artName" Type="varchar" MaxLength="250" />
-          <Property Name="Product Code1" Type="varchar" MaxLength="50" />
-          <Property Name="Product Code2" Type="varchar" MaxLength="50" />
-          <Property Name="Commodity Group Number" Type="varchar" MaxLength="50" />
-          <Property Name="cat" Type="varchar" MaxLength="50" />
-          <Property Name="Sector Number" Type="varchar" MaxLength="50" />
-          <Property Name="Sector Name" Type="varchar" MaxLength="50" />
-          <Property Name="Assortment Number" Type="varchar" MaxLength="50" />
-          <Property Name="Assortment Name" Type="varchar" MaxLength="50" />
-          <Property Name="Product Cost" Type="varchar" MaxLength="50" />
-          <Property Name="Last Purchase Price" Type="varchar" MaxLength="50" />
-          <Property Name="price" Type="varchar" MaxLength="50" />
-        </EntityType>-->
         <EntityType Name="Customer">
           <Key>
             <PropertyRef Name="Id" />
@@ -123,14 +105,10 @@ warning 6013: The table/view 'bravodeliver_pos.dbo.basswood' does not have a pri
           <Property Name="lastName" Type="varchar" MaxLength="50" />
           <Property Name="email" Type="varchar" MaxLength="50" />
           <Property Name="password" Type="varchar" MaxLength="128" />
-          <Property Name="city" Type="varchar" MaxLength="50" />
-          <Property Name="state" Type="varchar" MaxLength="50" />
-          <Property Name="zipCode" Type="varchar" MaxLength="50" />
           <Property Name="resetCode" Type="varchar" MaxLength="50" />
           <Property Name="phone" Type="varchar" MaxLength="50" />
           <Property Name="notification_playerId" Type="varchar" MaxLength="128" />
-          <Property Name="Address1" Type="varchar" MaxLength="255" />
-          <Property Name="Address2" Type="varchar" MaxLength="255" />
+          <Property Name="add_new_id" Type="int" />
         </EntityType>
         <EntityType Name="FacebookUser">
           <Key>
@@ -358,6 +336,7 @@ warning 6013: The table/view 'bravodeliver_pos.dbo.basswood' does not have a pri
         </Association>
         <EntityContainer Name="bravodeliver_posModelStoreContainer">
           <EntitySet Name="Stores" EntityType="Self.Stores" Schema="bravodeliver_user" store:Type="Tables" />
+          <EntitySet Name="Address_New" EntityType="Self.Address_New" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Addresses" EntityType="Self.Addresses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
@@ -398,8 +377,7 @@ warning 6013: The table/view 'bravodeliver_pos.dbo.basswood' does not have a pri
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="bravodeliver_posModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -486,14 +464,11 @@ warning 6013: The table/view 'bravodeliver_pos.dbo.basswood' does not have a pri
           <Property Name="lastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="password" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="city" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="state" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="zipCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="resetCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="notification_playerId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="Address1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Address2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="add_new_id" Type="Int32" />
+          <NavigationProperty Name="Address_New" Relationship="bravodeliver_posModel.FK_CustomerAddress" FromRole="Customer" ToRole="Address_New" />
         </EntityType>
         <EntityType Name="FacebookUser">
           <Key>
@@ -732,7 +707,41 @@ warning 6013: The table/view 'bravodeliver_pos.dbo.basswood' does not have a pri
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <EntitySet Name="Address_New" EntityType="bravodeliver_posModel.Address_New" />
+          <AssociationSet Name="FK_CustomerAddress" Association="bravodeliver_posModel.FK_CustomerAddress">
+            <End Role="Address_New" EntitySet="Address_New" />
+            <End Role="Customer" EntitySet="Customers" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Address_New">
+          <Key>
+            <PropertyRef Name="add_new_id" />
+          </Key>
+          <Property Name="add_new_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="shipping_state" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="shipping_city" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Customers" Relationship="bravodeliver_posModel.FK_CustomerAddress" FromRole="Address_New" ToRole="Customer" />
+          <Property Name="billing_address1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="billing_address2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="billing_state" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="billing_city" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="billing_zipcode" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="shipping_address1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="shipping_address2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="shipping_zipcode" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_CustomerAddress">
+          <End Type="bravodeliver_posModel.Address_New" Role="Address_New" Multiplicity="0..1" />
+          <End Type="bravodeliver_posModel.Customer" Role="Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address_New">
+              <PropertyRef Name="add_new_id" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="add_new_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -813,20 +822,16 @@ warning 6013: The table/view 'bravodeliver_pos.dbo.basswood' does not have a pri
           <EntitySetMapping Name="Customers">
             <EntityTypeMapping TypeName="bravodeliver_posModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="add_new_id" ColumnName="add_new_id" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="firstName" ColumnName="firstName" />
                 <ScalarProperty Name="lastName" ColumnName="lastName" />
                 <ScalarProperty Name="email" ColumnName="email" />
                 <ScalarProperty Name="password" ColumnName="password" />
-                <ScalarProperty Name="city" ColumnName="city" />
-                <ScalarProperty Name="state" ColumnName="state" />
-                <ScalarProperty Name="zipCode" ColumnName="zipCode" />
                 <ScalarProperty Name="resetCode" ColumnName="resetCode" />
                 <ScalarProperty Name="phone" ColumnName="phone" />
                 <ScalarProperty Name="notification_playerId" ColumnName="notification_playerId" />
-                <ScalarProperty Name="Address1" ColumnName="Address1" />
-                <ScalarProperty Name="Address2" ColumnName="Address2" />
-              </MappingFragment>
+                </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="FacebookUsers">
@@ -1005,6 +1010,23 @@ warning 6013: The table/view 'bravodeliver_pos.dbo.basswood' does not have a pri
               <ScalarProperty Name="Id" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="Address_New">
+            <EntityTypeMapping TypeName="bravodeliver_posModel.Address_New">
+              <MappingFragment StoreEntitySet="Address_New">
+                <ScalarProperty Name="shipping_zipcode" ColumnName="shipping_zipcode" />
+                <ScalarProperty Name="shipping_address2" ColumnName="shipping_address2" />
+                <ScalarProperty Name="shipping_address1" ColumnName="shipping_address1" />
+                <ScalarProperty Name="billing_zipcode" ColumnName="billing_zipcode" />
+                <ScalarProperty Name="billing_city" ColumnName="billing_city" />
+                <ScalarProperty Name="billing_state" ColumnName="billing_state" />
+                <ScalarProperty Name="billing_address2" ColumnName="billing_address2" />
+                <ScalarProperty Name="billing_address1" ColumnName="billing_address1" />
+                <ScalarProperty Name="shipping_city" ColumnName="shipping_city" />
+                <ScalarProperty Name="shipping_state" ColumnName="shipping_state" />
+                <ScalarProperty Name="add_new_id" ColumnName="add_new_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

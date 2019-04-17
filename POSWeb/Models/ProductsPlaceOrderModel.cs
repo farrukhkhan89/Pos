@@ -7,8 +7,8 @@ namespace POSWeb.Models
 {
     public class ProductsPlaceOrderModel
     {
-        public int ProductId { get; set; }
-        public int Quantity { get; set; }
-        public decimal Amount { get; set; }
+        public int id { get; set; }
+        public int quantity { get; set; }
+        public decimal amount { get; set; }
     }
 }
