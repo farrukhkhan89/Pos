@@ -331,6 +331,12 @@
       <End Role="Address_New" EntitySet="Address_New" />
       <End Role="Customer" EntitySet="Customers" />
     </AssociationSet>
+    <EntitySet Name="RiderUsers" EntityType="bravodeliver_posModel.RiderUser" />
+    <EntitySet Name="Notifications" EntityType="bravodeliver_posModel.Notification" />
+    <AssociationSet Name="FK__Notificat__title__54CB950F" Association="bravodeliver_posModel.FK__Notificat__title__54CB950F">
+      <End Role="RiderUser" EntitySet="RiderUsers" />
+      <End Role="Notification" EntitySet="Notifications" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Address_New">
     <Key>
@@ -358,6 +364,43 @@
       </Principal>
       <Dependent Role="Customer">
         <PropertyRef Name="add_new_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="RiderUser">
+    <Key>
+      <PropertyRef Name="riderId" />
+    </Key>
+    <Property Name="riderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="riderUsername" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="riderPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="registration" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="color" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsAvailable" Type="Boolean" />
+    <Property Name="DeviceId" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Notifications" Relationship="bravodeliver_posModel.FK__Notificat__title__54CB950F" FromRole="RiderUser" ToRole="Notification" />
+  </EntityType>
+  <EntityType Name="Notification">
+    <Key>
+      <PropertyRef Name="notificationId" />
+    </Key>
+    <Property Name="notificationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="riderId" Type="Int32" />
+    <Property Name="body" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="RiderUser" Relationship="bravodeliver_posModel.FK__Notificat__title__54CB950F" FromRole="Notification" ToRole="RiderUser" />
+  </EntityType>
+  <Association Name="FK__Notificat__title__54CB950F">
+    <End Type="bravodeliver_posModel.RiderUser" Role="RiderUser" Multiplicity="0..1" />
+    <End Type="bravodeliver_posModel.Notification" Role="Notification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RiderUser">
+        <PropertyRef Name="riderId" />
+      </Principal>
+      <Dependent Role="Notification">
+        <PropertyRef Name="riderId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

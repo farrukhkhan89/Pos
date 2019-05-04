@@ -1,6 +1,7 @@
 ﻿
 using Braintree;
 using Newtonsoft.Json;
+using POSWeb.Helpers;
 using POSWeb.Models;
 using shortid;
 using System;
@@ -395,6 +396,36 @@ namespace POSWeb.Controllers
             }
         }
 
+
+        [System.Web.Http.AllowAnonymous]
+        [System.Web.Http.HttpPost]
+        public IHttpActionResult RiderLogin([FromBody]  dynamic riderUser)
+        {
+
+            if (riderUser != null)
+            {
+                string username = (string)riderUser.UserName;
+                string pass = (string)riderUser.Password;
+
+                var rider = db.RiderUsers.Where(x => x.riderUsername == username && x.riderPassword == pass).FirstOrDefault();
+                if (rider != null)
+                {
+                    return Json(createJson("1", "loggedIn", rider));
+                }
+                else
+                {
+                    //return Content((HttpStatusCode)1, "Invalid Email/Password");
+                    return Json(createJson("0", "Invalid Username/Password"));
+                }
+
+            }
+            else
+            {
+
+                return Json(createJson("0", "JSON found null"));
+            }
+        }
+
         [System.Web.Http.AllowAnonymous]
         [System.Web.Http.HttpPost]
         public IHttpActionResult profileUpdate([FromBody] dynamic user)
@@ -467,7 +498,7 @@ namespace POSWeb.Controllers
         public IHttpActionResult CheckZipCodeExists([FromBody] dynamic user)
         {
             List<string> zipCodes = new List<string>() { "75002","75013","75023","75024","75025","75026","75074","75075","75086","75093","75094","75049","75424","75029","75056","75057","75065","75067","75068","75077","76201","76202","76203","76204","76205","76206","76207","76208","76209","76210","76227","76247","76258","76262","76266","75001","75006","75011","75030","75088","75089","75080","75081","75082","75083","75085","75172","75180","75201","75202","75203","75204","75205","75206","75207","75208","75209","75210","75211","75212","75214","75215","75216","75217","75218","75219","75220","75221","75222","75223","75224","75225","75226","75227","75228","75229","75230","75231","75232","75233","75234","75235","75236","75237","75238","75239","75240","75241","75242","75243","75244","75245","75246","75247","75248","75249","75250","75251","75253","75254","75258","75260","75261","75262","75263","75264","75265","75266","75267","75270","75295","75313","75315","75336","75339","75342","75254","75355","75356","75357","75359","75360","75367","75370","75371","75372","75374","75376","75378","75379","75380","75381","75382","75298","76009","76084","76093","76001","76002","76003","76004","76005","76006","76007","76010","76011","76012","76013","76013","76014","76015","76015","76016","76017","76018","76020","76094","76096"};
-            if(zipCodes.Contains((string)user.zipCode))
+            if (zipCodes.Contains((string)user.zipCode))
             {
                 return Json(createJson("1", "true"));
             }
@@ -475,8 +506,8 @@ namespace POSWeb.Controllers
             {
                 return Json(createJson("0", "false"));
             }
-            
-               
+
+
         }
 
         public IHttpActionResult setPlayerId(dynamic user)
@@ -968,7 +999,7 @@ namespace POSWeb.Controllers
 
             if (storeId == 0)
             {
-                storeProds = db.Products.Where(x => x.StoreId == null).Select(emp =>
+                storeProds = db.Products.Select(emp =>
                                       new
                                       {
                                           ProductId = emp.Id,
@@ -1093,10 +1124,54 @@ namespace POSWeb.Controllers
             try
             {
                 decimal totalAmount = 0;
-                totalAmount = Convert.ToDecimal (para.grandTotal);
+                totalAmount = Convert.ToDecimal(para.grandTotal);
+                string email = (string)para.email;
+              
+                string grandTotal = (string)para.grandTotal;
+                DateTime orderDateTime = (DateTime)para.orderDateTime;
+                
+
+                Result<Transaction> result = CreateTransactionByNounce(totalAmount, (string)para.nonce);
+                if(result.IsSuccess())
+                {
+                    //using (var firebase = new FireBase.Notification.Firebase())
+                    //{
+                    //    firebase.ServerKey = "AAAAVSgS0TQ:APA91bFJPte7mwV8g2ZoVIuP4CDdnd_KDPriWxjoC_-iejiOWky7XuAQ660rtX8RB5w98b7j6FRLeSg72ZrtYzpa0GI3ieQpF2Ao9WHWmub5mgYQMOaq4f3ljfqB_eeLDP4jb7LWFf3c";
+                    //    var riderUser = db.RiderUsers.FirstOrDefault();
+
+                    //    var id = riderUser.DeviceId;
+                    //    firebase.PushNotifyAsync(id, "Hello", "World").Wait();
+                    //    Console.ReadLine();
+                    //}
+
+                    // Enter Notification in Db
+
+                    var noti = new Notification() {title= email, body=JsonConvert.SerializeObject(para),riderId=db.RiderUsers.FirstOrDefault().riderId };
+                    db.Notifications.Add(noti);
+                    db.SaveChanges();
 
 
-                Result<Transaction> result = CreateTransactionByNounce(totalAmount,(string) para.nonce);
+                    var data = new DataToJson() { to = db.RiderUsers.FirstOrDefault().DeviceId, notification = new Notifications() { body =Convert.ToString(para), title = "Order Details" } };
+                    var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://fcm.googleapis.com/fcm/send");
+                    httpWebRequest.ContentType = "application/json";
+                    httpWebRequest.Method = "POST";
+                    httpWebRequest.Headers.Add("Authorization", "key=AIzaSyAeMMex6kMcamdy-nS6NywFkFXNEeoAE3A");
+
+                    using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                    {
+                        string json = JsonConvert.SerializeObject(data);
+
+                        streamWriter.Write(json);
+                        streamWriter.Flush();
+                        streamWriter.Close();
+                    }
+
+                    var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                    using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                    {
+                        var result1 = streamReader.ReadToEnd();
+                    }
+                }
                 return Json(createJson("1", "Result", result));
             }
             catch (Exception ex)
@@ -1104,6 +1179,23 @@ namespace POSWeb.Controllers
                 return Json(ex.Message);
             }
         }
+
+        [System.Web.Http.AllowAnonymous]
+        [System.Web.Http.HttpPost]
+        public IHttpActionResult SetDeviceId([FromBody] dynamic riderUser)
+        {
+            string userName = (string)riderUser.Username;
+            string deviceId = (string)riderUser.DeviceId;
+            if (riderUser != null)
+            {
+                var rider = db.RiderUsers.Where(x => x.riderUsername == userName).FirstOrDefault();
+                rider.DeviceId = deviceId;
+                db.SaveChanges();
+                return Json(createJson("1", "Device ID Set"));
+            }
+            return Json(createJson("0", "Device ID Not Set"));
+        }
+
         [System.Web.Http.HttpGet]
         public IHttpActionResult orderHistory(string orderId)
         {

@@ -1,0 +1,158 @@
+﻿@model POSWeb.Store
+
+@{
+    Layout = "~/Views/Shared/_LayoutTable.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <style>
+        .panel-heading {
+            border-bottom: 1px solid #e9e9e9;
+            font-weight: normal;
+            background: #f9f9f9;
+            display: table;
+            width: 100%;
+        }
+
+        .auto-resize-portrait {
+            height: 80px;
+            width: 50px;
+        }
+
+        .auto-resize-landscape {
+            height: 30px;
+            width: 80px;
+        }
+
+        .auto-resize-square {
+            height: 250px;
+            width: 250px;
+        }
+
+        .auto-resize-big {
+            width: 150px;
+            height: 150px;
+        }
+    </style>
+    <meta name="viewport" content="width=device-width" />
+    <title>Edit</title>
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+
+
+        <div class="col-md-12">
+
+            <div class="panel-heading">
+                @Html.DisplayFor(model => model.storeName)
+            </div>
+
+
+        </div>
+        <div class="display-field">
+
+
+            <div class="auto-resize-square">
+                <img src="@Url.Content(@Model.imageUrl)" alt="@Model.imageUrl" style='height: 100%; width: 100%; object-fit: contain' />
+            </div>
+
+
+        </div>
+        <div>
+
+
+            <dl class="dl-horizontal">
+
+                <dt>
+                    Store Name
+                </dt>
+
+                <dd>
+                    @Html.EditorFor(modelItem => modelItem.storeName,
+ new { htmlAttributes = new { style = "Width:300px"  } })
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Address)
+                </dt>
+
+                <dd>
+                    @Html.EditorFor(modelItem => modelItem.Address,
+ new { htmlAttributes = new { style = "Width:300px"  } })
+                </dd>
+
+                <dt>
+                    City
+                </dt>
+
+                <dd>
+                    @Html.EditorFor(modelItem => modelItem.City,
+ new { htmlAttributes = new { style = "Width:300px"  } })
+                </dd>
+
+                <dt>
+                    State
+                </dt>
+
+                <dd>
+                    @Html.EditorFor(modelItem => modelItem.State,
+  new { htmlAttributes = new { style = "Width:300px"  } })
+                </dd>
+
+                <dt>
+                    ZipCode
+                </dt>
+
+                <dd>
+                    @Html.EditorFor(modelItem => modelItem.ZipCode,
+ new { htmlAttributes = new { style = "Width:300px"  } })
+                </dd>
+
+                <dt>
+                    Phone
+                </dt>
+
+                <dd>
+                    @Html.EditorFor(modelItem => modelItem.phoneNumber,
+ new { htmlAttributes = new { style = "Width:300px"  } })
+                </dd>
+
+                <dt>
+                    Email
+                </dt>
+
+                <dd>
+                    @Html.EditorFor(modelItem => modelItem.email,
+ new { htmlAttributes = new { style = "Width:300px"  } })
+                </dd>
+
+            </dl>
+        </div>
+
+
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+            @Html.ActionLink("Back to List", "Index")
+        </p>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</body>
+
+
+</html>

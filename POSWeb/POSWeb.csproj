@@ -73,13 +73,16 @@
       <HintPath>..\packages\EFUtilities.1.0.0\lib\EntityFramework.Utilities.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Firebase.Notification, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Firebase.Notification.1.0.0\lib\net45\Firebase.Notification.exe</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="shortid, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\shortid.2.0.0\lib\net45\shortid.dll</HintPath>
@@ -254,6 +257,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\DataToJson.cs" />
+    <Compile Include="Helpers\Notifications.cs" />
     <Compile Include="KoronaStore.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -296,6 +301,9 @@
     <Compile Include="Models\StoreProductUpdate.cs" />
     <Compile Include="Models\StoreUpdate.cs" />
     <Compile Include="Models\StoreViewModel.cs" />
+    <Compile Include="Notification.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Order.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -313,6 +321,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="RiderOrder.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RiderUser.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />

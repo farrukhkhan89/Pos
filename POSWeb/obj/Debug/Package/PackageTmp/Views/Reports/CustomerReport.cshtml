@@ -1,0 +1,79 @@
+﻿@model IEnumerable<POSWeb.report_customer_basic_Result>
+
+@{
+    ViewBag.Title = "Customer Report";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutTable.cshtml";
+}
+
+
+<div id="main-wrapper">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-white">
+                <div class="panel-heading clearfix">
+                    <h4 class="panel-title">Customer Report</h4>
+
+
+                </div>
+
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table id="report" class="display table" style="width: 100%; cellspacing: 0;">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @*  @Html.DisplayNameFor(model => model.name)*@
+                                        Name
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.phone)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.address)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.email)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.orders)
+                                    </th>
+                                    @*<th></th>*@
+                                </tr>
+                            </thead>
+                            <tbody> 
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.phone)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.address)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.email)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.orders)
+                                    </td>
+                                    @*<td>
+                                            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+                                            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+                                            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+                                        </td>*@
+                                </tr>
+                            }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

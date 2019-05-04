@@ -280,5 +280,30 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="RiderUsers">
+      <EntityTypeMapping TypeName="bravodeliver_posModel.RiderUser">
+        <MappingFragment StoreEntitySet="RiderUsers">
+          <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+          <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
+          <ScalarProperty Name="phone" ColumnName="phone" />
+          <ScalarProperty Name="color" ColumnName="color" />
+          <ScalarProperty Name="model" ColumnName="model" />
+          <ScalarProperty Name="registration" ColumnName="registration" />
+          <ScalarProperty Name="riderPassword" ColumnName="riderPassword" />
+          <ScalarProperty Name="riderUsername" ColumnName="riderUsername" />
+          <ScalarProperty Name="riderId" ColumnName="riderId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Notifications">
+      <EntityTypeMapping TypeName="bravodeliver_posModel.Notification">
+        <MappingFragment StoreEntitySet="Notification">
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="body" ColumnName="body" />
+          <ScalarProperty Name="riderId" ColumnName="riderId" />
+          <ScalarProperty Name="notificationId" ColumnName="notificationId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>
