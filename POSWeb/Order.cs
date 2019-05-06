@@ -14,27 +14,23 @@ namespace POSWeb
     
     public partial class Order
     {
-        public string OrderId { get; set; }
-        public string UserId { get; set; }
-        public string StoreId { get; set; }
-        public Nullable<double> Total { get; set; }
-        public string ShippingAddress { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }
-        public string Country { get; set; }
-        public string Zipcode { get; set; }
-        public string Phone { get; set; }
-        public string OrderType { get; set; }
-        public Nullable<System.DateTime> deliveryDate { get; set; }
-        public string OrderLocation { get; set; }
-        public Nullable<System.DateTime> CreatedDatetime { get; set; }
-        public Nullable<bool> AcceptedByRider { get; set; }
-        public Nullable<bool> Shipped { get; set; }
-        public string trackingNo { get; set; }
-        public Nullable<bool> status { get; set; }
-        public Nullable<bool> Cancelled { get; set; }
-        public Nullable<System.DateTime> CancelledDateTime { get; set; }
-        public Nullable<bool> Completed { get; set; }
-        public Nullable<System.DateTime> CompletedDateTime { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Order()
+        {
+            this.OrderDetails = new HashSet<OrderDetail>();
+        }
+    
+        public int orderId { get; set; }
+        public string orderDateTime { get; set; }
+        public string scheduleDateTime { get; set; }
+        public Nullable<decimal> grandTotal { get; set; }
+        public string email { get; set; }
+        public string status { get; set; }
+        public Nullable<int> riderId { get; set; }
+        public string customerId { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        public virtual Customer Customer { get; set; }
     }
 }

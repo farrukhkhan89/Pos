@@ -164,40 +164,27 @@
         </EntityType>
         <EntityType Name="OrderDetails">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="orderDetailsId" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="OrderId" Type="varchar" MaxLength="128" />
-          <Property Name="ProductId" Type="varchar" MaxLength="128" />
-          <Property Name="Price" Type="float" />
-          <Property Name="Quantity" Type="int" />
+          <Property Name="orderDetailsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="quantity" Type="int" />
+          <Property Name="title" Type="varchar" MaxLength="255" />
+          <Property Name="productId" Type="nvarchar" MaxLength="255" />
+          <Property Name="price" Type="nvarchar" MaxLength="255" />
+          <Property Name="orderId" Type="int" />
         </EntityType>
         <EntityType Name="Orders">
           <Key>
-            <PropertyRef Name="OrderId" />
+            <PropertyRef Name="orderId" />
           </Key>
-          <Property Name="OrderId" Type="varchar" MaxLength="128" Nullable="false" />
-          <Property Name="UserId" Type="varchar" MaxLength="128" />
-          <Property Name="StoreId" Type="varchar" MaxLength="128" />
-          <Property Name="Total" Type="float" />
-          <Property Name="ShippingAddress" Type="varchar" MaxLength="500" />
-          <Property Name="City" Type="varchar" MaxLength="50" />
-          <Property Name="State" Type="varchar" MaxLength="50" />
-          <Property Name="Country" Type="varchar" MaxLength="50" />
-          <Property Name="Zipcode" Type="varchar" MaxLength="50" />
-          <Property Name="Phone" Type="varchar" MaxLength="50" />
-          <Property Name="OrderType" Type="varchar" MaxLength="50" />
-          <Property Name="deliveryDate" Type="datetime" />
-          <Property Name="OrderLocation" Type="varchar" MaxLength="100" />
-          <Property Name="CreatedDatetime" Type="datetime" />
-          <Property Name="AcceptedByRider" Type="bit" />
-          <Property Name="Shipped" Type="bit" />
-          <Property Name="trackingNo" Type="varchar" MaxLength="128" />
-          <Property Name="status" Type="bit" />
-          <Property Name="Cancelled" Type="bit" />
-          <Property Name="CancelledDateTime" Type="datetime" />
-          <Property Name="Completed" Type="bit" />
-          <Property Name="CompletedDateTime" Type="datetime" />
+          <Property Name="orderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="orderDateTime" Type="varchar" MaxLength="255" />
+          <Property Name="scheduleDateTime" Type="varchar" MaxLength="255" />
+          <Property Name="grandTotal" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="email" Type="nvarchar" MaxLength="255" />
+          <Property Name="status" Type="varchar" MaxLength="40" />
+          <Property Name="riderId" Type="int" />
+          <Property Name="customerId" Type="varchar" MaxLength="128" />
         </EntityType>
         <EntityType Name="Products">
           <Key>
@@ -270,6 +257,7 @@
           <Property Name="phone" Type="nvarchar" MaxLength="50" />
           <Property Name="IsAvailable" Type="bit" />
           <Property Name="DeviceId" Type="varchar" MaxLength="255" />
+          <Property Name="email" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -298,6 +286,30 @@
             </Principal>
             <Dependent Role="Notification">
               <PropertyRef Name="riderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderDeta__order__047AA831">
+          <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
+          <End Role="OrderDetails" Type="Self.OrderDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="orderId" />
+            </Principal>
+            <Dependent Role="OrderDetails">
+              <PropertyRef Name="orderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__customer__0FEC5ADD">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="customerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -397,6 +409,14 @@
             <End Role="RiderUsers" EntitySet="RiderUsers" />
             <End Role="Notification" EntitySet="Notification" />
           </AssociationSet>
+          <AssociationSet Name="FK__OrderDeta__order__047AA831" Association="Self.FK__OrderDeta__order__047AA831">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="OrderDetails" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__customer__0FEC5ADD" Association="Self.FK__Orders__customer__0FEC5ADD">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
           <AssociationSet Name="FK__Products__StoreI__00DF2177" Association="Self.FK__Products__StoreI__00DF2177">
             <End Role="Stores" EntitySet="Stores" />
             <End Role="Products" EntitySet="Products" />
@@ -438,6 +458,22 @@
           <Property Name="Lng" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="imageUrl" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Products" Relationship="Self.FK__Products__StoreI__00DF2177" FromRole="Stores" ToRole="Products" />
+        </EntityType>
+        <EntityType Name="Address_New">
+          <Key>
+            <PropertyRef Name="add_new_id" />
+          </Key>
+          <Property Name="add_new_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="billing_address1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="billing_address2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="billing_state" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="billing_city" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="billing_zipcode" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="shipping_address1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="shipping_address2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="shipping_state" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="shipping_city" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="shipping_zipcode" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Address">
           <Key>
@@ -509,7 +545,7 @@
           <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="notification_playerId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
           <Property Name="add_new_id" Type="Int32" />
-          <NavigationProperty Name="Address_New" Relationship="bravodeliver_posModel.FK_CustomerAddress" FromRole="Customer" ToRole="Address_New" />
+          <NavigationProperty Name="Orders" Relationship="bravodeliver_posModel.FK__Orders__customer__0FEC5ADD" FromRole="Customer" ToRole="Order" />
         </EntityType>
         <EntityType Name="FacebookUser">
           <Key>
@@ -554,42 +590,42 @@
           <Property Name="Date" Type="DateTime" Precision="3" />
           <Property Name="ExceptionMessage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="Notification">
+          <Key>
+            <PropertyRef Name="notificationId" />
+          </Key>
+          <Property Name="notificationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="riderId" Type="Int32" />
+          <Property Name="body" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="RiderUser" Relationship="Self.FK__Notificat__title__57A801BA" FromRole="Notification" ToRole="RiderUsers" />
+        </EntityType>
         <EntityType Name="OrderDetail">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="orderDetailsId" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OrderId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="ProductId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="Price" Type="Double" />
-          <Property Name="Quantity" Type="Int32" />
+          <Property Name="orderDetailsId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="quantity" Type="Int32" />
+          <Property Name="title" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="productId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="price" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="orderId" Type="Int32" />
+          <NavigationProperty Name="Order" Relationship="Self.FK__OrderDeta__order__047AA831" FromRole="OrderDetails" ToRole="Orders" />
         </EntityType>
         <EntityType Name="Order">
           <Key>
-            <PropertyRef Name="OrderId" />
+            <PropertyRef Name="orderId" />
           </Key>
-          <Property Name="OrderId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="StoreId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="Total" Type="Double" />
-          <Property Name="ShippingAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Zipcode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="OrderType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="deliveryDate" Type="DateTime" Precision="3" />
-          <Property Name="OrderLocation" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedDatetime" Type="DateTime" Precision="3" />
-          <Property Name="AcceptedByRider" Type="Boolean" />
-          <Property Name="Shipped" Type="Boolean" />
-          <Property Name="trackingNo" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="status" Type="Boolean" />
-          <Property Name="Cancelled" Type="Boolean" />
-          <Property Name="CancelledDateTime" Type="DateTime" Precision="3" />
-          <Property Name="Completed" Type="Boolean" />
-          <Property Name="CompletedDateTime" Type="DateTime" Precision="3" />
+          <Property Name="orderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="orderDateTime" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="scheduleDateTime" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="grandTotal" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="OrderDetails" Relationship="Self.FK__OrderDeta__order__047AA831" FromRole="Orders" ToRole="OrderDetails" />
+          <Property Name="status" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="riderId" Type="Int32" />
+          <Property Name="customerId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Customer" Relationship="bravodeliver_posModel.FK__Orders__customer__0FEC5ADD" FromRole="Order" ToRole="Customer" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -650,6 +686,22 @@
           <Property Name="PickedByRider" Type="Boolean" />
           <Property Name="PickedByRiderDateTime" Type="DateTime" Precision="3" />
         </EntityType>
+        <EntityType Name="RiderUser">
+          <Key>
+            <PropertyRef Name="riderId" />
+          </Key>
+          <Property Name="riderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="riderUsername" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="riderPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="registration" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="color" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsAvailable" Type="Boolean" />
+          <Property Name="DeviceId" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Notifications" Relationship="Self.FK__Notificat__title__57A801BA" FromRole="RiderUsers" ToRole="Notification" />
+        </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -708,12 +760,37 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Notificat__title__57A801BA">
+          <End Role="RiderUsers" Type="Self.RiderUser" Multiplicity="0..1" />
+          <End Role="Notification" Type="Self.Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RiderUsers">
+              <PropertyRef Name="riderId" />
+            </Principal>
+            <Dependent Role="Notification">
+              <PropertyRef Name="riderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderDeta__order__047AA831">
+          <End Role="Orders" Type="Self.Order" Multiplicity="0..1" />
+          <End Role="OrderDetails" Type="Self.OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="orderId" />
+            </Principal>
+            <Dependent Role="OrderDetails">
+              <PropertyRef Name="orderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="AspNetUserRoles">
           <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
         </Association>
         <EntityContainer Name="bravodeliver_posEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Stores" EntityType="Self.Store" />
+          <EntitySet Name="Address_New" EntityType="Self.Address_New" />
           <EntitySet Name="Addresses" EntityType="Self.Address" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
@@ -724,12 +801,14 @@
           <EntitySet Name="KoronaStores" EntityType="Self.KoronaStore" />
           <EntitySet Name="LiveTrackings" EntityType="Self.LiveTracking" />
           <EntitySet Name="Logs" EntityType="Self.Log" />
+          <EntitySet Name="Notifications" EntityType="Self.Notification" />
           <EntitySet Name="OrderDetails" EntityType="Self.OrderDetail" />
           <EntitySet Name="Orders" EntityType="Self.Order" />
           <EntitySet Name="Products" EntityType="Self.Product" />
           <EntitySet Name="Revisions" EntityType="Self.Revision" />
           <EntitySet Name="Riders" EntityType="Self.Rider" />
           <EntitySet Name="RiderOrders" EntityType="Self.RiderOrder" />
+          <EntitySet Name="RiderUsers" EntityType="Self.RiderUser" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="ZipCodeLists" EntityType="Self.ZipCodeList" />
           <AssociationSet Name="FK__Products__StoreI__00DF2177" Association="Self.FK__Products__StoreI__00DF2177">
@@ -744,85 +823,32 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
           </AssociationSet>
+          <AssociationSet Name="FK__Notificat__title__57A801BA" Association="Self.FK__Notificat__title__57A801BA">
+            <End Role="RiderUsers" EntitySet="RiderUsers" />
+            <End Role="Notification" EntitySet="Notifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderDeta__order__047AA831" Association="Self.FK__OrderDeta__order__047AA831">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="OrderDetails" EntitySet="OrderDetails" />
+          </AssociationSet>
           <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
-          <EntitySet Name="Address_New" EntityType="bravodeliver_posModel.Address_New" />
-          <AssociationSet Name="FK_CustomerAddress" Association="bravodeliver_posModel.FK_CustomerAddress">
-            <End Role="Address_New" EntitySet="Address_New" />
+          <AssociationSet Name="FK__Orders__customer__0FEC5ADD" Association="bravodeliver_posModel.FK__Orders__customer__0FEC5ADD">
             <End Role="Customer" EntitySet="Customers" />
-          </AssociationSet>
-          <EntitySet Name="RiderUsers" EntityType="bravodeliver_posModel.RiderUser" />
-          <EntitySet Name="Notifications" EntityType="bravodeliver_posModel.Notification" />
-          <AssociationSet Name="FK__Notificat__title__54CB950F" Association="bravodeliver_posModel.FK__Notificat__title__54CB950F">
-            <End Role="RiderUser" EntitySet="RiderUsers" />
-            <End Role="Notification" EntitySet="Notifications" />
+            <End Role="Order" EntitySet="Orders" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="Address_New">
-          <Key>
-            <PropertyRef Name="add_new_id" />
-          </Key>
-          <Property Name="add_new_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="shipping_state" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="shipping_city" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Customers" Relationship="bravodeliver_posModel.FK_CustomerAddress" FromRole="Address_New" ToRole="Customer" />
-          <Property Name="billing_address1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="billing_address2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="billing_state" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="billing_city" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="billing_zipcode" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="shipping_address1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="shipping_address2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="shipping_zipcode" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <Association Name="FK_CustomerAddress">
-          <End Type="bravodeliver_posModel.Address_New" Role="Address_New" Multiplicity="0..1" />
-          <End Type="bravodeliver_posModel.Customer" Role="Customer" Multiplicity="*" />
+        <Association Name="FK__Orders__customer__0FEC5ADD">
+          <End Type="bravodeliver_posModel.Customer" Role="Customer" Multiplicity="0..1" />
+          <End Type="bravodeliver_posModel.Order" Role="Order" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Address_New">
-              <PropertyRef Name="add_new_id" />
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Customer">
-              <PropertyRef Name="add_new_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="RiderUser">
-          <Key>
-            <PropertyRef Name="riderId" />
-          </Key>
-          <Property Name="riderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="riderUsername" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="riderPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="registration" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="color" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IsAvailable" Type="Boolean" />
-          <Property Name="DeviceId" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Notifications" Relationship="bravodeliver_posModel.FK__Notificat__title__54CB950F" FromRole="RiderUser" ToRole="Notification" />
-        </EntityType>
-        <EntityType Name="Notification">
-          <Key>
-            <PropertyRef Name="notificationId" />
-          </Key>
-          <Property Name="notificationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="riderId" Type="Int32" />
-          <Property Name="body" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="RiderUser" Relationship="bravodeliver_posModel.FK__Notificat__title__54CB950F" FromRole="Notification" ToRole="RiderUser" />
-        </EntityType>
-        <Association Name="FK__Notificat__title__54CB950F">
-          <End Type="bravodeliver_posModel.RiderUser" Role="RiderUser" Multiplicity="0..1" />
-          <End Type="bravodeliver_posModel.Notification" Role="Notification" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="RiderUser">
-              <PropertyRef Name="riderId" />
-            </Principal>
-            <Dependent Role="Notification">
-              <PropertyRef Name="riderId" />
+            <Dependent Role="Order">
+              <PropertyRef Name="customerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -846,6 +872,23 @@
                 <ScalarProperty Name="Lat" ColumnName="Lat" />
                 <ScalarProperty Name="Lng" ColumnName="Lng" />
                 <ScalarProperty Name="imageUrl" ColumnName="imageUrl" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Address_New">
+            <EntityTypeMapping TypeName="bravodeliver_posModel.Address_New">
+              <MappingFragment StoreEntitySet="Address_New">
+                <ScalarProperty Name="add_new_id" ColumnName="add_new_id" />
+                <ScalarProperty Name="billing_address1" ColumnName="billing_address1" />
+                <ScalarProperty Name="billing_address2" ColumnName="billing_address2" />
+                <ScalarProperty Name="billing_state" ColumnName="billing_state" />
+                <ScalarProperty Name="billing_city" ColumnName="billing_city" />
+                <ScalarProperty Name="billing_zipcode" ColumnName="billing_zipcode" />
+                <ScalarProperty Name="shipping_address1" ColumnName="shipping_address1" />
+                <ScalarProperty Name="shipping_address2" ColumnName="shipping_address2" />
+                <ScalarProperty Name="shipping_state" ColumnName="shipping_state" />
+                <ScalarProperty Name="shipping_city" ColumnName="shipping_city" />
+                <ScalarProperty Name="shipping_zipcode" ColumnName="shipping_zipcode" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -906,7 +949,6 @@
           <EntitySetMapping Name="Customers">
             <EntityTypeMapping TypeName="bravodeliver_posModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
-                <ScalarProperty Name="add_new_id" ColumnName="add_new_id" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="firstName" ColumnName="firstName" />
                 <ScalarProperty Name="lastName" ColumnName="lastName" />
@@ -915,7 +957,8 @@
                 <ScalarProperty Name="resetCode" ColumnName="resetCode" />
                 <ScalarProperty Name="phone" ColumnName="phone" />
                 <ScalarProperty Name="notification_playerId" ColumnName="notification_playerId" />
-                </MappingFragment>
+                <ScalarProperty Name="add_new_id" ColumnName="add_new_id" />
+              </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="FacebookUsers">
@@ -965,42 +1008,39 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Notifications">
+            <EntityTypeMapping TypeName="bravodeliver_posModel.Notification">
+              <MappingFragment StoreEntitySet="Notification">
+                <ScalarProperty Name="notificationId" ColumnName="notificationId" />
+                <ScalarProperty Name="riderId" ColumnName="riderId" />
+                <ScalarProperty Name="body" ColumnName="body" />
+                <ScalarProperty Name="title" ColumnName="title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="OrderDetails">
             <EntityTypeMapping TypeName="bravodeliver_posModel.OrderDetail">
               <MappingFragment StoreEntitySet="OrderDetails">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="orderDetailsId" ColumnName="orderDetailsId" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="productId" ColumnName="productId" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="orderId" ColumnName="orderId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="bravodeliver_posModel.Order">
               <MappingFragment StoreEntitySet="Orders">
-                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
-                <ScalarProperty Name="Total" ColumnName="Total" />
-                <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="Zipcode" ColumnName="Zipcode" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="OrderType" ColumnName="OrderType" />
-                <ScalarProperty Name="deliveryDate" ColumnName="deliveryDate" />
-                <ScalarProperty Name="OrderLocation" ColumnName="OrderLocation" />
-                <ScalarProperty Name="CreatedDatetime" ColumnName="CreatedDatetime" />
-                <ScalarProperty Name="AcceptedByRider" ColumnName="AcceptedByRider" />
-                <ScalarProperty Name="Shipped" ColumnName="Shipped" />
-                <ScalarProperty Name="trackingNo" ColumnName="trackingNo" />
+                <ScalarProperty Name="customerId" ColumnName="customerId" />
+                <ScalarProperty Name="riderId" ColumnName="riderId" />
                 <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="Cancelled" ColumnName="Cancelled" />
-                <ScalarProperty Name="CancelledDateTime" ColumnName="CancelledDateTime" />
-                <ScalarProperty Name="Completed" ColumnName="Completed" />
-                <ScalarProperty Name="CompletedDateTime" ColumnName="CompletedDateTime" />
+                <ScalarProperty Name="orderId" ColumnName="orderId" />
+                <ScalarProperty Name="orderDateTime" ColumnName="orderDateTime" />
+                <ScalarProperty Name="scheduleDateTime" ColumnName="scheduleDateTime" />
+                <ScalarProperty Name="grandTotal" ColumnName="grandTotal" />
+                <ScalarProperty Name="email" ColumnName="email" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1066,6 +1106,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="RiderUsers">
+            <EntityTypeMapping TypeName="bravodeliver_posModel.RiderUser">
+              <MappingFragment StoreEntitySet="RiderUsers">
+                <ScalarProperty Name="riderId" ColumnName="riderId" />
+                <ScalarProperty Name="riderUsername" ColumnName="riderUsername" />
+                <ScalarProperty Name="riderPassword" ColumnName="riderPassword" />
+                <ScalarProperty Name="registration" ColumnName="registration" />
+                <ScalarProperty Name="model" ColumnName="model" />
+                <ScalarProperty Name="color" ColumnName="color" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
+                <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+                <ScalarProperty Name="email" ColumnName="email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
             <EntityTypeMapping TypeName="bravodeliver_posModel.sysdiagram">
               <MappingFragment StoreEntitySet="sysdiagrams">
@@ -1094,48 +1150,6 @@
               <ScalarProperty Name="Id" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="Address_New">
-            <EntityTypeMapping TypeName="bravodeliver_posModel.Address_New">
-              <MappingFragment StoreEntitySet="Address_New">
-                <ScalarProperty Name="shipping_zipcode" ColumnName="shipping_zipcode" />
-                <ScalarProperty Name="shipping_address2" ColumnName="shipping_address2" />
-                <ScalarProperty Name="shipping_address1" ColumnName="shipping_address1" />
-                <ScalarProperty Name="billing_zipcode" ColumnName="billing_zipcode" />
-                <ScalarProperty Name="billing_city" ColumnName="billing_city" />
-                <ScalarProperty Name="billing_state" ColumnName="billing_state" />
-                <ScalarProperty Name="billing_address2" ColumnName="billing_address2" />
-                <ScalarProperty Name="billing_address1" ColumnName="billing_address1" />
-                <ScalarProperty Name="shipping_city" ColumnName="shipping_city" />
-                <ScalarProperty Name="shipping_state" ColumnName="shipping_state" />
-                <ScalarProperty Name="add_new_id" ColumnName="add_new_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="RiderUsers">
-            <EntityTypeMapping TypeName="bravodeliver_posModel.RiderUser">
-              <MappingFragment StoreEntitySet="RiderUsers">
-                <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
-                <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
-                <ScalarProperty Name="phone" ColumnName="phone" />
-                <ScalarProperty Name="color" ColumnName="color" />
-                <ScalarProperty Name="model" ColumnName="model" />
-                <ScalarProperty Name="registration" ColumnName="registration" />
-                <ScalarProperty Name="riderPassword" ColumnName="riderPassword" />
-                <ScalarProperty Name="riderUsername" ColumnName="riderUsername" />
-                <ScalarProperty Name="riderId" ColumnName="riderId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Notifications">
-            <EntityTypeMapping TypeName="bravodeliver_posModel.Notification">
-              <MappingFragment StoreEntitySet="Notification">
-                <ScalarProperty Name="title" ColumnName="title" />
-                <ScalarProperty Name="body" ColumnName="body" />
-                <ScalarProperty Name="riderId" ColumnName="riderId" />
-                <ScalarProperty Name="notificationId" ColumnName="notificationId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

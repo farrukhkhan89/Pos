@@ -14,10 +14,13 @@ namespace POSWeb
     
     public partial class OrderDetail
     {
-        public int Id { get; set; }
-        public string OrderId { get; set; }
-        public string ProductId { get; set; }
-        public Nullable<double> Price { get; set; }
-        public Nullable<int> Quantity { get; set; }
+        public int orderDetailsId { get; set; }
+        public Nullable<int> quantity { get; set; }
+        public string title { get; set; }
+        public string productId { get; set; }
+        public string price { get; set; }
+        public Nullable<int> orderId { get; set; }
+    
+        public virtual Order Order { get; set; }
     }
 }

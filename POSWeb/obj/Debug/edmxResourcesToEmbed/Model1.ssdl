@@ -159,40 +159,27 @@
   </EntityType>
   <EntityType Name="OrderDetails">
     <Key>
-      <PropertyRef Name="Id" />
+      <PropertyRef Name="orderDetailsId" />
     </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="OrderId" Type="varchar" MaxLength="128" />
-    <Property Name="ProductId" Type="varchar" MaxLength="128" />
-    <Property Name="Price" Type="float" />
-    <Property Name="Quantity" Type="int" />
+    <Property Name="orderDetailsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="quantity" Type="int" />
+    <Property Name="title" Type="varchar" MaxLength="255" />
+    <Property Name="productId" Type="nvarchar" MaxLength="255" />
+    <Property Name="price" Type="nvarchar" MaxLength="255" />
+    <Property Name="orderId" Type="int" />
   </EntityType>
   <EntityType Name="Orders">
     <Key>
-      <PropertyRef Name="OrderId" />
+      <PropertyRef Name="orderId" />
     </Key>
-    <Property Name="OrderId" Type="varchar" MaxLength="128" Nullable="false" />
-    <Property Name="UserId" Type="varchar" MaxLength="128" />
-    <Property Name="StoreId" Type="varchar" MaxLength="128" />
-    <Property Name="Total" Type="float" />
-    <Property Name="ShippingAddress" Type="varchar" MaxLength="500" />
-    <Property Name="City" Type="varchar" MaxLength="50" />
-    <Property Name="State" Type="varchar" MaxLength="50" />
-    <Property Name="Country" Type="varchar" MaxLength="50" />
-    <Property Name="Zipcode" Type="varchar" MaxLength="50" />
-    <Property Name="Phone" Type="varchar" MaxLength="50" />
-    <Property Name="OrderType" Type="varchar" MaxLength="50" />
-    <Property Name="deliveryDate" Type="datetime" />
-    <Property Name="OrderLocation" Type="varchar" MaxLength="100" />
-    <Property Name="CreatedDatetime" Type="datetime" />
-    <Property Name="AcceptedByRider" Type="bit" />
-    <Property Name="Shipped" Type="bit" />
-    <Property Name="trackingNo" Type="varchar" MaxLength="128" />
-    <Property Name="status" Type="bit" />
-    <Property Name="Cancelled" Type="bit" />
-    <Property Name="CancelledDateTime" Type="datetime" />
-    <Property Name="Completed" Type="bit" />
-    <Property Name="CompletedDateTime" Type="datetime" />
+    <Property Name="orderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="orderDateTime" Type="varchar" MaxLength="255" />
+    <Property Name="scheduleDateTime" Type="varchar" MaxLength="255" />
+    <Property Name="grandTotal" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="email" Type="nvarchar" MaxLength="255" />
+    <Property Name="status" Type="varchar" MaxLength="40" />
+    <Property Name="riderId" Type="int" />
+    <Property Name="customerId" Type="varchar" MaxLength="128" />
   </EntityType>
   <EntityType Name="Products">
     <Key>
@@ -265,6 +252,7 @@
     <Property Name="phone" Type="nvarchar" MaxLength="50" />
     <Property Name="IsAvailable" Type="bit" />
     <Property Name="DeviceId" Type="varchar" MaxLength="255" />
+    <Property Name="email" Type="varchar" MaxLength="255" />
   </EntityType>
   <EntityType Name="sysdiagrams">
     <Key>
@@ -293,6 +281,30 @@
       </Principal>
       <Dependent Role="Notification">
         <PropertyRef Name="riderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__OrderDeta__order__047AA831">
+    <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
+    <End Role="OrderDetails" Type="Self.OrderDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Orders">
+        <PropertyRef Name="orderId" />
+      </Principal>
+      <Dependent Role="OrderDetails">
+        <PropertyRef Name="orderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Orders__customer__0FEC5ADD">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+    <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Orders">
+        <PropertyRef Name="customerId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -391,6 +403,14 @@
     <AssociationSet Name="FK__Notificat__title__57A801BA" Association="Self.FK__Notificat__title__57A801BA">
       <End Role="RiderUsers" EntitySet="RiderUsers" />
       <End Role="Notification" EntitySet="Notification" />
+    </AssociationSet>
+    <AssociationSet Name="FK__OrderDeta__order__047AA831" Association="Self.FK__OrderDeta__order__047AA831">
+      <End Role="Orders" EntitySet="Orders" />
+      <End Role="OrderDetails" EntitySet="OrderDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Orders__customer__0FEC5ADD" Association="Self.FK__Orders__customer__0FEC5ADD">
+      <End Role="Customer" EntitySet="Customer" />
+      <End Role="Orders" EntitySet="Orders" />
     </AssociationSet>
     <AssociationSet Name="FK__Products__StoreI__00DF2177" Association="Self.FK__Products__StoreI__00DF2177">
       <End Role="Stores" EntitySet="Stores" />

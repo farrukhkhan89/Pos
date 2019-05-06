@@ -14,6 +14,12 @@ namespace POSWeb
     
     public partial class Customer
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Customer()
+        {
+            this.Orders = new HashSet<Order>();
+        }
+    
         public string Id { get; set; }
         public string firstName { get; set; }
         public string lastName { get; set; }
@@ -24,6 +30,7 @@ namespace POSWeb
         public string notification_playerId { get; set; }
         public Nullable<int> add_new_id { get; set; }
     
-        public virtual Address_New Address_New { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

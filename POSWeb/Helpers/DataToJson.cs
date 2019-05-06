@@ -9,5 +9,6 @@ namespace POSWeb.Helpers
     {
         public string to { get; set; }
         public Notifications notification { get; set; }
+       // public OrderDetails data { get; set; }
     }
 }

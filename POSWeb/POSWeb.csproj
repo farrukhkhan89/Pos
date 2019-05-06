@@ -233,6 +233,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DataServicesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\JsonKey.cs" />
     <Compile Include="Controllers\KoronaStoresController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
@@ -290,13 +291,17 @@
     <Compile Include="Models\LocationUtilities.cs" />
     <Compile Include="Models\ManageOrder.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\NotificationsVM.cs" />
     <Compile Include="Models\OrderViewModel.cs" />
+    <Compile Include="Models\PlaceOrderVM.cs" />
     <Compile Include="Models\Pos.cs" />
     <Compile Include="Models\ProductsPlaceOrderModel.cs" />
+    <Compile Include="Models\ProductsViewModel.cs" />
     <Compile Include="Models\ProductUpdate.cs" />
     <Compile Include="Models\PushNotification.cs" />
     <Compile Include="Models\RiderModel.cs" />
     <Compile Include="Models\RiderTracking.cs" />
+    <Compile Include="Models\RiderViewModel.cs" />
     <Compile Include="Models\StoreProductsViewModel.cs" />
     <Compile Include="Models\StoreProductUpdate.cs" />
     <Compile Include="Models\StoreUpdate.cs" />

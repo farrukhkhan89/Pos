@@ -18,6 +18,23 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Address_New">
+      <EntityTypeMapping TypeName="bravodeliver_posModel.Address_New">
+        <MappingFragment StoreEntitySet="Address_New">
+          <ScalarProperty Name="add_new_id" ColumnName="add_new_id" />
+          <ScalarProperty Name="billing_address1" ColumnName="billing_address1" />
+          <ScalarProperty Name="billing_address2" ColumnName="billing_address2" />
+          <ScalarProperty Name="billing_state" ColumnName="billing_state" />
+          <ScalarProperty Name="billing_city" ColumnName="billing_city" />
+          <ScalarProperty Name="billing_zipcode" ColumnName="billing_zipcode" />
+          <ScalarProperty Name="shipping_address1" ColumnName="shipping_address1" />
+          <ScalarProperty Name="shipping_address2" ColumnName="shipping_address2" />
+          <ScalarProperty Name="shipping_state" ColumnName="shipping_state" />
+          <ScalarProperty Name="shipping_city" ColumnName="shipping_city" />
+          <ScalarProperty Name="shipping_zipcode" ColumnName="shipping_zipcode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Addresses">
       <EntityTypeMapping TypeName="bravodeliver_posModel.Address">
         <MappingFragment StoreEntitySet="Addresses">
@@ -75,7 +92,6 @@
     <EntitySetMapping Name="Customers">
       <EntityTypeMapping TypeName="bravodeliver_posModel.Customer">
         <MappingFragment StoreEntitySet="Customer">
-          <ScalarProperty Name="add_new_id" ColumnName="add_new_id" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="firstName" ColumnName="firstName" />
           <ScalarProperty Name="lastName" ColumnName="lastName" />
@@ -84,6 +100,7 @@
           <ScalarProperty Name="resetCode" ColumnName="resetCode" />
           <ScalarProperty Name="phone" ColumnName="phone" />
           <ScalarProperty Name="notification_playerId" ColumnName="notification_playerId" />
+          <ScalarProperty Name="add_new_id" ColumnName="add_new_id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -134,42 +151,39 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Notifications">
+      <EntityTypeMapping TypeName="bravodeliver_posModel.Notification">
+        <MappingFragment StoreEntitySet="Notification">
+          <ScalarProperty Name="notificationId" ColumnName="notificationId" />
+          <ScalarProperty Name="riderId" ColumnName="riderId" />
+          <ScalarProperty Name="body" ColumnName="body" />
+          <ScalarProperty Name="title" ColumnName="title" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="OrderDetails">
       <EntityTypeMapping TypeName="bravodeliver_posModel.OrderDetail">
         <MappingFragment StoreEntitySet="OrderDetails">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-          <ScalarProperty Name="Price" ColumnName="Price" />
-          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="orderDetailsId" ColumnName="orderDetailsId" />
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="productId" ColumnName="productId" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="orderId" ColumnName="orderId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Orders">
       <EntityTypeMapping TypeName="bravodeliver_posModel.Order">
         <MappingFragment StoreEntitySet="Orders">
-          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-          <ScalarProperty Name="StoreId" ColumnName="StoreId" />
-          <ScalarProperty Name="Total" ColumnName="Total" />
-          <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
-          <ScalarProperty Name="City" ColumnName="City" />
-          <ScalarProperty Name="State" ColumnName="State" />
-          <ScalarProperty Name="Country" ColumnName="Country" />
-          <ScalarProperty Name="Zipcode" ColumnName="Zipcode" />
-          <ScalarProperty Name="Phone" ColumnName="Phone" />
-          <ScalarProperty Name="OrderType" ColumnName="OrderType" />
-          <ScalarProperty Name="deliveryDate" ColumnName="deliveryDate" />
-          <ScalarProperty Name="OrderLocation" ColumnName="OrderLocation" />
-          <ScalarProperty Name="CreatedDatetime" ColumnName="CreatedDatetime" />
-          <ScalarProperty Name="AcceptedByRider" ColumnName="AcceptedByRider" />
-          <ScalarProperty Name="Shipped" ColumnName="Shipped" />
-          <ScalarProperty Name="trackingNo" ColumnName="trackingNo" />
+          <ScalarProperty Name="customerId" ColumnName="customerId" />
+          <ScalarProperty Name="riderId" ColumnName="riderId" />
           <ScalarProperty Name="status" ColumnName="status" />
-          <ScalarProperty Name="Cancelled" ColumnName="Cancelled" />
-          <ScalarProperty Name="CancelledDateTime" ColumnName="CancelledDateTime" />
-          <ScalarProperty Name="Completed" ColumnName="Completed" />
-          <ScalarProperty Name="CompletedDateTime" ColumnName="CompletedDateTime" />
+          <ScalarProperty Name="orderId" ColumnName="orderId" />
+          <ScalarProperty Name="orderDateTime" ColumnName="orderDateTime" />
+          <ScalarProperty Name="scheduleDateTime" ColumnName="scheduleDateTime" />
+          <ScalarProperty Name="grandTotal" ColumnName="grandTotal" />
+          <ScalarProperty Name="email" ColumnName="email" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -235,6 +249,22 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="RiderUsers">
+      <EntityTypeMapping TypeName="bravodeliver_posModel.RiderUser">
+        <MappingFragment StoreEntitySet="RiderUsers">
+          <ScalarProperty Name="riderId" ColumnName="riderId" />
+          <ScalarProperty Name="riderUsername" ColumnName="riderUsername" />
+          <ScalarProperty Name="riderPassword" ColumnName="riderPassword" />
+          <ScalarProperty Name="registration" ColumnName="registration" />
+          <ScalarProperty Name="model" ColumnName="model" />
+          <ScalarProperty Name="color" ColumnName="color" />
+          <ScalarProperty Name="phone" ColumnName="phone" />
+          <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
+          <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+          <ScalarProperty Name="email" ColumnName="email" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="sysdiagrams">
       <EntityTypeMapping TypeName="bravodeliver_posModel.sysdiagram">
         <MappingFragment StoreEntitySet="sysdiagrams">
@@ -263,47 +293,5 @@
         <ScalarProperty Name="Id" ColumnName="UserId" />
       </EndProperty>
     </AssociationSetMapping>
-    <EntitySetMapping Name="Address_New">
-      <EntityTypeMapping TypeName="bravodeliver_posModel.Address_New">
-        <MappingFragment StoreEntitySet="Address_New">
-          <ScalarProperty Name="shipping_zipcode" ColumnName="shipping_zipcode" />
-          <ScalarProperty Name="shipping_address2" ColumnName="shipping_address2" />
-          <ScalarProperty Name="shipping_address1" ColumnName="shipping_address1" />
-          <ScalarProperty Name="billing_zipcode" ColumnName="billing_zipcode" />
-          <ScalarProperty Name="billing_city" ColumnName="billing_city" />
-          <ScalarProperty Name="billing_state" ColumnName="billing_state" />
-          <ScalarProperty Name="billing_address2" ColumnName="billing_address2" />
-          <ScalarProperty Name="billing_address1" ColumnName="billing_address1" />
-          <ScalarProperty Name="shipping_city" ColumnName="shipping_city" />
-          <ScalarProperty Name="shipping_state" ColumnName="shipping_state" />
-          <ScalarProperty Name="add_new_id" ColumnName="add_new_id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="RiderUsers">
-      <EntityTypeMapping TypeName="bravodeliver_posModel.RiderUser">
-        <MappingFragment StoreEntitySet="RiderUsers">
-          <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
-          <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
-          <ScalarProperty Name="phone" ColumnName="phone" />
-          <ScalarProperty Name="color" ColumnName="color" />
-          <ScalarProperty Name="model" ColumnName="model" />
-          <ScalarProperty Name="registration" ColumnName="registration" />
-          <ScalarProperty Name="riderPassword" ColumnName="riderPassword" />
-          <ScalarProperty Name="riderUsername" ColumnName="riderUsername" />
-          <ScalarProperty Name="riderId" ColumnName="riderId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Notifications">
-      <EntityTypeMapping TypeName="bravodeliver_posModel.Notification">
-        <MappingFragment StoreEntitySet="Notification">
-          <ScalarProperty Name="title" ColumnName="title" />
-          <ScalarProperty Name="body" ColumnName="body" />
-          <ScalarProperty Name="riderId" ColumnName="riderId" />
-          <ScalarProperty Name="notificationId" ColumnName="notificationId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

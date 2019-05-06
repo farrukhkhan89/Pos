@@ -26,6 +26,7 @@ namespace POSWeb
         }
     
         public virtual DbSet<Store> Stores { get; set; }
+        public virtual DbSet<Address_New> Address_New { get; set; }
         public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
@@ -36,16 +37,15 @@ namespace POSWeb
         public virtual DbSet<KoronaStore> KoronaStores { get; set; }
         public virtual DbSet<LiveTracking> LiveTrackings { get; set; }
         public virtual DbSet<Log> Logs { get; set; }
+        public virtual DbSet<Notification> Notifications { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Revision> Revisions { get; set; }
         public virtual DbSet<Rider> Riders { get; set; }
         public virtual DbSet<RiderOrder> RiderOrders { get; set; }
+        public virtual DbSet<RiderUser> RiderUsers { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<ZipCodeList> ZipCodeLists { get; set; }
-        public virtual DbSet<Address_New> Address_New { get; set; }
-        public virtual DbSet<RiderUser> RiderUsers { get; set; }
-        public virtual DbSet<Notification> Notifications { get; set; }
     }
 }

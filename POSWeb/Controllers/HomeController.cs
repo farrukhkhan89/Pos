@@ -33,22 +33,22 @@ namespace POSWeb.Controllers
         }
 
 
-        public ActionResult Dashboard()
-        {
-            //ViewBag.Message = "Your contact page.";
-            var currentDate = DateTime.Now.Date;
+        //public ActionResult Dashboard()
+        //{
+        //    //ViewBag.Message = "Your contact page.";
+        //    var currentDate = DateTime.Now.Date;
 
 
-            ViewBag.totalSales = db.Orders.Where(x => x.Cancelled == null || x.Cancelled == false).Sum(x => x.Total);
-            ViewBag.TodaySales = db.Orders.Where(x => (x.Cancelled == null || x.Cancelled == false) && DbFunctions.TruncateTime(x.CreatedDatetime) == currentDate).Sum(x => x.Total);
+        //    ViewBag.totalSales = db.Orders.Where(x => x.Cancelled == null || x.Cancelled == false).Sum(x => x.Total);
+        //    ViewBag.TodaySales = db.Orders.Where(x => (x.Cancelled == null || x.Cancelled == false) && DbFunctions.TruncateTime(x.CreatedDatetime) == currentDate).Sum(x => x.Total);
 
-            ViewBag.OrdersToday = db.Orders.Where(x => (x.Cancelled == null || x.Cancelled == false) && DbFunctions.TruncateTime(x.CreatedDatetime) == currentDate).Count();
-            ViewBag.TotalDelivered = db.Orders.Where(x => (x.Cancelled == null || x.Cancelled == false) && x.deliveryDate != null).Count();
+        //    ViewBag.OrdersToday = db.Orders.Where(x => (x.Cancelled == null || x.Cancelled == false) && DbFunctions.TruncateTime(x.CreatedDatetime) == currentDate).Count();
+        //    ViewBag.TotalDelivered = db.Orders.Where(x => (x.Cancelled == null || x.Cancelled == false) && x.deliveryDate != null).Count();
 
 
-            var test = db.Orders.Count();
+        //    var test = db.Orders.Count();
 
-            return View();
-        }
+        //    return View();
+        //}
     }
 }

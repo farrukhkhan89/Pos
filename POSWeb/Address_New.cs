@@ -14,15 +14,7 @@ namespace POSWeb
     
     public partial class Address_New
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Address_New()
-        {
-            this.Customers = new HashSet<Customer>();
-        }
-    
         public int add_new_id { get; set; }
-        public string shipping_state { get; set; }
-        public string shipping_city { get; set; }
         public string billing_address1 { get; set; }
         public string billing_address2 { get; set; }
         public string billing_state { get; set; }
@@ -30,9 +22,8 @@ namespace POSWeb
         public string billing_zipcode { get; set; }
         public string shipping_address1 { get; set; }
         public string shipping_address2 { get; set; }
+        public string shipping_state { get; set; }
+        public string shipping_city { get; set; }
         public string shipping_zipcode { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Customer> Customers { get; set; }
     }
 }
